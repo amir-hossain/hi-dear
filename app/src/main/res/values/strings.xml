@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Hi Dear</string>
-    <string name="prompt_id">Id</string>
-    <string name="prompt_password">Password</string>
+    <string name="prompt_email">name.lastname@test.com</string>
+    <string name="prompt_password">.....</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
@@ -21,4 +21,8 @@
     <string name="slogan">more than a dating app</string>
     <string name="sign_up_now">SIGN UP NOW</string>
     <string name="login">LOGIN</string>
+    <string name="email_mobile">Email or Mobile</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_up_promot">Don’t have an account? Sign up</string>
 </resources>
