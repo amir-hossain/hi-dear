@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Hi Dear</string>
+    <string name="prompt_id">Id</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_id">id is required</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">Wrong id or password</string>
+    <string name="invalid_name">Name is required</string>
+    <string name="invalid_con_pass">Confirm password did not match</string>
+    <string name="name">name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="prompt_register">Already registered? click here</string>
+    <string name="registration_success">Register successfully</string>
+    <string name="registration_failed">Registration is not successfull</string>
+    <string name="login_successful">Login Successful</string>
+    <string name="txt_home">Home</string>
 </resources>

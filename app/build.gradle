@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -18,9 +19,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "int", "DATABASE_VERSION_CODE", "1"
+            buildConfigField "String", "DATABASE_NAME", '"report_database.db"'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "int", "DATABASE_VERSION_CODE", "1"
+            buildConfigField "String", "DATABASE_NAME", '"hi_dear_database.db"'
         }
     }
     compileOptions {
@@ -29,6 +36,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -42,4 +52,12 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.room:room-runtime:2.2.6'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
+    kapt 'androidx.room:room-compiler:2.2.6'
 }
