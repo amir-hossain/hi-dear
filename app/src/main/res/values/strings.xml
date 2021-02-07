@@ -18,4 +18,7 @@
     <string name="registration_failed">Registration is not successfull</string>
     <string name="login_successful">Login Successful</string>
     <string name="txt_home">Home</string>
+    <string name="slogan">more than a dating app</string>
+    <string name="sign_up_now">SIGN UP NOW</string>
+    <string name="login">LOGIN</string>
 </resources>
