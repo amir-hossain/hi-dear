@@ -14,14 +14,17 @@
         <activity
             android:name=".ui.activity.login.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.HiDear.Login"
+            android:theme="@style/Theme.HiDear.NoActionBar"
             android:exported="true">
 
         </activity>
-        <activity android:name=".ui.activity.register.RegistrationActivity" />
+        <activity
+            android:theme="@style/Theme.HiDear.NoActionBar"
+            android:name=".ui.activity.register.RegistrationActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.activity.splash.SplashScreenActivity"
-            android:theme="@style/Theme.MaterialComponents.NoActionBar">
+            android:theme="@style/Theme.HiDear.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

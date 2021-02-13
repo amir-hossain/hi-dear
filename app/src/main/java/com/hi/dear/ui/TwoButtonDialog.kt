@@ -33,7 +33,7 @@ class  TwoButtonDialog private constructor(): BaseDialog(){
         binding.dlgTwoButtonBtnCancel.setOnClickListener {
             closeDialog()
             if (listener != null) {
-                listener!!.onNegetiveBtnClicked()
+                listener!!.onNegativeBtnClicked()
             }
         }
         return binding.root

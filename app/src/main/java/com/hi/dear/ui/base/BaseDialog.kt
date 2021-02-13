@@ -56,7 +56,7 @@ abstract class BaseDialog : DialogFragment() {
         if (supportFragmentManager != null) {
             this.show(
                 supportFragmentManager,
-                TwoButtonDialog.TAG
+                tag
             )
         } else {
             Log.i(TwoButtonDialog.TAG, "supportFragmentManage is null")

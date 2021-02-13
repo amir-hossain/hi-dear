@@ -14,38 +14,54 @@ class RegisterViewModel(private val registrationRepository: RegistrationReposito
 
     val registrationResult = MutableLiveData<ActionResult<Void>>()
 
-    fun register(id: String, name:String,photo:String,password: String,conPass:String) {
-        val result = registrationRepository.register(id, name,photo,password,conPass)
+    fun register(
+        userName: String, age: String, gender: String, password: String, county: String,
+        city: String, emailOrMobile: String
+    ) {
+        val result = registrationRepository.register(
+            userName,
+            age,
+            gender,
+            county,
+            city,
+            password,
+            emailOrMobile
+        )
 
         if (result is RawResult.Success) {
             registrationResult.value = ActionResult(true, R.string.registration_success, null)
         } else {
-            registrationResult.value = ActionResult(false,R.string.registration_failed,null)
+            registrationResult.value = ActionResult(false, R.string.registration_failed, null)
         }
     }
 
-    fun registerDataChanged(id: String, name:String, password: String, conPass: String) {
-        if (!isIdValid(id)) {
-            registrationFormState.value = RegistrationFormState(idError = R.string.invalid_id)
-        } else if (!isIdValid(name)) {
-            registrationFormState.value = RegistrationFormState(nameError = R.string.invalid_name)
+    fun registerDataChanged(
+        userName: String, age: String, password: String,
+        gender: String, emailOrMobile: String, city: String, country: String
+    ) {
+        if (userName.isBlank()) {
+            registrationFormState.value =
+                RegistrationFormState(userNameError = R.string.user_name_empty)
+        } else if (age.isBlank()) {
+            registrationFormState.value = RegistrationFormState(ageError = R.string.age_empty)
+        } else if (gender.isBlank()) {
+            registrationFormState.value = RegistrationFormState(genderError = R.string.gender_empty)
+        } else if (country.isBlank()) {
+            registrationFormState.value =
+                RegistrationFormState(countryError = R.string.country_empty)
+        } else if (city.isBlank()) {
+            registrationFormState.value = RegistrationFormState(cityError = R.string.city_empty)
+        } else if (emailOrMobile.isBlank()) {
+            registrationFormState.value =
+                RegistrationFormState(emailOrMobileError = R.string.email_mobile_empty)
         } else if (!isPasswordValid(password)) {
-            registrationFormState.value = RegistrationFormState(passwordError = R.string.invalid_password)
-        } else if (!isConPassValid(password,conPass)) {
-            registrationFormState.value = RegistrationFormState(conPassError = R.string.invalid_con_pass)
+            registrationFormState.value =
+                RegistrationFormState(passwordError = R.string.invalid_password)
         } else {
             registrationFormState.value = RegistrationFormState(isDataValid = true)
         }
     }
 
-    private fun isConPassValid(pass:String,conPass: String): Boolean {
-        return pass == conPass
-    }
-
-    // A placeholder other value validation check
-    private fun isIdValid(value: String): Boolean {
-        return !value.isBlank()
-    }
 
     // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {

@@ -16,13 +16,15 @@ class RegistrationRepository(val dataSource: IRegistrationDataSource) : IReposit
 
 
     fun register(
-        id: String,
-        name: String,
-        photo: String,
-        password: String,
-        conPassword: String
+        userName: String,
+        age: String,
+        gender: String,
+        country: String,
+        city: String,
+        emailOrMobile: String,
+        password: String
     ): RawResult<Boolean> {
-        val result = dataSource.register(id, name, photo, password, conPassword)
+        val result = dataSource.register(userName, age, gender, password, country)
         return if (result) {
             RawResult.Success(result)
         } else {

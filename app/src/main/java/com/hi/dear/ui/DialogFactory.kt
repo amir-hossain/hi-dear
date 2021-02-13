@@ -15,9 +15,9 @@ object DialogFactory {
            throw RuntimeException("Please use other than base listener")
     }
 
-    public interface ITwoBtnListener : IBaseListener {
+    interface ITwoBtnListener : IBaseListener {
         fun onPositiveBtnClicked()
-        fun onNegetiveBtnClicked()
+        fun onNegativeBtnClicked()
     }
 
     interface IBaseListener {}

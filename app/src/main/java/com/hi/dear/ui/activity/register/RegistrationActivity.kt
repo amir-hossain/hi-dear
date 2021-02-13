@@ -9,73 +9,108 @@ import androidx.lifecycle.ViewModelProvider
 import com.hi.dear.databinding.ActivityRegistrationBinding
 import com.hi.dear.repo.RegistrationRepository
 import com.hi.dear.source.local.LocalRegistrationSource
+import com.hi.dear.ui.GenderDialog
 import com.hi.dear.ui.activity.login.LoginActivity
 import com.hi.dear.ui.activity.login.ViewModelFactory
 import com.hi.dear.ui.activity.login.afterTextChanged
 import com.hi.dear.ui.base.BaseActivity
 
-class RegistrationActivity : BaseActivity() {
+class RegistrationActivity : BaseActivity(), GenderDialog.IGenderDialogListener {
 
-    private val photo: String= ""
+    private lateinit var binding: ActivityRegistrationBinding
+    private lateinit var genderDialog: GenderDialog
     private lateinit var registrationViewModel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding = ActivityRegistrationBinding.inflate(layoutInflater)
+        binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        genderDialog = GenderDialog(this)
         registrationViewModel = ViewModelProvider(
             this,
             ViewModelFactory(RegistrationRepository(LocalRegistrationSource(application)))
         )
             .get(RegisterViewModel::class.java)
 
-        binding.id.afterTextChanged { checkValidity(binding) }
+        binding.loginBtn.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
-        binding.name.afterTextChanged { checkValidity(binding) }
+        binding.back.setOnClickListener {
+            onBackPressed()
+        }
 
-        binding.password.afterTextChanged { checkValidity(binding) }
+        binding.userName.afterTextChanged { checkValidity(binding) }
 
-        binding.conPassword.apply {
+        binding.age.afterTextChanged { checkValidity(binding) }
+
+        binding.country.afterTextChanged { checkValidity(binding) }
+
+        binding.city.afterTextChanged { checkValidity(binding) }
+
+        binding.emailOrMobile.afterTextChanged { checkValidity(binding) }
+
+        binding.gender.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                genderDialog.showDialog(supportFragmentManager)
+            }
+        }
+
+        binding.password.apply {
 
             afterTextChanged { checkValidity(binding) }
 
-            binding.register.setOnClickListener {
+            binding.signUpBtn.setOnClickListener {
                 binding.loading.visibility = View.VISIBLE
-                binding.register.isEnabled = false
+                binding.signUpBtn.isEnabled = false
                 registrationViewModel.register(
-                    id = binding.id.text.toString(),
+                    userName = binding.userName.text.toString(),
                     password = binding.password.text.toString(),
-                    conPass = binding.conPassword.text.toString(),
-                    name = binding.name.text.toString(),
-                    photo = photo
+                    age = binding.age.text.toString(),
+                    gender = binding.gender.text.toString(),
+                    city = binding.city.text.toString(),
+                    county = binding.country.text.toString(),
+                    emailOrMobile = binding.emailOrMobile.text.toString()
                 )
             }
 
-            binding.login.setOnClickListener {
+            binding.signUpBtn.setOnClickListener {
                 startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))
+                finish()
             }
         }
 
         registrationViewModel.registrationFormState.observe(this, Observer {
             val registrationState = it ?: return@Observer
 
-            // disable login button unless both username / password is valid
-            binding.register.isEnabled = registrationState.isDataValid
+            binding.signUpBtn.isEnabled = registrationState.isDataValid
 
-            if (registrationState.idError != null) {
-                binding.id.error = getString(registrationState.idError)
+            if (registrationState.userNameError != null) {
+                binding.userName.error = getString(registrationState.userNameError)
+            }
+
+            if (registrationState.ageError != null) {
+                binding.age.error = getString(registrationState.ageError)
+            }
+            if (registrationState.genderError != null) {
+                binding.gender.error = getString(registrationState.genderError)
+            } else {
+                binding.gender.error = null
+            }
+
+            if (registrationState.emailOrMobileError != null) {
+                binding.emailOrMobile.error = getString(registrationState.emailOrMobileError)
             }
             if (registrationState.passwordError != null) {
                 binding.password.error = getString(registrationState.passwordError)
             }
 
-            if (registrationState.conPassError != null) {
-                binding.conPassword.error = getString(registrationState.conPassError)
+            if (registrationState.cityError != null) {
+                binding.city.error = getString(registrationState.cityError)
             }
 
-            if (registrationState.nameError != null) {
-                binding.name.error = getString(registrationState.nameError)
+            if (registrationState.countryError != null) {
+                binding.country.error = getString(registrationState.countryError)
             }
         })
 
@@ -94,10 +129,24 @@ class RegistrationActivity : BaseActivity() {
 
     private fun checkValidity(binding: ActivityRegistrationBinding) {
         registrationViewModel.registerDataChanged(
-            id = binding.id.text.toString(),
-            name = binding.name.text.toString(),
+            userName = binding.userName.text.toString(),
+            age = binding.age.text.toString(),
             password = binding.password.text.toString(),
-            conPass = binding.conPassword.text.toString(),
+            emailOrMobile = binding.emailOrMobile.text.toString(),
+            gender = binding.gender.text.toString(),
+            city = binding.city.text.toString(),
+            country = binding.country.text.toString(),
         )
+    }
+
+    override fun onPositiveBtnClicked(value: String) {
+        binding.gender.clearFocus()
+        binding.gender.setText(value)
+        checkValidity(binding)
+    }
+
+    override fun onNegativeBtnClicked() {
+        binding.gender.clearFocus()
+        checkValidity(binding)
     }
 }

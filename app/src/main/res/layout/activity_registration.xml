@@ -1,106 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".ui.activity.login.LoginActivity">
+    android:background="@drawable/img_background"
+    android:orientation="vertical"
+    tools:context=".ui.activity.register.RegistrationActivity">
 
-    <EditText
-        android:id="@+id/id"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="24dp"
-        android:hint="@string/prompt_email"
-        android:inputType="text"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:hint="@string/name"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:inputType="textPersonName"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/name" />
-
-    <EditText
-        android:id="@+id/con_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:hint="@string/confirm_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password" />
-
-    <Button
-        android:id="@+id/register"
+    <ImageView
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:enabled="false"
-        android:text="@string/register"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loading"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_marginTop="@dimen/dp_16">
 
-    <TextView
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prompt_register"
-        android:textColor="@color/purple_700"
-        app:layout_constraintEnd_toEndOf="@id/con_password"
-        app:layout_constraintTop_toBottomOf="@id/con_password"
-        android:layout_marginTop="@dimen/activity_horizontal_margin" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_24"
+            android:layout_marginEnd="@dimen/dp_24"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="@string/signup"
+                android:textColor="@color/white"
+                android:textSize="40sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/label1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_marginTop="@dimen/dp_24"
+                app:layout_constraintTop_toBottomOf="@id/header"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:hint="@string/user_name_hint"
+                android:inputType="text"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/label1"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@id/label2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/age"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/user_name"
+                app:layout_constraintStart_toStartOf="@id/age" />
+
+            <EditText
+                android:id="@+id/age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:hint="@string/age_hint"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/label2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/gender" />
+
+            <TextView
+                android:id="@+id/label5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gender"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/user_name"
+                app:layout_constraintStart_toStartOf="@id/gender" />
+
+            <EditText
+                android:id="@+id/gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:hint="@string/gender_hint"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/label2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/age" />
+
+
+            <TextView
+                android:id="@+id/label6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/country"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/age"
+                app:layout_constraintStart_toStartOf="@id/country" />
+
+            <EditText
+                android:id="@+id/country"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:hint="@string/country_hint"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/label6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/city" />
+
+            <TextView
+                android:id="@+id/label7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/city"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/age"
+                app:layout_constraintStart_toStartOf="@id/city" />
+
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:hint="@string/city_hint"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/label7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/country" />
+
+            <TextView
+                android:id="@+id/label3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email_mobile"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/country"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/emailOrMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:hint="@string/email_hint"
+                android:inputType="text"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/label3"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/label4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/password"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/emailOrMobile"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/password_hint"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/label4"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/password"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/sign_up_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                android:background="@drawable/button_background"
+                android:padding="@dimen/dp_10"
+                android:text="@string/signup"
+                android:enabled="false"
+                android:textAllCaps="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                app:layout_constraintTop_toBottomOf="@id/loading"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/login_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/login_prompt"
+                android:textColor="@color/primary"
+                android:textSize="14sp"
+                android:padding="@dimen/dp_10"
+                app:layout_constraintBottom_toBottomOf="@id/sign_up_btn"
+                app:layout_constraintEnd_toEndOf="@+id/password"
+                app:layout_constraintTop_toTopOf="@id/sign_up_btn" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

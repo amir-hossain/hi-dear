@@ -2,7 +2,6 @@ package com.hi.dear.ui.activity.login
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,10 +10,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions.bitmapTransform
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.hi.dear.R
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityLoginBinding
@@ -25,7 +20,6 @@ import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.activity.main.MainActivity
 import com.hi.dear.ui.activity.register.RegistrationActivity
 import com.hi.dear.ui.base.BaseActivity
-import jp.wasabeef.glide.transformations.BlurTransformation
 
 
 class LoginActivity : BaseActivity() {
@@ -42,7 +36,6 @@ class LoginActivity : BaseActivity() {
         val login = binding.login
         val loading = binding.loading
 
-        burBackground(binding.container, R.drawable.img_background)
         binding.password.transformationMethod = PasswordTransformation()
         loginViewModel = ViewModelProvider(
             this,
@@ -108,28 +101,10 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun burBackground(view: View, imageId: Int) {
-        Glide.with(this)
-            .load(imageId)
-            .apply(bitmapTransform(BlurTransformation(100)))
-            .into(object : CustomTarget<Drawable>() {
-                override fun onLoadCleared(placeholder: Drawable?) {
-
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    view.background = resource
-                }
-            })
-    }
-
     private fun updateUiWithUser(model: UserCore?) {
         val welcome = getString(R.string.welcome)
         val displayName = model?.name
-        PrefsManager.getInstance(this).writeString(PrefsManager.UserId, model!!.id)
+        model?.id?.let { PrefsManager.getInstance(this).writeString(PrefsManager.UserId, it) }
         Toast.makeText(
             applicationContext,
             "$welcome $displayName",

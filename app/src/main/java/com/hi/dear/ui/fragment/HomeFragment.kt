@@ -27,7 +27,7 @@ class HomeFragment : BaseFragment(), DialogFactory.ITwoBtnListener {
 
     }
 
-    override fun onNegetiveBtnClicked() {
+    override fun onNegativeBtnClicked() {
 
     }
 
