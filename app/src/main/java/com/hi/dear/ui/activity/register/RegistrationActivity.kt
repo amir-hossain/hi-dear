@@ -10,8 +10,8 @@ import com.hi.dear.databinding.ActivityRegistrationBinding
 import com.hi.dear.repo.RegistrationRepository
 import com.hi.dear.source.local.LocalRegistrationSource
 import com.hi.dear.ui.GenderDialog
+import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.login.LoginActivity
-import com.hi.dear.ui.activity.login.ViewModelFactory
 import com.hi.dear.ui.activity.login.afterTextChanged
 import com.hi.dear.ui.base.BaseActivity
 

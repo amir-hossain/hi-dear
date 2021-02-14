@@ -17,6 +17,8 @@ import com.hi.dear.repo.LoginRepository
 import com.hi.dear.source.local.LocalLoginSource
 import com.hi.dear.ui.PasswordTransformation
 import com.hi.dear.ui.PrefsManager
+import com.hi.dear.ui.activity.ViewModelFactory
+import com.hi.dear.ui.activity.forgot.ForgotActivity
 import com.hi.dear.ui.activity.main.MainActivity
 import com.hi.dear.ui.activity.register.RegistrationActivity
 import com.hi.dear.ui.base.BaseActivity
@@ -44,6 +46,15 @@ class LoginActivity : BaseActivity() {
             .get(LoginViewModel::class.java)
 
         binding.back.setOnClickListener { onBackPressed() }
+
+        binding.forgetPass.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ForgotActivity::class.java
+                )
+            )
+        }
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer

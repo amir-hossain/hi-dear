@@ -6,6 +6,7 @@ import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.data.state.RegistrationFormState
 import com.hi.dear.repo.RegistrationRepository
+import com.hi.dear.ui.activity.ActionResult
 
 class RegisterViewModel(private val registrationRepository: RegistrationRepository) : ViewModel() {
 

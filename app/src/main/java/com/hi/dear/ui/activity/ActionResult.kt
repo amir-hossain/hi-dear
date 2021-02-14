@@ -1,4 +1,4 @@
-package com.hi.dear.ui.activity.register
+package com.hi.dear.ui.activity
 
 data class ActionResult<T>(
         val success: Boolean,

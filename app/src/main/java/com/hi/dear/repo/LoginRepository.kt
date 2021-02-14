@@ -6,7 +6,7 @@ import com.hi.dear.source.ILoginDataSource
 
 
 
-class LoginRepository(val dataSource: ILoginDataSource) : IRepository {
+class LoginRepository(private val dataSource: ILoginDataSource) : IRepository {
 
     // in-memory cache of the loggedInUser object
     private var user: UserCore? = null

@@ -17,12 +17,14 @@
     <string name="registration_success">Register successfully</string>
     <string name="registration_failed">Registration is not successfull</string>
     <string name="login_successful">Login Successful</string>
+    <string name="forget_pass_send_success">Reset password email sent</string>
     <string name="txt_home">Home</string>
     <string name="slogan">more than a dating app</string>
     <string name="sign_up_now">Sign up now</string>
     <string name="login">Login</string>
     <string name="email_mobile">Email or Mobile</string>
     <string name="password">Password</string>
+    <string name="forgot_password_title">Forgot password</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="sign_up_promot">Don’t have an account? Sign up</string>
     <string name="signup">Signup</string>
@@ -42,4 +44,8 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="login_prompt">Already a member?</string>
+    <string name="email">email address</string>
+    <string name="forgot_password_instruction">Enter your email address, we’ll send you the  instructions on how to change your password</string>
+    <string name="send">Send</string>
+    <string name="email_empty">Email feild is empty</string>
 </resources>

@@ -6,7 +6,7 @@ import com.hi.dear.R
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.data.state.LoginFormState
 import com.hi.dear.repo.LoginRepository
-import com.hi.dear.ui.activity.register.ActionResult
+import com.hi.dear.ui.activity.ActionResult
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 

@@ -23,6 +23,10 @@
             android:name=".ui.activity.register.RegistrationActivity"
             android:exported="true" />
         <activity
+            android:theme="@style/Theme.HiDear.NoActionBar"
+            android:name=".ui.activity.forgot.ForgotActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activity.splash.SplashScreenActivity"
             android:theme="@style/Theme.HiDear.NoActionBar">
             <intent-filter>
