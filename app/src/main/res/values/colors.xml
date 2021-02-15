@@ -13,4 +13,6 @@
     <color name="primary">#F10404</color>
     <color name="blue_black">#2A4755</color>
     <color name="transparent_black">#45000000</color>
+    <color name="white_65_percent">#A6FFFFFF</color>
+    <color name="transparent_primary">#4DF10404</color>
 </resources>

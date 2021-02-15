@@ -3,11 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/navigation_home">
-
+    app:startDestination="@id/browse_fragment">
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.hi.dear.ui.fragment.HomeFragment"
-        android:label="@string/txt_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/browse_fragment"
+        android:name="com.hi.dear.ui.fragment.BrowseFragment"
+        android:label=""
+        tools:layout="@layout/fragment_browse" />
+    <fragment
+        android:id="@+id/message_fragment"
+        android:name="com.hi.dear.ui.fragment.MessageFragment"
+        tools:layout="@layout/fragment_message" />
+    <fragment
+        android:id="@+id/match_fragment"
+        android:name="com.hi.dear.ui.fragment.MatchFragment"
+        android:label=""
+        tools:layout="@layout/fragment_match" />
+    <fragment
+        android:id="@+id/tips_fragment"
+        android:name="com.hi.dear.ui.fragment.TipsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_tips" />
+    <fragment
+        android:id="@+id/setting_fragment"
+        android:name="com.hi.dear.ui.fragment.SettingFragment"
+        android:label=""
+        tools:layout="@layout/fragment_setting" />
 </navigation>

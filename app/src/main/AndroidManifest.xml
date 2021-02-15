@@ -9,26 +9,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HiDear">
-        <activity android:name=".ui.activity.main.MainActivity" />
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.activity.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.login.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.HiDear.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">
 
         </activity>
         <activity
-            android:theme="@style/Theme.HiDear.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".ui.activity.register.RegistrationActivity"
             android:exported="true" />
         <activity
-            android:theme="@style/Theme.HiDear.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".ui.activity.forgot.ForgotActivity"
             android:exported="true" />
         <activity
             android:name=".ui.activity.splash.SplashScreenActivity"
-            android:theme="@style/Theme.HiDear.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

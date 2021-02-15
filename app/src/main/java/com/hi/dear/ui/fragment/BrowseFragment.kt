@@ -5,18 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hi.dear.R
-import com.hi.dear.databinding.FragmentHomeBinding
+import com.hi.dear.databinding.FragmentBrowseBinding
+
 import com.hi.dear.ui.DialogFactory
 
 
-class HomeFragment : BaseFragment(), DialogFactory.ITwoBtnListener {
+class BrowseFragment : BaseFragment(), DialogFactory.ITwoBtnListener {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeBinding.inflate(inflater)
+        val binding = FragmentBrowseBinding.inflate(inflater)
         DialogFactory.makeDialog(R.string.welcome, this)
             .showDialog(activity?.supportFragmentManager)
 
