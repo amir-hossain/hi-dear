@@ -18,32 +18,31 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/custom_font_family"
         android:text="@string/app_name"
         android:textColor="@color/primary"
         android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/slogan"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/slogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:text="@string/slogan"
         android:textColor="@color/primary"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/sign_up_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_background"
         android:paddingTop="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
@@ -52,27 +51,27 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
-        android:visibility="gone"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/login_btn"
         app:layout_constraintEnd_toEndOf="@+id/slogan"
-        app:layout_constraintStart_toStartOf="@id/slogan"
-        app:layout_constraintTop_toBottomOf="@id/imageView" />
+        app:layout_constraintStart_toStartOf="@id/slogan" />
 
     <TextView
         android:id="@+id/login_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_background"
         android:backgroundTint="@color/blue_black"
         android:paddingTop="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
         android:text="@string/login"
-        android:textAllCaps="true"
         android:textAlignment="center"
+        android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/slogan"
-        app:layout_constraintStart_toStartOf="@id/slogan"
-        app:layout_constraintTop_toBottomOf="@id/sign_up_btn"
-        android:visibility="gone" />
+        app:layout_constraintStart_toStartOf="@id/slogan" />
 </androidx.constraintlayout.widget.ConstraintLayout>
