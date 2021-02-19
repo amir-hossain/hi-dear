@@ -16,4 +16,8 @@
     <color name="white_65_percent">#A6FFFFFF</color>
     <color name="transparent_primary">#4DF10404</color>
     <color name="almost_white">#EFEFEF</color>
+    <color name="green">#54D586</color>
+    <color name="gray">#EAEAEA</color>
+    <color name="light_purple">#A1A4FD</color>
+
 </resources>

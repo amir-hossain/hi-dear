@@ -1,4 +1,4 @@
-package com.hi.dear.ui
+package com.hi.dear.ui.activity.register
 
 import android.os.Bundle
 import android.view.LayoutInflater

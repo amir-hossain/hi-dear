@@ -1,5 +1,6 @@
 package com.hi.dear.ui.base
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapters<Data> :
     RecyclerView.Adapter<BaseViewHolder>() {
-    private var dataList: List<Data> = ArrayList()
+    protected lateinit var context: Context
+    protected var dataList: List<Data> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        context = parent.context
         val view = LayoutInflater.from(parent.context).inflate(setViewId(viewType), parent, false)
         return setViewHolder(view, viewType)
     }

@@ -1,16 +1,15 @@
-package com.hi.dear.ui.fragment
+package com.hi.dear.ui.fragment.browse
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hi.dear.databinding.FragmentBrowseBinding
-import com.hi.dear.ui.DialogFactory
-import com.hi.dear.ui.SwipeStackAdapter
+import com.hi.dear.ui.base.BaseFragment
 import link.fls.swipestack.SwipeStack
 
 
-class BrowseFragment : BaseFragment(), DialogFactory.ITwoBtnListener, SwipeStack.SwipeStackListener,
+class BrowseFragment : BaseFragment(), SwipeStack.SwipeStackListener,
     View.OnClickListener {
 
     private lateinit var binding: FragmentBrowseBinding
@@ -28,7 +27,6 @@ class BrowseFragment : BaseFragment(), DialogFactory.ITwoBtnListener, SwipeStack
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mData = ArrayList()
         mAdapter = SwipeStackAdapter(mData, requireContext())
@@ -41,14 +39,6 @@ class BrowseFragment : BaseFragment(), DialogFactory.ITwoBtnListener, SwipeStack
         for (x in 0..4) {
             mData.add("hello ${(x + 1)}")
         }
-    }
-
-    override fun onPositiveBtnClicked() {
-
-    }
-
-    override fun onNegativeBtnClicked() {
-
     }
 
     override fun onViewSwipedToLeft(position: Int) {

@@ -3,16 +3,17 @@ package com.hi.dear.ui.activity.register
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hi.dear.databinding.ActivityRegistrationBinding
 import com.hi.dear.repo.RegistrationRepository
 import com.hi.dear.source.local.LocalRegistrationSource
-import com.hi.dear.ui.GenderDialog
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.login.LoginActivity
-import com.hi.dear.ui.activity.login.afterTextChanged
 import com.hi.dear.ui.base.BaseActivity
 
 class RegistrationActivity : BaseActivity(), GenderDialog.IGenderDialogListener {
@@ -148,5 +149,17 @@ class RegistrationActivity : BaseActivity(), GenderDialog.IGenderDialogListener 
     override fun onNegativeBtnClicked() {
         binding.gender.clearFocus()
         checkValidity(binding)
+    }
+
+    private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+        this.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editable: Editable?) {
+                afterTextChanged.invoke(editable.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
     }
 }

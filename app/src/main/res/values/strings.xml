@@ -58,4 +58,7 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="hi_dear_app">Hi Dear App</string>
     <string name="see_details">see details</string>
+    <string name="search_messages">Search messages</string>
+    <string name="online">online</string>
+    <string name="block">block</string>
 </resources>

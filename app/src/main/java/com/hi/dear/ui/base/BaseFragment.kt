@@ -1,4 +1,4 @@
-package com.hi.dear.ui.fragment
+package com.hi.dear.ui.base
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment

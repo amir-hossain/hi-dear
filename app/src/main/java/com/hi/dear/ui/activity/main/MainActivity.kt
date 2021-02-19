@@ -14,8 +14,6 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hi.dear.R
 import com.hi.dear.databinding.ActivityMainBinding
-import com.hi.dear.ui.NavigationItemModel
-import com.hi.dear.ui.NavigationRVAdapter
 import com.hi.dear.ui.base.BaseActivity
 
 
@@ -26,7 +24,7 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
     private lateinit var navAdapter: NavigationRVAdapter
 
     private val browseFragmentTitle = "Browse"
-    private val messageFragmentTitle = "Message"
+    private val messageFragmentTitle = "Messages"
     private val matchFragmentTitle = "Match Request"
     private val tipsFragmentTitle = "Love Tips"
     private val settingFragmentTitle = "Setting"
@@ -34,7 +32,7 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.ic_browse, browseFragmentTitle),
         NavigationItemModel(R.drawable.ic_message, messageFragmentTitle),
-        NavigationItemModel(R.drawable.ic_heart, matchFragmentTitle),
+        NavigationItemModel(R.drawable.ic_heart_2, matchFragmentTitle),
         NavigationItemModel(R.drawable.ic_star, tipsFragmentTitle),
         NavigationItemModel(R.drawable.ic_settings, settingFragmentTitle),
     )

@@ -1,4 +1,4 @@
-package com.hi.dear.ui
+package com.hi.dear.ui.fragment.browse
 
 import android.content.Context
 import android.view.LayoutInflater
