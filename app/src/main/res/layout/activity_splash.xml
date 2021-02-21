@@ -7,11 +7,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slogan"
         app:srcCompat="@drawable/img_splash" />
 
     <TextView
@@ -51,7 +51,7 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/login_btn"
         app:layout_constraintEnd_toEndOf="@+id/slogan"
         app:layout_constraintStart_toStartOf="@id/slogan" />
@@ -70,7 +70,7 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="13sp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/slogan"
         app:layout_constraintStart_toStartOf="@id/slogan" />
