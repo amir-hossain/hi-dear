@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseAdapters<Data> :
     RecyclerView.Adapter<BaseViewHolder>() {
     protected lateinit var context: Context
-    protected var dataList: List<Data> = ArrayList()
+    protected var dataList: MutableList<Data> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         context = parent.context
@@ -24,11 +24,12 @@ abstract class BaseAdapters<Data> :
 
     abstract fun setViewHolder(view: View, viewType: Int): BaseViewHolder
 
-    override fun onBindViewHolder(holder: BaseViewHolder, i: Int) {
-        bindView(holder, dataList[i])
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        holder.embed(position)
+        bindView(holder, dataList[position])
     }
 
-    open fun addData(dataList: List<Data>) {
+    open fun addData(dataList: MutableList<Data>) {
         this.dataList = dataList
         notifyDataSetChanged()
     }

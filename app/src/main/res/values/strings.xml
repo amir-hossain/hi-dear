@@ -61,4 +61,8 @@
     <string name="search_messages">Search messages</string>
     <string name="online">online</string>
     <string name="block">block</string>
+    <string name="accept">Accept</string>
+    <string name="no">No</string>
+    <string name="accept_msg">Added on %s</string>
+    <string name="rejected">Rejected</string>
 </resources>

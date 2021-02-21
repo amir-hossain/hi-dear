@@ -1,13 +1,13 @@
 package com.hi.dear.repo
 
 import com.hi.dear.data.RawResult
-import com.hi.dear.source.IMessageDataSource
-import com.hi.dear.ui.fragment.message.MessageData
+import com.hi.dear.source.IMatchDataSource
+import com.hi.dear.ui.fragment.match.MatchData
 
 
-class MessageRepository(private val dataSource: IMessageDataSource) : IRepository {
+class MatchRepository(private val dataSource: IMatchDataSource) : IRepository {
 
-    fun getMessageData(): RawResult<MutableList<MessageData>> {
+    fun getMatchData(): RawResult<MutableList<MatchData>> {
 
         val result = dataSource.getData()
 

@@ -4,32 +4,67 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hi.dear.R
-import com.hi.dear.databinding.FragmentMatchBinding
-import com.hi.dear.ui.DialogFactory
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import com.hi.dear.databinding.FragmentMessageBinding
+import com.hi.dear.repo.MatchRepository
+import com.hi.dear.source.local.LocalMatchSource
+import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.base.BaseFragment
 
 
-class MatchFragment : BaseFragment(), DialogFactory.ITwoBtnListener {
+class MatchFragment : BaseFragment(), MatchAdapter.IMatchClickListener {
+
+    private lateinit var viewModel: MatchViewModel
+    private lateinit var binding: FragmentMessageBinding
+    private lateinit var adapter: MatchAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelFactory(MatchRepository(LocalMatchSource(requireActivity().application)))
+        )
+            .get(MatchViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentMatchBinding.inflate(inflater)
-        DialogFactory.makeDialog(R.string.welcome, this)
-            .showDialog(activity?.supportFragmentManager)
-
+        binding = FragmentMessageBinding.inflate(inflater)
         return binding.root
     }
 
-    override fun onPositiveBtnClicked() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initAdapter()
+        viewModel.getMatch()
+        viewModel.liveResult.observe(viewLifecycleOwner, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                adapter.addData(result.data!!)
+            } else {
+                showToast(getString(result.msg))
+            }
+        })
+    }
+
+    private fun initAdapter() {
+        adapter = MatchAdapter(this)
+        binding.messageRv.adapter = adapter
+        binding.messageRv.layoutManager = GridLayoutManager(requireContext(), 2)
+    }
+
+    override fun onCloseClick(data: MatchData) {
 
     }
 
-    override fun onNegativeBtnClicked() {
+    override fun onAcceptClick(data: MatchData) {
 
     }
 
+    override fun onNoClick(data: MatchData) {
+    }
 }

@@ -12,7 +12,7 @@ class LocalMessageSource(val context: Application) : IMessageDataSource {
     private val dao = HiDearDB.getDatabase(context)?.getUserDao()
 
 
-    override fun getData(): List<MessageData>? {
+    override fun getData(): MutableList<MessageData>? {
         var dataList = ArrayList<MessageData>()
         dataList.add(
             MessageData(

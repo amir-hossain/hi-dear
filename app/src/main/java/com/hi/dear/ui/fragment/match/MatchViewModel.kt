@@ -1,18 +1,18 @@
-package com.hi.dear.ui.fragment.message
+package com.hi.dear.ui.fragment.match
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hi.dear.R
 import com.hi.dear.data.RawResult
-import com.hi.dear.repo.MessageRepository
+import com.hi.dear.repo.MatchRepository
 import com.hi.dear.ui.activity.ActionResult
 
-class MessageViewModel(private val repository: MessageRepository) : ViewModel() {
+class MatchViewModel(private val repository: MatchRepository) : ViewModel() {
 
-    val liveResult = MutableLiveData<ActionResult<MutableList<MessageData>>>()
+    val liveResult = MutableLiveData<ActionResult<MutableList<MatchData>>>()
 
-    fun getMessage() {
-        val result = repository.getMessageData()
+    fun getMatch() {
+        val result = repository.getMatchData()
         if (result is RawResult.Success) {
             liveResult.value = ActionResult(true, R.string.registration_success, result.data)
         } else {
