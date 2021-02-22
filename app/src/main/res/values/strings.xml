@@ -66,4 +66,17 @@
     <string name="accept_msg">Added on %s</string>
     <string name="rejected">Rejected</string>
     <string name="loading">Loading</string>
+    <string name="we_want_your_feedback">We want your feedback</string>
+    <string name="you_want_to_make_the_most_out_of_hi_dear">You want to make the most out of Hi Dear?</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="general">General</string>
+    <string name="my_current_location">My current location</string>
+    <string name="search_radius">Search radius</string>
+    <string name="gender_preference">Gender preference</string>
+    <string name="privacy">privacy</string>
+    <string name="log_out">Log Out</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="delete">Delete</string>
+    <string name="logout_msg">Do you want to logout ?</string>
+    <string name="account_delete_message">Do you want to delete your account ?</string>
 </resources>

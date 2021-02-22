@@ -12,16 +12,27 @@ import com.hi.dear.ui.base.BaseFragment
 
 class SettingFragment : BaseFragment(), DialogFactory.ITwoBtnListener {
 
+    private lateinit var binding: FragmentSettingBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSettingBinding.inflate(inflater)
-        DialogFactory.makeDialog(R.string.welcome, this)
-            .showDialog(activity?.supportFragmentManager)
+        binding = FragmentSettingBinding.inflate(inflater)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btnLogout.setOnClickListener {
+            DialogFactory.makeDialog(R.string.logout_msg, this)
+                .showDialog(activity?.supportFragmentManager)
+        }
+        binding.btnDelete.setOnClickListener {
+            DialogFactory.makeDialog(R.string.account_delete_message, this)
+                .showDialog(activity?.supportFragmentManager)
+        }
     }
 
     override fun onPositiveBtnClicked() {

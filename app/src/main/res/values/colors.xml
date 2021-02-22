@@ -20,5 +20,6 @@
     <color name="gray">#EAEAEA</color>
     <color name="light_purple">#A1A4FD</color>
     <color name="blue">#0D04FB</color>
-
+    <color name="almost_white_lite">#FAFAFA</color>
+    <color name="pink">#F24E86</color>
 </resources>
