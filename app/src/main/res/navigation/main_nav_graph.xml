@@ -15,7 +15,7 @@
         tools:layout="@layout/fragment_message" />
     <fragment
         android:id="@+id/match_fragment"
-        android:name="com.hi.dear.ui.fragment.match.MatchFragment"
+        android:name="com.hi.dear.ui.fragment.request.RequestFragment"
         android:label=""
         tools:layout="@layout/fragment_match" />
     <fragment

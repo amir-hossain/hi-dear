@@ -1,8 +1,8 @@
 package com.hi.dear.source
 
 
-import com.hi.dear.ui.fragment.match.MatchData
+import com.hi.dear.ui.fragment.request.RequestData
 
 interface IMatchDataSource {
-    fun getData(): MutableList<MatchData>?
+    fun getData(): MutableList<RequestData>?
 }

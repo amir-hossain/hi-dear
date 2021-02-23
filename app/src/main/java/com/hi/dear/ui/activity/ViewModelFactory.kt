@@ -6,8 +6,8 @@ import com.hi.dear.repo.*
 import com.hi.dear.ui.activity.forgot.ForgotViewModel
 import com.hi.dear.ui.activity.login.LoginViewModel
 import com.hi.dear.ui.activity.register.RegisterViewModel
-import com.hi.dear.ui.fragment.match.MatchViewModel
 import com.hi.dear.ui.fragment.message.MessageViewModel
+import com.hi.dear.ui.fragment.request.RequestViewModel
 
 class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.Factory {
 
@@ -22,7 +22,7 @@ class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.
         } else if (repository is MessageRepository) {
             return MessageViewModel(repository) as T
         } else if (repository is MatchRepository) {
-            return MatchViewModel(repository) as T
+            return RequestViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

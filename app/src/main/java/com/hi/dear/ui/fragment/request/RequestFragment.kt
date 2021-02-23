@@ -1,4 +1,4 @@
-package com.hi.dear.ui.fragment.match
+package com.hi.dear.ui.fragment.request
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,11 +14,11 @@ import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.base.BaseFragment
 
 
-class MatchFragment : BaseFragment(), MatchAdapter.IMatchClickListener {
+class RequestFragment : BaseFragment(), RequestAdapter.IRequestClickListener {
 
-    private lateinit var viewModel: MatchViewModel
+    private lateinit var viewModel: RequestViewModel
     private lateinit var binding: FragmentMessageBinding
-    private lateinit var adapter: MatchAdapter
+    private lateinit var adapter: RequestAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class MatchFragment : BaseFragment(), MatchAdapter.IMatchClickListener {
             this,
             ViewModelFactory(MatchRepository(LocalMatchSource(requireActivity().application)))
         )
-            .get(MatchViewModel::class.java)
+            .get(RequestViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -52,19 +52,19 @@ class MatchFragment : BaseFragment(), MatchAdapter.IMatchClickListener {
     }
 
     private fun initAdapter() {
-        adapter = MatchAdapter(this)
+        adapter = RequestAdapter(this)
         binding.messageRv.adapter = adapter
         binding.messageRv.layoutManager = GridLayoutManager(requireContext(), 2)
     }
 
-    override fun onCloseClick(data: MatchData) {
+    override fun onCloseClick(data: RequestData) {
 
     }
 
-    override fun onAcceptClick(data: MatchData) {
+    override fun onAcceptClick(data: RequestData) {
 
     }
 
-    override fun onNoClick(data: MatchData) {
+    override fun onNoClick(data: RequestData) {
     }
 }

@@ -1,6 +1,6 @@
-package com.hi.dear.ui.fragment.match
+package com.hi.dear.ui.fragment.request
 
-data class MatchData(
+data class RequestData(
     val image: String? = null,
     val name: String? = null,
     var message: String? = null

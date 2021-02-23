@@ -2,12 +2,12 @@ package com.hi.dear.repo
 
 import com.hi.dear.data.RawResult
 import com.hi.dear.source.IMatchDataSource
-import com.hi.dear.ui.fragment.match.MatchData
+import com.hi.dear.ui.fragment.request.RequestData
 
 
 class MatchRepository(private val dataSource: IMatchDataSource) : IRepository {
 
-    fun getMatchData(): RawResult<MutableList<MatchData>> {
+    fun getMatchData(): RawResult<MutableList<RequestData>> {
 
         val result = dataSource.getData()
 

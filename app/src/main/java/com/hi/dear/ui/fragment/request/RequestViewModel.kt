@@ -1,4 +1,4 @@
-package com.hi.dear.ui.fragment.match
+package com.hi.dear.ui.fragment.request
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,9 +7,9 @@ import com.hi.dear.data.RawResult
 import com.hi.dear.repo.MatchRepository
 import com.hi.dear.ui.activity.ActionResult
 
-class MatchViewModel(private val repository: MatchRepository) : ViewModel() {
+class RequestViewModel(private val repository: MatchRepository) : ViewModel() {
 
-    val liveResult = MutableLiveData<ActionResult<MutableList<MatchData>>>()
+    val liveResult = MutableLiveData<ActionResult<MutableList<RequestData>>>()
 
     fun getMatch() {
         val result = repository.getMatchData()

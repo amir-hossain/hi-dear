@@ -1,21 +1,21 @@
-package com.hi.dear.ui.fragment.match
+package com.hi.dear.ui.fragment.request
 
 import android.view.View
 import com.bumptech.glide.Glide
 import com.hi.dear.R
-import com.hi.dear.databinding.MatchItemBinding
+import com.hi.dear.databinding.RequestItemBinding
 import com.hi.dear.ui.base.BaseAdapters
 import com.hi.dear.ui.base.BaseViewHolder
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MatchAdapter(private val listener: IMatchClickListener?) : BaseAdapters<MatchData>() {
+class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapters<RequestData>() {
     override fun setViewId(viewType: Int): Int {
-        return R.layout.match_item
+        return R.layout.request_item
     }
 
-    override fun bindView(holder: BaseViewHolder, data: MatchData) {
-        if (holder is MatchViewHolder) {
+    override fun bindView(holder: BaseViewHolder, data: RequestData) {
+        if (holder is RequestViewHolder) {
             Glide.with(context)
                 .load(data.image)
                 .into(holder.binding.image)
@@ -34,14 +34,14 @@ class MatchAdapter(private val listener: IMatchClickListener?) : BaseAdapters<Ma
     }
 
     override fun setViewHolder(view: View, viewType: Int): BaseViewHolder {
-        return MatchViewHolder(view)
+        return RequestViewHolder(view)
     }
 
-    inner class MatchViewHolder : BaseViewHolder {
-        var binding: MatchItemBinding
+    inner class RequestViewHolder : BaseViewHolder {
+        var binding: RequestItemBinding
 
         constructor(view: View) : super(view) {
-            binding = MatchItemBinding.bind(view)
+            binding = RequestItemBinding.bind(view)
 
             binding.btnClose.setOnClickListener {
                 var itemPosition = getPosition(view)
@@ -73,9 +73,9 @@ class MatchAdapter(private val listener: IMatchClickListener?) : BaseAdapters<Ma
         return formate.format(Date())
     }
 
-    interface IMatchClickListener {
-        fun onCloseClick(data: MatchData)
-        fun onAcceptClick(data: MatchData)
-        fun onNoClick(data: MatchData)
+    interface IRequestClickListener {
+        fun onCloseClick(data: RequestData)
+        fun onAcceptClick(data: RequestData)
+        fun onNoClick(data: RequestData)
     }
 }
