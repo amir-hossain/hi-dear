@@ -1,10 +1,12 @@
 package com.hi.dear.ui.fragment.browse
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hi.dear.databinding.FragmentBrowseBinding
+import com.hi.dear.ui.activity.match.MatchActivity
 import com.hi.dear.ui.base.BaseFragment
 import link.fls.swipestack.SwipeStack
 
@@ -32,6 +34,9 @@ class BrowseFragment : BaseFragment(), SwipeStack.SwipeStackListener,
         mAdapter = SwipeStackAdapter(mData, requireContext())
         mSwipeStack.setListener(this)
         binding.swipeStack.adapter = mAdapter
+        binding.heartBtn.setOnClickListener {
+            startActivity(Intent(requireContext(), MatchActivity::class.java))
+        }
         fillWithTestData()
     }
 

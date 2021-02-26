@@ -17,7 +17,7 @@
         android:id="@+id/match_fragment"
         android:name="com.hi.dear.ui.fragment.request.RequestFragment"
         android:label=""
-        tools:layout="@layout/fragment_match" />
+        tools:layout="@layout/activity_match" />
     <fragment
         android:id="@+id/tips_fragment"
         android:name="com.hi.dear.ui.fragment.tips.TipsFragment"

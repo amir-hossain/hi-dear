@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.hi.dear.databinding.FragmentMessageBinding
+import com.hi.dear.databinding.FragmentRequestBinding
 import com.hi.dear.repo.MatchRepository
 import com.hi.dear.source.local.LocalMatchSource
 import com.hi.dear.ui.activity.ViewModelFactory
@@ -17,7 +17,7 @@ import com.hi.dear.ui.base.BaseFragment
 class RequestFragment : BaseFragment(), RequestAdapter.IRequestClickListener {
 
     private lateinit var viewModel: RequestViewModel
-    private lateinit var binding: FragmentMessageBinding
+    private lateinit var binding: FragmentRequestBinding
     private lateinit var adapter: RequestAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class RequestFragment : BaseFragment(), RequestAdapter.IRequestClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMessageBinding.inflate(inflater)
+        binding = FragmentRequestBinding.inflate(inflater)
         return binding.root
     }
 

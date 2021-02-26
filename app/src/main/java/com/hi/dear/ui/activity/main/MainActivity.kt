@@ -66,14 +66,16 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
                 R.id.setting_fragment
             ), drawerLayout
         )
-        NavigationUI.setupWithNavController(binding.toolbar, navController, config)
-        setSupportActionBar(binding.toolbar)
+        NavigationUI.setupWithNavController(binding.toolbarLayout.toolbar, navController, config)
+        setSupportActionBar(binding.toolbarLayout.toolbar)
         initAdapter()
         setFirstItem()
-
         toggle = object : ActionBarDrawerToggle(
-            this, drawerLayout,
-            binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this,
+            drawerLayout,
+            binding.toolbarLayout.toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         ) {
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
@@ -122,27 +124,27 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
         when (position) {
             0 -> {
                 toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
-                binding.toolbarTitle.text = browseFragmentTitle
+                binding.toolbarLayout.toolbarTitle.text = browseFragmentTitle
                 navController.navigate(R.id.browse_fragment)
             }
             1 -> {
                 toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
-                binding.toolbarTitle.text = messageFragmentTitle
+                binding.toolbarLayout.toolbarTitle.text = messageFragmentTitle
                 navController.navigate(R.id.message_fragment)
             }
             2 -> {
                 toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
-                binding.toolbarTitle.text = matchFragmentTitle
+                binding.toolbarLayout.toolbarTitle.text = matchFragmentTitle
                 navController.navigate(R.id.match_fragment)
             }
             3 -> {
                 toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
-                binding.toolbarTitle.text = tipsFragmentTitle
+                binding.toolbarLayout.toolbarTitle.text = tipsFragmentTitle
                 navController.navigate(R.id.tips_fragment)
             }
             4 -> {
                 toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
-                binding.toolbarTitle.text = settingFragmentTitle
+                binding.toolbarLayout.toolbarTitle.text = settingFragmentTitle
                 navController.navigate(R.id.setting_fragment)
             }
         }
@@ -153,7 +155,7 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
     }
 
     private fun setFirstItem() {
-        binding.toolbarTitle.text = browseFragmentTitle
+        binding.toolbarLayout.toolbarTitle.text = browseFragmentTitle
         navController.navigate(R.id.browse_fragment)
         navAdapter.highlight(0)
     }
