@@ -4,10 +4,10 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.databinding.MessageItemBinding
-import com.hi.dear.ui.base.BaseAdapters
+import com.hi.dear.ui.base.BaseAdapter
 import com.hi.dear.ui.base.BaseViewHolder
 
-class MessageAdapter(private val listener: IMessageClickListener?) : BaseAdapters<MessageData>() {
+class MessageAdapter(private val listener: IMessageClickListener?) : BaseAdapter<MessageData>() {
     override fun setViewId(viewType: Int): Int {
         return R.layout.message_item
     }

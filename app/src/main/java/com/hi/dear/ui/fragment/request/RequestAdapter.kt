@@ -4,12 +4,12 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.databinding.RequestItemBinding
-import com.hi.dear.ui.base.BaseAdapters
+import com.hi.dear.ui.base.BaseAdapter
 import com.hi.dear.ui.base.BaseViewHolder
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapters<RequestData>() {
+class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter<RequestData>() {
     override fun setViewId(viewType: Int): Int {
         return R.layout.request_item
     }

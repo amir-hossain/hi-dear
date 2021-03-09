@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 
-abstract class BaseAdapters<Data> :
+abstract class BaseAdapter<Data> :
     RecyclerView.Adapter<BaseViewHolder>() {
     protected lateinit var context: Context
     protected var dataList: MutableList<Data> = ArrayList()
@@ -29,9 +29,21 @@ abstract class BaseAdapters<Data> :
         bindView(holder, dataList[position])
     }
 
-    open fun addData(dataList: MutableList<Data>) {
-        this.dataList = dataList
-        notifyDataSetChanged()
+    fun addData(dataList: MutableList<Data>?) {
+        dataList?.let {
+            this.dataList = dataList
+            notifyDataSetChanged()
+        }
+    }
+
+    fun addData(data: Data?) {
+        if (data == null) {
+            return
+        }
+        dataList?.let {
+            this.dataList.add(data)
+            notifyItemInserted(dataList.size)
+        }
     }
 
     override fun getItemCount(): Int {

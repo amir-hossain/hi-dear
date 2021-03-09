@@ -14,6 +14,9 @@
             android:name=".ui.activity.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.activity.chat.ChatActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.activity.match.MatchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

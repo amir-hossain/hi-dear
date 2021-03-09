@@ -1,5 +1,6 @@
 package com.hi.dear.ui.activity.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,6 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hi.dear.R
 import com.hi.dear.databinding.ActivityMainBinding
+import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.base.BaseActivity
 
 
@@ -92,6 +94,10 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
         drawerLayout.addDrawerListener(toggle)
 
         toggle.setToolbarNavigationClickListener { drawerLayout.openDrawer(GravityCompat.START) }
+
+        binding.toolbarLayout.messageBtn.setOnClickListener {
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
     }
 
 
