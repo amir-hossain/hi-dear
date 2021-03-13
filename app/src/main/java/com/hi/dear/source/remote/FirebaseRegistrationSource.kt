@@ -1,7 +1,6 @@
 package com.hi.dear.source.remote
 
 
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hi.dear.source.IRegistrationDataSource
 import com.hi.dear.ui.Utils
@@ -10,8 +9,10 @@ import timber.log.Timber
 
 class FirebaseRegistrationSource :
     IRegistrationDataSource {
-    private var firebaseDb: CollectionReference =
-        FirebaseFirestore.getInstance().collection("userInfo")
+
+    private var firebaseDb: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private var userInfoResult = false
+    private var authResult = false
 
     override suspend fun register(
         userName: String,
@@ -27,19 +28,22 @@ class FirebaseRegistrationSource :
         userInfo["age"] = age
         userInfo["gender"] = gender
         userInfo["country"] = country
-        userInfo["emailOrMobile"] = emailOrMobile
         userInfo["city"] = city
-        userInfo["password"] = password
 
-        var result = false
+        saveUserInfo(userInfo)
+        saveAuthInfo(emailOrMobile, password)
 
-        firebaseDb.document().set(userInfo).addOnCompleteListener {
+        return userInfoResult && authResult
+    }
+
+    private suspend fun saveUserInfo(userInfo: HashMap<String, Any>) {
+        firebaseDb.collection("userInfo").document().set(userInfo).addOnCompleteListener {
             if (it.isSuccessful) {
-                result = true
+                userInfoResult = true
                 Timber.i(Utils.formatLogMessage("register", "isSuccessful", it.isSuccessful))
             }
         }.addOnFailureListener {
-            result = true
+            userInfoResult = true
             Timber.i(
                 Utils.formatLogMessage(
                     "register",
@@ -48,8 +52,33 @@ class FirebaseRegistrationSource :
                 )
             )
         }.await()
-
-        return result
     }
 
+    private suspend fun saveAuthInfo(emailOrMobile: String, password: String) {
+        val authInfo = HashMap<String, Any>()
+        authInfo["emailOrMobile"] = emailOrMobile
+        authInfo["password"] = password
+        firebaseDb.collection("authInfo").document("$emailOrMobile").set(authInfo)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    authResult = true
+                    Timber.i(
+                        Utils.formatLogMessage(
+                            "saveAuthInfo",
+                            "isSuccessful",
+                            it.isSuccessful
+                        )
+                    )
+                }
+            }.addOnFailureListener {
+            authResult = true
+            Timber.i(
+                Utils.formatLogMessage(
+                    "saveAuthInfo",
+                    "addOnFailureListener",
+                    it.localizedMessage
+                )
+            )
+        }.await()
+    }
 }
