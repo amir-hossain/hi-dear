@@ -13,17 +13,23 @@ class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (repository is LoginRepository) {
-            return LoginViewModel(repository) as T
-        } else if (repository is RegistrationRepository) {
-            return RegisterViewModel(repository) as T
-        } else if (repository is ForgetPasswordRepository) {
-            return ForgotViewModel(repository) as T
-        } else if (repository is MessageRepository) {
-            return MessageViewModel(repository) as T
-        } else if (repository is MatchRepository) {
-            return RequestViewModel(repository) as T
+        when (repository) {
+            is LoginRepository -> {
+                return LoginViewModel(repository) as T
+            }
+            is IRegistrationRepository -> {
+                return RegisterViewModel(repository) as T
+            }
+            is ForgetPasswordRepository -> {
+                return ForgotViewModel(repository) as T
+            }
+            is MessageRepository -> {
+                return MessageViewModel(repository) as T
+            }
+            is MatchRepository -> {
+                return RequestViewModel(repository) as T
+            }
+            else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

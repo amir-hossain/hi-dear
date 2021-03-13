@@ -1,7 +1,6 @@
 package com.hi.dear.ui.activity.main
 
 import android.content.Intent
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -19,10 +19,10 @@ import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.base.BaseActivity
 
 
-class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
+class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
+    NavigationRVAdapter.ClickListener {
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var binding: ActivityMainBinding
-    lateinit var drawerLayout: DrawerLayout
+    private lateinit var drawerLayout: DrawerLayout
     private lateinit var navAdapter: NavigationRVAdapter
 
     private val browseFragmentTitle = "Browse"
@@ -38,6 +38,7 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
         NavigationItemModel(R.drawable.ic_star, tipsFragmentTitle),
         NavigationItemModel(R.drawable.ic_settings, settingFragmentTitle),
     )
+
     private val navController by lazy {
         Navigation.findNavController(this, R.id.nav_host_fragment)
     }
@@ -52,54 +53,6 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
             .build()
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        drawerLayout = binding.drawerLayout
-
-        val config = AppBarConfiguration(
-            setOf(
-                R.id.browse_fragment,
-                R.id.message_fragment,
-                R.id.match_fragment,
-                R.id.tips_fragment,
-                R.id.setting_fragment
-            ), drawerLayout
-        )
-        NavigationUI.setupWithNavController(binding.toolbarLayout.toolbar, navController, config)
-        setSupportActionBar(binding.toolbarLayout.toolbar)
-        initAdapter()
-        setFirstItem()
-        toggle = object : ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            binding.toolbarLayout.toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        ) {
-            override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
-                closeKeyboard()
-            }
-
-            override fun onDrawerOpened(drawerView: View) {
-                super.onDrawerOpened(drawerView)
-                closeKeyboard()
-            }
-        }
-        toggle.isDrawerIndicatorEnabled = false
-        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
-        drawerLayout.addDrawerListener(toggle)
-
-        toggle.setToolbarNavigationClickListener { drawerLayout.openDrawer(GravityCompat.START) }
-
-        binding.toolbarLayout.messageBtn.setOnClickListener {
-            startActivity(Intent(this, ChatActivity::class.java))
-        }
-    }
-
 
     private fun closeKeyboard() {
         try {
@@ -164,5 +117,66 @@ class MainActivity : BaseActivity(), NavigationRVAdapter.ClickListener {
         binding.toolbarLayout.toolbarTitle.text = browseFragmentTitle
         navController.navigate(R.id.browse_fragment)
         navAdapter.highlight(0)
+    }
+
+    override fun initViewBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    override fun initViewModel(): ViewModel? {
+        return null
+    }
+
+    override fun initView() {
+        drawerLayout = binding.drawerLayout
+
+        val config = AppBarConfiguration(
+            setOf(
+                R.id.browse_fragment,
+                R.id.message_fragment,
+                R.id.match_fragment,
+                R.id.tips_fragment,
+                R.id.setting_fragment
+            ), drawerLayout
+        )
+
+        NavigationUI.setupWithNavController(binding.toolbarLayout.toolbar, navController, config)
+        setSupportActionBar(binding.toolbarLayout.toolbar)
+        initAdapter()
+        setFirstItem()
+        toggle = object : ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            binding.toolbarLayout.toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        ) {
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+                closeKeyboard()
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+                closeKeyboard()
+            }
+        }
+        toggle.isDrawerIndicatorEnabled = false
+        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
+        drawerLayout.addDrawerListener(toggle)
+
+        toggle.setToolbarNavigationClickListener { drawerLayout.openDrawer(GravityCompat.START) }
+
+        binding.toolbarLayout.messageBtn.setOnClickListener {
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
+    }
+
+    override fun attachObserver(viewModel: ViewModel?) {
+
+    }
+
+    override fun initLoadingView(isLoading: Boolean) {
+
     }
 }

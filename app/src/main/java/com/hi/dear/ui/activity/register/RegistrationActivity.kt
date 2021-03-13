@@ -2,7 +2,6 @@ package com.hi.dear.ui.activity.register
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -10,28 +9,19 @@ import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hi.dear.databinding.ActivityRegistrationBinding
-import com.hi.dear.repo.RegistrationRepository
-import com.hi.dear.source.local.LocalRegistrationSource
+import com.hi.dear.repo.IRegistrationRepository
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.login.LoginActivity
 import com.hi.dear.ui.base.BaseActivity
 
-class RegistrationActivity : BaseActivity(), GenderDialog.IGenderDialogListener {
+class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterViewModel>(),
+    GenderDialog.IGenderDialogListener {
 
-    private lateinit var binding: ActivityRegistrationBinding
     private lateinit var genderDialog: GenderDialog
-    private lateinit var registrationViewModel: RegisterViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityRegistrationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun initView() {
         genderDialog = GenderDialog(this)
-        registrationViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(RegistrationRepository(LocalRegistrationSource(application)))
-        )
-            .get(RegisterViewModel::class.java)
 
         binding.loginBtn.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
@@ -64,7 +54,10 @@ class RegistrationActivity : BaseActivity(), GenderDialog.IGenderDialogListener 
             binding.signUpBtn.setOnClickListener {
                 binding.loading.visibility = View.VISIBLE
                 binding.signUpBtn.isEnabled = false
-                registrationViewModel.register(
+            }
+
+            binding.signUpBtn.setOnClickListener {
+                viewModel?.register(
                     userName = binding.userName.text.toString(),
                     password = binding.password.text.toString(),
                     age = binding.age.text.toString(),
@@ -74,14 +67,55 @@ class RegistrationActivity : BaseActivity(), GenderDialog.IGenderDialogListener 
                     emailOrMobile = binding.emailOrMobile.text.toString()
                 )
             }
-
-            binding.signUpBtn.setOnClickListener {
-                startActivity(Intent(this@RegistrationActivity, LoginActivity::class.java))
-                finish()
-            }
         }
+    }
 
-        registrationViewModel.registrationFormState.observe(this, Observer {
+    private fun checkValidity(binding: ActivityRegistrationBinding) {
+        viewModel?.registerDataChanged(
+            userName = binding.userName.text.toString(),
+            age = binding.age.text.toString(),
+            password = binding.password.text.toString(),
+            emailOrMobile = binding.emailOrMobile.text.toString(),
+            gender = binding.gender.text.toString(),
+            city = binding.city.text.toString(),
+            country = binding.country.text.toString(),
+        )
+    }
+
+    override fun onPositiveBtnClicked(value: String) {
+        binding.gender.clearFocus()
+        binding.gender.setText(value)
+        checkValidity(binding)
+    }
+
+    override fun onNegativeBtnClicked() {
+        binding.gender.clearFocus()
+        checkValidity(binding)
+    }
+
+    private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+        this.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editable: Editable?) {
+                afterTextChanged.invoke(editable.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+    }
+
+    override fun initViewBinding(): ActivityRegistrationBinding {
+        return ActivityRegistrationBinding.inflate(layoutInflater)
+    }
+
+    override fun initViewModel(): RegisterViewModel {
+        return ViewModelProvider(this, ViewModelFactory(IRegistrationRepository()))
+            .get(RegisterViewModel::class.java)
+    }
+
+    override fun attachObserver(viewModel: RegisterViewModel?) {
+        viewModel?.registrationFormState?.observe(this, Observer {
             val registrationState = it ?: return@Observer
 
             binding.signUpBtn.isEnabled = registrationState.isDataValid
@@ -115,11 +149,11 @@ class RegistrationActivity : BaseActivity(), GenderDialog.IGenderDialogListener 
             }
         })
 
-        registrationViewModel.registrationResult.observe(this, Observer {
+        viewModel?.registrationResult?.observe(this, Observer {
             val registrationResult = it ?: return@Observer
 
             binding.loading.visibility = View.GONE
-            if(it.success){
+            if (it.success) {
                 startActivity(Intent(applicationContext, LoginActivity::class.java))
                 finish()
             }
@@ -128,38 +162,13 @@ class RegistrationActivity : BaseActivity(), GenderDialog.IGenderDialogListener 
         })
     }
 
-    private fun checkValidity(binding: ActivityRegistrationBinding) {
-        registrationViewModel.registerDataChanged(
-            userName = binding.userName.text.toString(),
-            age = binding.age.text.toString(),
-            password = binding.password.text.toString(),
-            emailOrMobile = binding.emailOrMobile.text.toString(),
-            gender = binding.gender.text.toString(),
-            city = binding.city.text.toString(),
-            country = binding.country.text.toString(),
-        )
-    }
-
-    override fun onPositiveBtnClicked(value: String) {
-        binding.gender.clearFocus()
-        binding.gender.setText(value)
-        checkValidity(binding)
-    }
-
-    override fun onNegativeBtnClicked() {
-        binding.gender.clearFocus()
-        checkValidity(binding)
-    }
-
-    private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editable: Editable?) {
-                afterTextChanged.invoke(editable.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
+    override fun initLoadingView(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loading.visibility = View.VISIBLE
+            Utils.disableView(binding.signUpBtn)
+        } else {
+            binding.loading.visibility = View.GONE
+            Utils.enableView(binding.signUpBtn)
+        }
     }
 }

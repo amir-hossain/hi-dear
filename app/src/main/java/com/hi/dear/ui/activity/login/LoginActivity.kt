@@ -2,21 +2,18 @@ package com.hi.dear.ui.activity.login
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.hi.dear.R
-import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityLoginBinding
 import com.hi.dear.repo.LoginRepository
 import com.hi.dear.source.local.LocalLoginSource
 import com.hi.dear.ui.PasswordTransformation
 import com.hi.dear.ui.PrefsManager
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.forgot.ForgotActivity
 import com.hi.dear.ui.activity.main.MainActivity
@@ -24,26 +21,32 @@ import com.hi.dear.ui.activity.register.RegistrationActivity
 import com.hi.dear.ui.base.BaseActivity
 
 
-class LoginActivity : BaseActivity() {
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+        this.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editable: Editable?) {
+                afterTextChanged.invoke(editable.toString())
+            }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        var binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-        val id = binding.id
-        val password = binding.password
-        val login = binding.login
-        val loading = binding.loading
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+    }
 
+    override fun initViewBinding(): ActivityLoginBinding {
+        return ActivityLoginBinding.inflate(layoutInflater)
+    }
+
+    override fun initViewModel(): LoginViewModel {
+        return ViewModelProvider(
+            this, ViewModelFactory(LoginRepository(LocalLoginSource(application)))
+        ).get(LoginViewModel::class.java)
+    }
+
+    override fun initView() {
         binding.password.transformationMethod = PasswordTransformation()
-        loginViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(LoginRepository(LocalLoginSource(application)))
-        )
-            .get(LoginViewModel::class.java)
 
         binding.back.setOnClickListener { onBackPressed() }
 
@@ -56,54 +59,23 @@ class LoginActivity : BaseActivity() {
             )
         }
 
-        loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
-            val loginState = it ?: return@Observer
-
-            // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
-
-            if (loginState.idError != null) {
-                id.error = getString(loginState.idError)
-            }
-            if (loginState.passwordError != null) {
-                password.error = getString(loginState.passwordError)
-            }
-        })
-
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
-            val loginResult = it ?: return@Observer
-
-            loading.visibility = View.GONE
-            if (loginResult.success) {
-                PrefsManager.getInstance(this).writeBoolean(PrefsManager.IS_LOGGED_IN, true);
-                updateUiWithUser(loginResult.data)
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-                finish()
-            } else {
-                showToast(getString(loginResult.msg))
-            }
-
-            setResult(Activity.RESULT_OK)
-        })
-
-        id.afterTextChanged {
-            loginViewModel.loginDataChanged(
-                id.text.toString(),
-                password.text.toString()
+        binding.id.afterTextChanged {
+            viewModel?.loginDataChanged(
+                binding.id.text.toString(),
+                binding.password.text.toString()
             )
         }
 
-        password.apply {
+        binding.password.apply {
             afterTextChanged {
-                loginViewModel.loginDataChanged(
-                    id.text.toString(),
-                    password.text.toString()
+                viewModel?.loginDataChanged(
+                    binding.id.text.toString(),
+                    binding.password.text.toString()
                 )
             }
 
-            login.setOnClickListener {
-                loading.visibility = View.VISIBLE
-                loginViewModel.login(id.text.toString(), password.text.toString())
+            binding.login.setOnClickListener {
+                viewModel?.login(binding.id.text.toString(), binding.password.text.toString())
             }
 
             binding.register.setOnClickListener {
@@ -112,27 +84,43 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private fun updateUiWithUser(model: UserCore?) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model?.name
-        model?.id?.let { PrefsManager.getInstance(this).writeString(PrefsManager.UserId, it) }
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
-    }
+    override fun attachObserver(viewModel: LoginViewModel?) {
+        viewModel?.loginFormState?.observe(this@LoginActivity, Observer {
+            val loginState = it ?: return@Observer
 
-    private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editable: Editable?) {
-                afterTextChanged.invoke(editable.toString())
+            // disable login button unless both username / password is valid
+            binding.login.isEnabled = loginState.isDataValid
+
+            if (loginState.idError != null) {
+                binding.id.error = getString(loginState.idError)
+            }
+            if (loginState.passwordError != null) {
+                binding.password.error = getString(loginState.passwordError)
+            }
+        })
+
+        viewModel?.loginResult?.observe(this@LoginActivity, Observer {
+            val loginResult = it ?: return@Observer
+            if (loginResult.success) {
+                PrefsManager.getInstance(this).writeBoolean(PrefsManager.IS_LOGGED_IN, true);
+                startActivity(Intent(applicationContext, MainActivity::class.java))
+                finish()
+            } else {
+                showToast(getString(loginResult.msg))
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            setResult(Activity.RESULT_OK)
         })
+    }
+
+    override fun initLoadingView(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loading.visibility = View.VISIBLE
+            Utils.disableView(binding.login)
+        } else {
+            binding.loading.visibility = View.GONE
+            Utils.enableView(binding.login)
+        }
     }
 }
 

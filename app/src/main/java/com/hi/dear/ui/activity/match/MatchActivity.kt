@@ -1,21 +1,30 @@
 package com.hi.dear.ui.activity.match
 
-import android.content.Intent
-import android.os.Bundle
-import com.hi.dear.data.model.common.Chat
+import androidx.lifecycle.ViewModel
 import com.hi.dear.databinding.ActivityMatchBinding
-import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.base.BaseActivity
 
 
-class MatchActivity : BaseActivity() {
+class MatchActivity : BaseActivity<ActivityMatchBinding, ViewModel>() {
 
-    private lateinit var binding: ActivityMatchBinding
+    override fun initViewBinding(): ActivityMatchBinding {
+        return ActivityMatchBinding.inflate(layoutInflater)
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMatchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+    override fun initView() {
         binding.toolbarLayout.toolbarTitle.text = "Match"
+    }
+
+    override fun attachObserver(viewModel: ViewModel?) {
+
+    }
+
+    override fun initViewModel(): ViewModel? {
+        return null
+    }
+
+    override fun initLoadingView(isLoading: Boolean) {
+
     }
 }

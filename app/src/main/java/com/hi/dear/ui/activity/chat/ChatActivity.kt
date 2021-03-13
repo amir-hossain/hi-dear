@@ -1,23 +1,27 @@
 package com.hi.dear.ui.activity.chat
 
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.lifecycle.ViewModel
 import com.hi.dear.data.model.common.Chat
 import com.hi.dear.databinding.ActivityChatBinding
 import com.hi.dear.ui.base.BaseActivity
 
 
-class ChatActivity : BaseActivity() {
+class ChatActivity : BaseActivity<ActivityChatBinding, ViewModel>() {
 
-    private lateinit var binding: ActivityChatBinding
     private lateinit var adapter: MsgAdapter
     private var count = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityChatBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun initViewBinding(): ActivityChatBinding {
+        return ActivityChatBinding.inflate(layoutInflater)
+    }
+
+    override fun initViewModel(): ViewModel? {
+        return null
+    }
+
+    override fun initView() {
         binding.toolbarLayout.toolbarTitle.text = "Match"
         binding.toolbarLayout.back.setOnClickListener {
             onBackPressed()
@@ -52,5 +56,13 @@ class ChatActivity : BaseActivity() {
             binding.messageEditText.setText("")
             binding.recyclerView.smoothScrollToPosition(adapter.itemCount)
         }
+    }
+
+    override fun attachObserver(viewModel: ViewModel?) {
+
+    }
+
+    override fun initLoadingView(isLoading: Boolean) {
+
     }
 }

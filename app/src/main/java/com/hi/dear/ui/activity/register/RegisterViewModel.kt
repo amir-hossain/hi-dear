@@ -2,37 +2,43 @@ package com.hi.dear.ui.activity.register
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.data.state.RegistrationFormState
-import com.hi.dear.repo.RegistrationRepository
+import com.hi.dear.repo.IRegistrationRepository
 import com.hi.dear.ui.activity.ActionResult
+import com.hi.dear.ui.base.BaseViewModel
+import kotlinx.coroutines.launch
 
-class RegisterViewModel(private val registrationRepository: RegistrationRepository) : ViewModel() {
+class RegisterViewModel(private val repo: IRegistrationRepository) : BaseViewModel() {
 
     val registrationFormState = MutableLiveData<RegistrationFormState>()
-
-
     val registrationResult = MutableLiveData<ActionResult<Void>>()
 
     fun register(
         userName: String, age: String, gender: String, password: String, county: String,
         city: String, emailOrMobile: String
     ) {
-        val result = registrationRepository.register(
-            userName,
-            age,
-            gender,
-            county,
-            city,
-            password,
-            emailOrMobile
-        )
 
-        if (result is RawResult.Success) {
-            registrationResult.value = ActionResult(true, R.string.registration_success, null)
-        } else {
-            registrationResult.value = ActionResult(false, R.string.registration_failed, null)
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = repo.register(
+                userName,
+                age,
+                gender,
+                county,
+                city,
+                password,
+                emailOrMobile
+            )
+
+            if (result is RawResult.Success) {
+                registrationResult.value = ActionResult(true, R.string.registration_success, null)
+            } else {
+                registrationResult.value = ActionResult(false, R.string.registration_failed, null)
+            }
+            isLoading.value = false
         }
     }
 

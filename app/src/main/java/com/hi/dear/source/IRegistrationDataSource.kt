@@ -1,5 +1,13 @@
 package com.hi.dear.source
 
 interface IRegistrationDataSource {
-    fun register(id: String,name:String,photo:String, password: String,conPass:String): Boolean
+    suspend fun register(
+        userName: String,
+        age: String,
+        gender: String,
+        country: String,
+        city: String,
+        emailOrMobile: String,
+        password: String
+    ): Boolean
 }
