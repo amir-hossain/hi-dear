@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hi.dear.databinding.ActivityLoginBinding
 import com.hi.dear.repo.LoginRepository
-import com.hi.dear.source.local.LocalLoginSource
 import com.hi.dear.ui.PasswordTransformation
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.Utils
@@ -41,11 +40,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
     override fun initViewModel(): LoginViewModel {
         return ViewModelProvider(
-            this, ViewModelFactory(LoginRepository(LocalLoginSource(application)))
+            this, ViewModelFactory(LoginRepository())
         ).get(LoginViewModel::class.java)
     }
 
     override fun initView() {
+        Utils.disableView(binding.login)
         binding.password.transformationMethod = PasswordTransformation()
 
         binding.back.setOnClickListener { onBackPressed() }
@@ -88,8 +88,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
         viewModel?.loginFormState?.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
 
-            // disable login button unless both username / password is valid
-            binding.login.isEnabled = loginState.isDataValid
+            if (loginState.isDataValid) {
+                Utils.enableView(binding.login)
+            } else {
+                Utils.disableView(binding.login)
+            }
 
             if (loginState.idError != null) {
                 binding.id.error = getString(loginState.idError)

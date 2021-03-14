@@ -3,9 +3,6 @@ package com.hi.dear.ui
 import android.view.View
 
 object Utils {
-    fun formatLogMessage(methodName: String, keyWord: String, value: Any): String {
-        return "$methodName() called with $keyWord = [ $value ]"
-    }
 
     fun disableView(view: View) {
         view.isEnabled = false

@@ -1,7 +1,6 @@
 package com.hi.dear.ui.activity.register
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hi.dear.R
 import com.hi.dear.data.RawResult
@@ -24,13 +23,13 @@ class RegisterViewModel(private val repo: IRegistrationRepository) : BaseViewMod
         viewModelScope.launch {
             isLoading.value = true
             val result = repo.register(
-                userName,
-                age,
-                gender,
-                county,
-                city,
-                password,
-                emailOrMobile
+                userName = userName,
+                age = age,
+                gender = gender,
+                country = county,
+                city = city,
+                password = password,
+                emailOrMobile = emailOrMobile
             )
 
             if (result is RawResult.Success) {

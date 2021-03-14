@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
  */
 class LocalLoginSource(val context: Application) : ILoginDataSource {
     private val dao = HiDearDB.getDatabase(context)?.getUserDao()
-    override fun login(id: String, password: String): UserCore? {
+    override suspend fun login(id: String, password: String): UserCore? {
         val userEntity = runBlocking {
             async(Dispatchers.IO) {
                 return@async dao?.getUserBy(id, password)
@@ -26,7 +26,7 @@ class LocalLoginSource(val context: Application) : ILoginDataSource {
         }
     }
 
-    override fun logout() {
+    override suspend fun logout() {
 
     }
 }

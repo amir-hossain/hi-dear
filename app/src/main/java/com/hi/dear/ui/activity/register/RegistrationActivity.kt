@@ -21,6 +21,7 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
     private lateinit var genderDialog: GenderDialog
 
     override fun initView() {
+        Utils.disableView(binding.signUpBtn)
         genderDialog = GenderDialog(this)
 
         binding.loginBtn.setOnClickListener {
@@ -50,11 +51,6 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
         binding.password.apply {
 
             afterTextChanged { checkValidity(binding) }
-
-            binding.signUpBtn.setOnClickListener {
-                binding.loading.visibility = View.VISIBLE
-                binding.signUpBtn.isEnabled = false
-            }
 
             binding.signUpBtn.setOnClickListener {
                 viewModel?.register(
@@ -118,7 +114,11 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
         viewModel?.registrationFormState?.observe(this, Observer {
             val registrationState = it ?: return@Observer
 
-            binding.signUpBtn.isEnabled = registrationState.isDataValid
+            if (registrationState.isDataValid) {
+                Utils.enableView(binding.signUpBtn)
+            } else {
+                Utils.disableView(binding.signUpBtn)
+            }
 
             if (registrationState.userNameError != null) {
                 binding.userName.error = getString(registrationState.userNameError)

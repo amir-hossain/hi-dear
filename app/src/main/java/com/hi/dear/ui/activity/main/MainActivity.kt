@@ -75,7 +75,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            finish()
+            super.onBackPressed()
         }
     }
 

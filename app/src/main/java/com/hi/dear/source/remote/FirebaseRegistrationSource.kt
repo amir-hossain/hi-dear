@@ -3,9 +3,11 @@ package com.hi.dear.source.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hi.dear.source.IRegistrationDataSource
-import com.hi.dear.ui.Utils
+import com.hi.dear.ui.FirebaseConstants
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
+import java.util.*
+import kotlin.collections.HashMap
 
 class FirebaseRegistrationSource :
     IRegistrationDataSource {
@@ -24,61 +26,51 @@ class FirebaseRegistrationSource :
         password: String
     ): Boolean {
         val userInfo = HashMap<String, Any>()
-        userInfo["userName"] = userName
-        userInfo["age"] = age
-        userInfo["gender"] = gender
-        userInfo["country"] = country
-        userInfo["city"] = city
+        val userId = getUserId()
+        userInfo[FirebaseConstants.userIdField] = userId
+        userInfo[FirebaseConstants.userNameField] = userName
+        userInfo[FirebaseConstants.ageField] = age
+        userInfo[FirebaseConstants.genderField] = gender
+        userInfo[FirebaseConstants.countryField] = country
+        userInfo[FirebaseConstants.cityField] = city
 
-        saveUserInfo(userInfo)
-        saveAuthInfo(emailOrMobile, password)
+        saveUserInfo(userInfo, userId)
+        saveAuthInfo(emailOrMobile = emailOrMobile, password = password, userId = userId)
 
         return userInfoResult && authResult
     }
 
-    private suspend fun saveUserInfo(userInfo: HashMap<String, Any>) {
-        firebaseDb.collection("userInfo").document().set(userInfo).addOnCompleteListener {
-            if (it.isSuccessful) {
-                userInfoResult = true
-                Timber.i(Utils.formatLogMessage("register", "isSuccessful", it.isSuccessful))
-            }
-        }.addOnFailureListener {
-            userInfoResult = true
-            Timber.i(
-                Utils.formatLogMessage(
-                    "register",
-                    "addOnFailureListener",
-                    it.localizedMessage
-                )
-            )
-        }.await()
+    private fun getUserId() = UUID.randomUUID().toString().replace("-", "").toUpperCase()
+
+    private suspend fun saveUserInfo(userInfo: HashMap<String, Any>, userId: String) {
+        firebaseDb.collection(FirebaseConstants.userInfoTable).document(userId)
+            .set(userInfo).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    userInfoResult = true
+                    Timber.i("isSuccessful")
+                }
+            }.addOnFailureListener {
+                userInfoResult = false
+                Timber.e("failed")
+            }.await()
     }
 
-    private suspend fun saveAuthInfo(emailOrMobile: String, password: String) {
+    private suspend fun saveAuthInfo(emailOrMobile: String, password: String, userId: String) {
         val authInfo = HashMap<String, Any>()
-        authInfo["emailOrMobile"] = emailOrMobile
-        authInfo["password"] = password
-        firebaseDb.collection("authInfo").document("$emailOrMobile").set(authInfo)
+        authInfo[FirebaseConstants.emailOrMobileField] = emailOrMobile
+        authInfo[FirebaseConstants.passwordField] = password
+        authInfo[FirebaseConstants.userIdField] = userId
+
+        firebaseDb.collection(FirebaseConstants.authInfoTable).document("$emailOrMobile")
+            .set(authInfo)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     authResult = true
-                    Timber.i(
-                        Utils.formatLogMessage(
-                            "saveAuthInfo",
-                            "isSuccessful",
-                            it.isSuccessful
-                        )
-                    )
+                    Timber.i("isSuccessful")
                 }
             }.addOnFailureListener {
-            authResult = true
-            Timber.i(
-                Utils.formatLogMessage(
-                    "saveAuthInfo",
-                    "addOnFailureListener",
-                    it.localizedMessage
-                )
-            )
-        }.await()
+                authResult = false
+                Timber.e("failed")
+            }.await()
     }
 }

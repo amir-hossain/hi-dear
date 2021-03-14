@@ -17,7 +17,10 @@ class IRegistrationRepository : IRepository {
         password: String
     ): RawResult<Boolean> {
         val result =
-            dataSource.register(userName, age, gender, country, city, emailOrMobile, password)
+            dataSource.register(
+                userName = userName, age = age, gender = gender, country = country,
+                city = city, emailOrMobile = emailOrMobile, password = password
+            )
         result
         return if (result) {
             RawResult.Success(result)

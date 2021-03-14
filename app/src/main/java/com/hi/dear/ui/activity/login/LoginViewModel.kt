@@ -1,14 +1,17 @@
 package com.hi.dear.ui.activity.login
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.hi.dear.R
+import com.hi.dear.data.RawResult
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.data.state.LoginFormState
 import com.hi.dear.repo.LoginRepository
 import com.hi.dear.ui.activity.ActionResult
+import com.hi.dear.ui.base.BaseViewModel
+import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewModel() {
 
     val loginFormState = MutableLiveData<LoginFormState>()
 
@@ -16,8 +19,16 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val loginResult = MutableLiveData<ActionResult<UserCore>>()
 
     fun login(id: String, password: String) {
-        val result = loginRepository.login(id, password)
-        loginResult.value = ActionResult(true, R.string.login_successful, null)
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = loginRepository.login(id, password)
+            if (result is RawResult.Success) {
+                loginResult.value = ActionResult(true, R.string.login_successful, result.data)
+            } else if (result is RawResult.Error) {
+                loginResult.value = ActionResult(false, R.string.login_failed, null)
+            }
+            isLoading.value = false
+        }
     }
 
     fun loginDataChanged(id: String, password: String) {
