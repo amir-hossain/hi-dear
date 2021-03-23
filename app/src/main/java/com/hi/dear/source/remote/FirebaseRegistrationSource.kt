@@ -35,7 +35,12 @@ class FirebaseRegistrationSource :
         userInfo[FirebaseConstants.cityField] = city
 
         saveUserInfo(userInfo, userId)
-        saveAuthInfo(emailOrMobile = emailOrMobile, password = password, userId = userId)
+        saveAuthInfo(
+            emailOrMobile = emailOrMobile,
+            password = password,
+            userId = userId,
+            gender = gender
+        )
 
         return userInfoResult && authResult
     }
@@ -55,11 +60,17 @@ class FirebaseRegistrationSource :
             }.await()
     }
 
-    private suspend fun saveAuthInfo(emailOrMobile: String, password: String, userId: String) {
+    private suspend fun saveAuthInfo(
+        emailOrMobile: String,
+        password: String,
+        userId: String,
+        gender: String
+    ) {
         val authInfo = HashMap<String, Any>()
         authInfo[FirebaseConstants.emailOrMobileField] = emailOrMobile
         authInfo[FirebaseConstants.passwordField] = password
         authInfo[FirebaseConstants.userIdField] = userId
+        authInfo[FirebaseConstants.genderField] = gender
 
         firebaseDb.collection(FirebaseConstants.authInfoTable).document("$emailOrMobile")
             .set(authInfo)
