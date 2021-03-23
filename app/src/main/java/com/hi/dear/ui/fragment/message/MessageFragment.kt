@@ -1,9 +1,6 @@
 package com.hi.dear.ui.fragment.message
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,34 +11,35 @@ import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.base.BaseFragment
 
 
-class MessageFragment : BaseFragment(), MessageAdapter.IMessageClickListener {
+class MessageFragment : BaseFragment<FragmentMessageBinding, MessageViewModel>(),
+    MessageAdapter.IMessageClickListener {
 
-    private lateinit var viewModel: MessageViewModel
-    private lateinit var binding: FragmentMessageBinding
     private lateinit var adapter: MessageAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(
+    override fun onBlockClick(data: MessageData) {
+
+    }
+
+    override fun onBrowseClick(data: MessageData) {
+
+    }
+
+    override fun initViewBinding(inflater: LayoutInflater): FragmentMessageBinding {
+        return FragmentMessageBinding.inflate(inflater)
+    }
+
+    override fun initViewModel(): MessageViewModel? {
+        return ViewModelProvider(
             this,
             ViewModelFactory(MessageRepository(LocalMessageSource(requireActivity().application)))
         )
             .get(MessageViewModel::class.java)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMessageBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun initView() {
         initAdapter()
-        viewModel.getMessage()
-        viewModel.liveResult.observe(viewLifecycleOwner, Observer {
+        viewModel?.getMessage()
+        viewModel?.liveResult?.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
             if (result.success) {
                 adapter.addData(result.data!!)
@@ -57,12 +55,11 @@ class MessageFragment : BaseFragment(), MessageAdapter.IMessageClickListener {
         binding.messageRv.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun onBlockClick(data: MessageData) {
+    override fun attachObserver(viewModel: MessageViewModel?) {
 
     }
 
-    override fun onBrowseClick(data: MessageData) {
-
+    override fun initLoadingView(isLoading: Boolean) {
     }
 
 }

@@ -1,9 +1,6 @@
 package com.hi.dear.ui.fragment.request
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,42 +11,9 @@ import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.base.BaseFragment
 
 
-class RequestFragment : BaseFragment(), RequestAdapter.IRequestClickListener {
-
-    private lateinit var viewModel: RequestViewModel
-    private lateinit var binding: FragmentRequestBinding
+class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>(),
+    RequestAdapter.IRequestClickListener {
     private lateinit var adapter: RequestAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(MatchRepository(LocalMatchSource(requireActivity().application)))
-        )
-            .get(RequestViewModel::class.java)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentRequestBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initAdapter()
-        viewModel.getMatch()
-        viewModel.liveResult.observe(viewLifecycleOwner, Observer {
-            val result = it ?: return@Observer
-            if (result.success) {
-                adapter.addData(result.data!!)
-            } else {
-                showToast(getString(result.msg))
-            }
-        })
-    }
 
     private fun initAdapter() {
         adapter = RequestAdapter(this)
@@ -66,5 +30,38 @@ class RequestFragment : BaseFragment(), RequestAdapter.IRequestClickListener {
     }
 
     override fun onNoClick(data: RequestData) {
+    }
+
+    override fun initViewBinding(inflater: LayoutInflater): FragmentRequestBinding {
+        return FragmentRequestBinding.inflate(inflater)
+    }
+
+    override fun initViewModel(): RequestViewModel? {
+        return ViewModelProvider(
+            this,
+            ViewModelFactory(MatchRepository(LocalMatchSource(requireActivity().application)))
+        )
+            .get(RequestViewModel::class.java)
+    }
+
+    override fun initView() {
+        initAdapter()
+        viewModel?.getMatch()
+        viewModel?.liveResult?.observe(viewLifecycleOwner, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                adapter.addData(result.data!!)
+            } else {
+                showToast(getString(result.msg))
+            }
+        })
+    }
+
+    override fun attachObserver(viewModel: RequestViewModel?) {
+
+    }
+
+    override fun initLoadingView(isLoading: Boolean) {
+
     }
 }
