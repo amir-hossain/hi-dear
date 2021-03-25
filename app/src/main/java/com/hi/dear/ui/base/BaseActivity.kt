@@ -38,6 +38,10 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivit
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
     }
 
+    protected fun showToast(msg: Int) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+    }
+
     protected abstract fun initViewBinding(): VB
 
     protected abstract fun initViewModel(): VM?

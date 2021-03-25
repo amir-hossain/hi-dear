@@ -7,12 +7,14 @@ import com.hi.dear.ui.base.BaseDialog
 object DialogFactory {
     fun makeDialog(
         @StringRes messageId: Int,
-        listener : IBaseListener
+        listener: IBaseListener
     ): BaseDialog {
-        if(listener is ITwoBtnListener){
+        if (listener is ITwoBtnListener) {
             return TwoButtonDialog.newInstance(messageRes = messageId, listener = listener)
+        } else if (listener is ISingleBtnListener) {
+            return SingleButtonDialog.newInstance(messageRes = messageId, listener = listener)
         }
-           throw RuntimeException("Please use other than base listener")
+        throw RuntimeException("Please use other than base listener")
     }
 
     interface ITwoBtnListener : IBaseListener {
@@ -20,5 +22,9 @@ object DialogFactory {
         fun onNegativeBtnClicked()
     }
 
-    interface IBaseListener {}
+    interface ISingleBtnListener : IBaseListener {
+        fun onPositiveBtnClicked()
+    }
+
+    interface IBaseListener
 }

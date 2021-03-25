@@ -1,32 +1,46 @@
 package com.hi.dear.ui.activity.register
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.hi.dear.R
 import com.hi.dear.databinding.ActivityRegistrationBinding
 import com.hi.dear.repo.IRegistrationRepository
+import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.login.LoginActivity
 import com.hi.dear.ui.base.BaseActivity
+import permissions.dispatcher.*
+import timber.log.Timber
+import java.io.File
 
+
+@RuntimePermissions
 class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterViewModel>(),
-    GenderDialog.IGenderDialogListener {
+    GenderDialog.IGenderDialogListener, DialogFactory.ISingleBtnListener {
 
+    private lateinit var currentRequest: PermissionRequest
+    private val GALLERY_REQUEST_CODE = 420
+    private val IMAGE_MIME_TYPE = "image/*";
     private lateinit var genderDialog: GenderDialog
 
     override fun initView() {
         Utils.disableView(binding.signUpBtn)
         genderDialog = GenderDialog(this)
-
         binding.loginBtn.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+
 
         binding.back.setOnClickListener {
             onBackPressed()
@@ -63,6 +77,10 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
                     emailOrMobile = binding.emailOrMobile.text.toString()
                 )
             }
+        }
+
+        binding.addBtn.setOnClickListener {
+            showGalleryWithPermissionCheck()
         }
     }
 
@@ -170,5 +188,78 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
             binding.loading.visibility = View.GONE
             Utils.enableView(binding.signUpBtn)
         }
+    }
+
+    @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    fun showGallery() {
+        val intent = Intent()
+        intent.type = IMAGE_MIME_TYPE
+        intent.action = Intent.ACTION_PICK
+
+        startActivityForResult(Intent.createChooser(intent, "Chose Image"), GALLERY_REQUEST_CODE)
+        Timber.i("showGallery called")
+    }
+
+    @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
+    fun onGalleryDenied() {
+        Timber.i("OnPermissionDenied called")
+        showToast(R.string.permission_gallery_denied)
+    }
+
+    @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
+    fun onGalleryNeverAskAgain() {
+        Timber.i("OnNeverAskAgain called")
+        showToast(R.string.permission_gallery_denied_permanent)
+    }
+
+    @OnShowRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+    fun showRationaleForGallery(request: PermissionRequest) {
+        Timber.i("showRationaleForContacts called")
+        currentRequest = request
+        DialogFactory.makeDialog(R.string.gallery_permission_explanation, this)
+            .showDialog(supportFragmentManager)
+    }
+
+    override fun onPositiveBtnClicked() {
+        currentRequest.proceed()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (data != null && data.data != null) {
+                val cursor: Cursor? = contentResolver.query(
+                    data.data!!, null,
+                    null, null, null
+                )
+                Glide.with(this)
+                    .load(getImageFrom(cursor))
+                    .into(binding.profileImage)
+
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        onRequestPermissionsResult(requestCode, grantResults)
+    }
+
+    private fun getImageFrom(cursor: Cursor?): File? {
+        if (cursor == null) {
+            return null
+        }
+        val columnName = MediaStore.Images.Media.DATA
+        if (cursor!!.moveToFirst()) {
+            val filePath = cursor.getString(cursor.getColumnIndexOrThrow(columnName))
+            cursor.close()
+            return File(filePath)
+        }
+        cursor.close()
+        return null
     }
 }

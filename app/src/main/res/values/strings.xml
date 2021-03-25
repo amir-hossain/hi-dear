@@ -81,4 +81,8 @@
     <string name="account_delete_message">Do you want to delete your account ?</string>
     <string name="about_me">About Me</string>
     <string name="type_a_message">Type your message..</string>
+    <string name="add">Add Picture</string>
+    <string name="permission_gallery_denied_permanent">please enable file access permission from setting</string>
+    <string name="gallery_permission_explanation">Need your file access permission to select image</string>
+    <string name="permission_gallery_denied">File access permission denied</string>
 </resources>
