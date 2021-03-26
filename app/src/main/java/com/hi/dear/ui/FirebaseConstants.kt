@@ -1,9 +1,6 @@
 package com.hi.dear.ui
 
 object FirebaseConstants {
-
-    const val male = "male"
-    const val female = "female"
     const val pictureField = "pic"
     const val userInfoTable = "userInfo"
     const val authInfoTable = "authInfo"

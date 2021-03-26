@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityLoginBinding
 import com.hi.dear.repo.LoginRepository
 import com.hi.dear.ui.PasswordTransformation
@@ -105,7 +106,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
         viewModel?.loginResult?.observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
             if (loginResult.success) {
-                PrefsManager.getInstance(this).writeBoolean(PrefsManager.IS_LOGGED_IN, true);
+                PrefsManager.getInstance(this).writeBoolean(PrefsManager.IS_LOGGED_IN, true)
+                saveUserData(it.data)
+                PrefsManager.getInstance(this).writeBoolean(PrefsManager.IS_LOGGED_IN, true)
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             } else {
@@ -114,6 +117,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
             setResult(Activity.RESULT_OK)
         })
+    }
+
+    private fun saveUserData(userData: UserCore?) {
+        if (userData == null) {
+            return
+        }
+
+        PrefsManager.getInstance(this).writeString(PrefsManager.gender, userData.gender!!)
     }
 
     override fun initLoadingView(isLoading: Boolean) {

@@ -44,9 +44,10 @@ class FirebaseBrowseSource : IBrowseDataSource {
             usr.id = result[FirebaseConstants.userIdField].toString()
             usr.name = result[FirebaseConstants.userNameField].toString()
             usr.gender = result[FirebaseConstants.genderField].toString()
+            usr.picture = result[FirebaseConstants.pictureField].toString()
             userList.add(usr)
         }
 
-        return mutableListOf()
+        return userList
     }
 }

@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 class PrefsManager private constructor() {
 
     companion object {
+        const val gender = "gender"
         const val UserId = "id"
         const val IS_LOGGED_IN = "logged_in"
         private val sharePref = PrefsManager()
