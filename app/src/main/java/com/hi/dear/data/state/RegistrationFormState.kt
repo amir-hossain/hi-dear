@@ -11,5 +11,6 @@ data class RegistrationFormState(
     val emailOrMobileError: Int? = null,
     val cityError: Int? = null,
     val countryError: Int? = null,
+    val pictureError: Int? = null,
     val isDataValid: Boolean = false
 )

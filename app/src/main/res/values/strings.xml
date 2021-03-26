@@ -85,4 +85,5 @@
     <string name="permission_gallery_denied_permanent">please enable file access permission from setting</string>
     <string name="gallery_permission_explanation">Need your file access permission to select image</string>
     <string name="permission_gallery_denied">File access permission denied</string>
+    <string name="invalid_picture">Profile pictue is required</string>
 </resources>

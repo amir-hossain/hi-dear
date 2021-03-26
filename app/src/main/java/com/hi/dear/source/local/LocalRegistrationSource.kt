@@ -3,6 +3,7 @@ package com.hi.dear.source.local
 import android.app.Application
 import com.hi.dear.db.HiDearDB
 import com.hi.dear.source.IRegistrationDataSource
+import java.io.File
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
@@ -17,7 +18,8 @@ class LocalRegistrationSource(context: Application) : IRegistrationDataSource {
         country: String,
         city: String,
         emailOrMobile: String,
-        password: String
+        password: String,
+        picture: File
     ): Boolean {
 
         /*       val insertId = runBlocking {

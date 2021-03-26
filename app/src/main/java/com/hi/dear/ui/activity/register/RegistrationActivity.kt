@@ -29,6 +29,7 @@ import java.io.File
 class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterViewModel>(),
     GenderDialog.IGenderDialogListener, DialogFactory.ISingleBtnListener {
 
+    private var pic: File? = null
     private lateinit var currentRequest: PermissionRequest
     private val GALLERY_REQUEST_CODE = 420
     private val IMAGE_MIME_TYPE = "image/*";
@@ -74,7 +75,8 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
                     gender = binding.gender.text.toString(),
                     city = binding.city.text.toString(),
                     county = binding.country.text.toString(),
-                    emailOrMobile = binding.emailOrMobile.text.toString()
+                    emailOrMobile = binding.emailOrMobile.text.toString(),
+                    picture = pic!!
                 )
             }
         }
@@ -93,6 +95,7 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
             gender = binding.gender.text.toString(),
             city = binding.city.text.toString(),
             country = binding.country.text.toString(),
+            picture = pic
         )
     }
 
@@ -165,6 +168,9 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
             if (registrationState.countryError != null) {
                 binding.country.error = getString(registrationState.countryError)
             }
+            if (registrationState.pictureError != null) {
+                binding.addBtn.error = getString(registrationState.pictureError)
+            }
         })
 
         viewModel?.registrationResult?.observe(this, Observer {
@@ -232,10 +238,13 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
                     data.data!!, null,
                     null, null, null
                 )
-                Glide.with(this)
-                    .load(getImageFrom(cursor))
-                    .into(binding.profileImage)
 
+                pic = getImageFrom(cursor)
+
+                Glide.with(this)
+                    .load(pic)
+                    .into(binding.profileImage)
+                checkValidity(binding)
             }
         }
     }
@@ -254,7 +263,7 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
             return null
         }
         val columnName = MediaStore.Images.Media.DATA
-        if (cursor!!.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             val filePath = cursor.getString(cursor.getColumnIndexOrThrow(columnName))
             cursor.close()
             return File(filePath)

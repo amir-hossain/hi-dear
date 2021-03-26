@@ -9,6 +9,7 @@ import com.hi.dear.repo.IRegistrationRepository
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
+import java.io.File
 
 class RegisterViewModel(private val repo: IRegistrationRepository) : BaseViewModel() {
 
@@ -17,7 +18,7 @@ class RegisterViewModel(private val repo: IRegistrationRepository) : BaseViewMod
 
     fun register(
         userName: String, age: String, gender: String, password: String, county: String,
-        city: String, emailOrMobile: String
+        city: String, emailOrMobile: String, picture: File
     ) {
 
         viewModelScope.launch {
@@ -29,7 +30,8 @@ class RegisterViewModel(private val repo: IRegistrationRepository) : BaseViewMod
                 country = county,
                 city = city,
                 password = password,
-                emailOrMobile = emailOrMobile
+                emailOrMobile = emailOrMobile,
+                picture = picture
             )
 
             if (result is RawResult.Success) {
@@ -43,7 +45,7 @@ class RegisterViewModel(private val repo: IRegistrationRepository) : BaseViewMod
 
     fun registerDataChanged(
         userName: String, age: String, password: String,
-        gender: String, emailOrMobile: String, city: String, country: String
+        gender: String, emailOrMobile: String, city: String, country: String, picture: File?
     ) {
         if (userName.isBlank()) {
             registrationFormState.value =
@@ -63,6 +65,9 @@ class RegisterViewModel(private val repo: IRegistrationRepository) : BaseViewMod
         } else if (!isPasswordValid(password)) {
             registrationFormState.value =
                 RegistrationFormState(passwordError = R.string.invalid_password)
+        } else if (picture == null) {
+            registrationFormState.value =
+                RegistrationFormState(pictureError = R.string.invalid_picture)
         } else {
             registrationFormState.value = RegistrationFormState(isDataValid = true)
         }

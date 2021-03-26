@@ -3,6 +3,7 @@ package com.hi.dear.repo
 import com.hi.dear.data.RawResult
 import com.hi.dear.source.IRegistrationDataSource
 import com.hi.dear.source.remote.FirebaseRegistrationSource
+import java.io.File
 
 
 class IRegistrationRepository : IRepository {
@@ -14,12 +15,13 @@ class IRegistrationRepository : IRepository {
         country: String,
         city: String,
         emailOrMobile: String,
-        password: String
+        password: String,
+        picture: File
     ): RawResult<Boolean> {
         val result =
             dataSource.register(
                 userName = userName, age = age, gender = gender, country = country,
-                city = city, emailOrMobile = emailOrMobile, password = password
+                city = city, emailOrMobile = emailOrMobile, password = password, picture = picture
             )
         result
         return if (result) {
