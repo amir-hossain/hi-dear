@@ -53,6 +53,10 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
 
+    protected fun showToast(msg: Int) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+    }
+
     protected abstract fun initViewBinding(inflater: LayoutInflater): VB
 
     protected abstract fun initViewModel(): VM?

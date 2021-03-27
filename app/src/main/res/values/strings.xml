@@ -86,4 +86,6 @@
     <string name="gallery_permission_explanation">Need your file access permission to select image</string>
     <string name="permission_gallery_denied">File access permission denied</string>
     <string name="invalid_picture">Profile pictue is required</string>
+    <string name="request_send">Request sent successfully</string>
+    <string name="request_send_failed">Request sent failed</string>
 </resources>

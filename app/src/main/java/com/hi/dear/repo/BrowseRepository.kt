@@ -15,6 +15,16 @@ class BrowseRepository : IRepository {
         return if (result != null) {
             RawResult.Success(result)
         } else {
+            RawResult.Error(RuntimeException("sent request failed"))
+        }
+    }
+
+    suspend fun sendRequest(receiverUserData: UserCore): RawResult<Boolean> {
+        val result = dataSource.sendRequest(receiverUserData)
+
+        return if (result != null) {
+            RawResult.Success(result)
+        } else {
             RawResult.Error(RuntimeException("no user found"))
         }
     }

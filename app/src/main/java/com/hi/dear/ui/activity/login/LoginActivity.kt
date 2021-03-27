@@ -106,9 +106,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
         viewModel?.loginResult?.observe(this@LoginActivity, Observer {
             val loginResult = it ?: return@Observer
             if (loginResult.success) {
-                PrefsManager.getInstance(this).writeBoolean(PrefsManager.IS_LOGGED_IN, true)
+                PrefsManager.getInstance().writeBoolean(PrefsManager.IS_LOGGED_IN, true)
                 saveUserData(it.data)
-                PrefsManager.getInstance(this).writeBoolean(PrefsManager.IS_LOGGED_IN, true)
+                PrefsManager.getInstance().writeBoolean(PrefsManager.IS_LOGGED_IN, true)
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             } else {
@@ -124,7 +124,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             return
         }
 
-        PrefsManager.getInstance(this).writeString(PrefsManager.gender, userData.gender!!)
+        PrefsManager.getInstance().writeString(PrefsManager.Gender, userData.gender!!)
+        PrefsManager.getInstance().writeString(PrefsManager.UserId, userData.id!!)
+        PrefsManager.getInstance().writeString(PrefsManager.UserName, userData.name!!)
+        PrefsManager.getInstance().writeString(PrefsManager.Pic, userData.picture!!)
     }
 
     override fun initLoadingView(isLoading: Boolean) {

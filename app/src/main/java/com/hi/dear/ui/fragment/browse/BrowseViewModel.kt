@@ -12,16 +12,32 @@ import kotlinx.coroutines.launch
 
 class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
 
-    val result = MutableLiveData<ActionResult<MutableList<UserCore>>>()
+    val browseDataResult = MutableLiveData<ActionResult<MutableList<UserCore>>>()
+    val requestDataResult = MutableLiveData<ActionResult<Boolean>>()
 
     fun getBrowseData(gender: String, limit: Long) {
         viewModelScope.launch {
             isLoading.value = true
             val browseData = repo.getBrowseData(gender, limit)
             if (browseData is RawResult.Success) {
-                result.value = ActionResult(true, R.string.login_successful, browseData.data)
+                browseDataResult.value =
+                    ActionResult(true, R.string.login_successful, browseData.data)
             } else if (browseData is RawResult.Error) {
-                result.value = ActionResult(false, R.string.login_failed, null)
+                browseDataResult.value = ActionResult(false, R.string.login_failed, null)
+            }
+            isLoading.value = false
+        }
+    }
+
+    fun sendRequest(receiverUserData: UserCore) {
+        viewModelScope.launch {
+            isLoading.value = true
+            val requestResult = repo.sendRequest(receiverUserData)
+            if (requestResult is RawResult.Success) {
+                requestDataResult.value =
+                    ActionResult(true, R.string.request_send, requestResult.data)
+            } else if (requestResult is RawResult.Error) {
+                requestDataResult.value = ActionResult(false, R.string.request_send_failed, null)
             }
             isLoading.value = false
         }

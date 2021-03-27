@@ -1,6 +1,8 @@
 package com.hi.dear.ui
 
 object FirebaseConstants {
+    const val sentRequestTable = "requestSent"
+    const val requestReceivedTable = "requestReceived"
     const val pictureField = "pic"
     const val userInfoTable = "userInfo"
     const val authInfoTable = "authInfo"

@@ -28,11 +28,19 @@ class SwipeStackAdapter : RecyclerView.Adapter<SwipeStackAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Glide.with(holder.itemView)
             .load(mData[position].picture)
+            .placeholder(R.drawable.default_pic)
             .into(holder.binding.textViewCard)
     }
 
     override fun getItemCount(): Int {
         return mData.size
+    }
+
+    fun getItemBy(position: Int): UserCore? {
+        if (position > mData.size - 1) {
+            return null
+        }
+        return mData[position]
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

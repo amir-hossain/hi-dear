@@ -1,22 +1,23 @@
 package com.hi.dear.ui.fragment.browse
 
 import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.FragmentBrowseBinding
 import com.hi.dear.repo.BrowseRepository
 import com.hi.dear.ui.Constant
 import com.hi.dear.ui.PrefsManager
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
-import com.hi.dear.ui.activity.match.MatchActivity
 import com.hi.dear.ui.base.BaseFragment
 import com.yuyakaido.android.cardstackview.*
 
 class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), CardStackListener {
 
+    private var visibleUserData: UserCore? = null
     private val mAdapter by lazy { SwipeStackAdapter() }
     private val manager by lazy { CardStackLayoutManager(requireContext(), this) }
 
@@ -39,7 +40,10 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
 
 
         binding.heartBtn.setOnClickListener {
-            startActivity(Intent(requireContext(), MatchActivity::class.java))
+            if (visibleUserData != null) {
+                viewModel?.sendRequest(visibleUserData!!)
+            }
+
         }
         binding.crossBtn.setOnClickListener {
             binding.swipeStack.swipe()
@@ -47,7 +51,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
     }
 
     private fun getPreferredGender(): String {
-        var gender = PrefsManager.getInstance(requireContext()).readString(PrefsManager.gender)
+        var gender = PrefsManager.getInstance().readString(PrefsManager.Gender)
         return if (gender == null || gender == Constant.male) {
             Constant.female
         } else {
@@ -56,19 +60,35 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
     }
 
     override fun attachObserver(viewModel: BrowseViewModel?) {
-        viewModel?.result?.observe(this@BrowseFragment, Observer {
+        viewModel?.browseDataResult?.observe(this@BrowseFragment, Observer {
             val browseResult = it ?: return@Observer
             if (browseResult.success) {
                 mAdapter.addItem(it.data!!)
                 mAdapter.notifyDataSetChanged()
             } else {
-                showToast(getString(browseResult.msg))
+                showToast(browseResult.msg)
             }
+            requireActivity().setResult(Activity.RESULT_OK)
+        })
+
+        viewModel?.requestDataResult?.observe(this@BrowseFragment, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                binding.swipeStack.swipe()
+            }
+            showToast(result.msg)
             requireActivity().setResult(Activity.RESULT_OK)
         })
     }
 
     override fun initLoadingView(isLoading: Boolean) {
+        if (isLoading) {
+            Utils.disableView(binding.heartBtn)
+            Utils.disableView(binding.crossBtn)
+        } else {
+            Utils.enableView(binding.heartBtn)
+            Utils.enableView(binding.crossBtn)
+        }
     }
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {
@@ -88,7 +108,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
     }
 
     override fun onCardAppeared(view: View?, position: Int) {
-
+        visibleUserData = mAdapter.getItemBy(position)
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {

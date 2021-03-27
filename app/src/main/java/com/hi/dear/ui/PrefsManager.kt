@@ -1,29 +1,30 @@
 package com.hi.dear.ui
 
 import android.app.Activity
-import android.content.Context
-
 import android.content.SharedPreferences
 
 class PrefsManager private constructor() {
 
     companion object {
-        const val gender = "gender"
+        const val Pic = "pic"
+        const val UserName = "userName"
+        const val Gender = "gender"
         const val UserId = "id"
         const val IS_LOGGED_IN = "logged_in"
         private val sharePref = PrefsManager()
         private lateinit var sharedPreferences: SharedPreferences
-        fun getInstance(context: Context?): PrefsManager {
+
+        fun getInstance(): PrefsManager {
             if (!Companion::sharedPreferences.isInitialized) {
                 synchronized(PrefsManager::class.java) {
-                    if (!Companion::sharedPreferences.isInitialized && context != null) {
-                        sharedPreferences = context!!.applicationContext!!.getSharedPreferences(
-                                context.packageName,
-                                Activity.MODE_PRIVATE
-                            )
-                        }
+                    if (!Companion::sharedPreferences.isInitialized) {
+                        sharedPreferences = App.instance.getSharedPreferences(
+                            "com.hi.dear",
+                            Activity.MODE_PRIVATE
+                        )
                     }
                 }
+            }
                 return sharePref
             }
         }

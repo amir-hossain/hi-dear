@@ -8,11 +8,17 @@ import timber.log.Timber.DebugTree
 
 
 class App : Application() {
+    companion object {
+        lateinit var instance: App
+            private set
+    }
+
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
         FirebaseApp.initializeApp(this)
+        instance = this
     }
 }

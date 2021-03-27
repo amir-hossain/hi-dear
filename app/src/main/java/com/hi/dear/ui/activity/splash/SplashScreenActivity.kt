@@ -22,7 +22,7 @@ class SplashScreenActivity : BaseActivity<ActivitySplashBinding, ViewModel>() {
     }
 
     override fun initView() {
-        val isLoggedIn = PrefsManager.getInstance(this).readBoolean(PrefsManager.IS_LOGGED_IN)
+        val isLoggedIn = PrefsManager.getInstance().readBoolean(PrefsManager.IS_LOGGED_IN)
         if (isLoggedIn) {
             Handler(mainLooper).postDelayed({
                 startActivity(Intent(applicationContext, MainActivity::class.java))

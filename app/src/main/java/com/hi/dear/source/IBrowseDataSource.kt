@@ -5,5 +5,5 @@ import com.hi.dear.data.model.common.UserCore
 interface IBrowseDataSource {
     suspend fun getBrowseData(preferredGender: String, limit: Long): MutableList<UserCore>
 
-    suspend fun sendMatch(): Boolean
+    suspend fun sendRequest(receiverUserData: UserCore): Boolean
 }
