@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clipChildren="false"
     android:orientation="vertical"
     android:background="@color/almost_white">
 
@@ -18,17 +17,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swipeStack" />
 
-    <link.fls.swipestack.SwipeStack
+    <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/swipeStack"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         android:padding="20dp"
+        android:clipToPadding="false"
         app:layout_constraintBottom_toTopOf="@+id/see_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </link.fls.swipestack.SwipeStack>
+        app:layout_constraintTop_toTopOf="parent"></com.yuyakaido.android.cardstackview.CardStackView>
 
     <View
         android:id="@+id/half_cycle"

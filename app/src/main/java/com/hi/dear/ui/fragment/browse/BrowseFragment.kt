@@ -13,29 +13,12 @@ import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.match.MatchActivity
 import com.hi.dear.ui.base.BaseFragment
-import link.fls.swipestack.SwipeStack
+import com.yuyakaido.android.cardstackview.*
 
+class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), CardStackListener {
 
-class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(),
-    SwipeStack.SwipeStackListener,
-    View.OnClickListener {
-
-    private lateinit var mAdapter: SwipeStackAdapter
-
-    override fun onViewSwipedToLeft(position: Int) {
-
-    }
-
-    override fun onViewSwipedToRight(position: Int) {
-
-    }
-
-    override fun onStackEmpty() {
-    }
-
-    override fun onClick(v: View?) {
-
-    }
+    private val mAdapter by lazy { SwipeStackAdapter() }
+    private val manager by lazy { CardStackLayoutManager(requireContext(), this) }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentBrowseBinding {
         return FragmentBrowseBinding.inflate(inflater)
@@ -49,11 +32,17 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(),
 
     override fun initView() {
         viewModel?.getBrowseData(getPreferredGender(), 5)
-        binding.swipeStack.setListener(this)
-        mAdapter = SwipeStackAdapter(requireContext())
+        manager.setStackFrom(StackFrom.BottomAndRight)
+        manager.setSwipeableMethod(SwipeableMethod.Automatic)
         binding.swipeStack.adapter = mAdapter
+        binding.swipeStack.layoutManager = manager
+
+
         binding.heartBtn.setOnClickListener {
             startActivity(Intent(requireContext(), MatchActivity::class.java))
+        }
+        binding.crossBtn.setOnClickListener {
+            binding.swipeStack.swipe()
         }
     }
 
@@ -80,5 +69,29 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(),
     }
 
     override fun initLoadingView(isLoading: Boolean) {
+    }
+
+    override fun onCardDragging(direction: Direction?, ratio: Float) {
+
+    }
+
+    override fun onCardSwiped(direction: Direction?) {
+
+    }
+
+    override fun onCardRewound() {
+
+    }
+
+    override fun onCardCanceled() {
+
+    }
+
+    override fun onCardAppeared(view: View?, position: Int) {
+
+    }
+
+    override fun onCardDisappeared(view: View?, position: Int) {
+
     }
 }
