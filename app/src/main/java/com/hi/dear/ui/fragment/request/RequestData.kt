@@ -1,7 +1,8 @@
 package com.hi.dear.ui.fragment.request
 
 import com.hi.dear.data.model.common.UserCore
+import com.hi.dear.ui.Constant
 
 data class RequestData(
-    val isAdded: Boolean = false,
+    var status: String = Constant.requestNew,
 ) : UserCore()

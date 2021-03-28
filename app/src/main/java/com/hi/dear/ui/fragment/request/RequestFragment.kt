@@ -1,5 +1,6 @@
 package com.hi.dear.ui.fragment.request
 
+import android.content.Intent
 import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -8,6 +9,7 @@ import com.hi.dear.databinding.FragmentRequestBinding
 import com.hi.dear.repo.RequestRepository
 import com.hi.dear.source.remote.FirebaseRequestSource
 import com.hi.dear.ui.activity.ViewModelFactory
+import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.base.BaseFragment
 
 
@@ -26,10 +28,15 @@ class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>()
     }
 
     override fun onAcceptClick(data: RequestData) {
-
+        viewModel?.reactToRequest(true, data)
     }
 
     override fun onNoClick(data: RequestData) {
+        viewModel?.reactToRequest(false, data)
+    }
+
+    override fun onChatClick(data: RequestData) {
+        startActivity(Intent(requireContext(), ChatActivity::class.java))
     }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentRequestBinding {
@@ -47,6 +54,9 @@ class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>()
     override fun initView() {
         initAdapter()
         viewModel?.getRequest()
+    }
+
+    override fun attachObserver(viewModel: RequestViewModel?) {
         viewModel?.requestResult?.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
             if (result.success) {
@@ -55,10 +65,14 @@ class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>()
                 showToast(getString(result.msg))
             }
         })
-    }
 
-    override fun attachObserver(viewModel: RequestViewModel?) {
-
+        viewModel?.requestReactResult?.observe(viewLifecycleOwner, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                adapter.updateView(result.data!!)
+            }
+            showToast(result.msg)
+        })
     }
 
     override fun initLoadingView(isLoading: Boolean) {

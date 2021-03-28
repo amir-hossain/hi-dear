@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 class RequestViewModel(private val repository: RequestRepository) : ViewModel() {
 
     val requestResult = MutableLiveData<ActionResult<MutableList<RequestData>>>()
+    val requestReactResult = MutableLiveData<ActionResult<RequestData>>()
 
     fun getRequest() {
         viewModelScope.launch {
@@ -20,6 +21,23 @@ class RequestViewModel(private val repository: RequestRepository) : ViewModel() 
                 requestResult.value = ActionResult(true, R.string.fetch_success, result.data)
             } else {
                 requestResult.value = ActionResult(false, R.string.fetch_failed, null)
+            }
+        }
+    }
+
+    fun reactToRequest(isAccepted: Boolean, requestData: RequestData) {
+        var successMsgId = R.string.message_declined
+        var failedMsgId = R.string.message_declined_failed
+        if (isAccepted) {
+            successMsgId = R.string.message_accepted
+            failedMsgId = R.string.message_accepted_failed
+        }
+        viewModelScope.launch {
+            val result = repository.reactToRequest(isAccepted, requestData)
+            if (result is RawResult.Success) {
+                requestReactResult.value = ActionResult(true, successMsgId, result.data)
+            } else {
+                requestReactResult.value = ActionResult(false, failedMsgId, null)
             }
         }
     }

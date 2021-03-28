@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.source.IBrowseDataSource
+import com.hi.dear.ui.Constant
 import com.hi.dear.ui.FirebaseConstants
 import com.hi.dear.ui.PrefsManager
 import kotlinx.coroutines.tasks.await
@@ -72,6 +73,7 @@ class FirebaseBrowseSource : IBrowseDataSource {
         userInfo[FirebaseConstants.userNameField] = prefsManager.readString(PrefsManager.UserName)!!
         userInfo[FirebaseConstants.pictureField] = prefsManager.readString(PrefsManager.Pic)!!
         userInfo[FirebaseConstants.genderField] = prefsManager.readString(PrefsManager.Gender)!!
+        userInfo[FirebaseConstants.statusField] = Constant.requestNew
         return userInfo
     }
 

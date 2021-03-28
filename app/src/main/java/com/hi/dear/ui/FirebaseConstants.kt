@@ -1,6 +1,7 @@
 package com.hi.dear.ui
 
 object FirebaseConstants {
+    const val statusField = "status"
     const val sentRequestTable_post_fix = "RS"
     const val requestReceivedTable_post_fix = "RR"
     const val pictureField = "pic"

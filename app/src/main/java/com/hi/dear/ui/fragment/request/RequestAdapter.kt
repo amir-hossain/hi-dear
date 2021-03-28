@@ -4,6 +4,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.databinding.RequestItemBinding
+import com.hi.dear.ui.Constant
 import com.hi.dear.ui.base.BaseAdapter
 import com.hi.dear.ui.base.BaseViewHolder
 
@@ -18,12 +19,23 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
                 .load(data.picture)
                 .into(holder.binding.image)
 
-            if (data.isAdded) {
-                holder.binding.btnGroup.visibility = View.GONE
-                holder.binding.message.visibility = View.VISIBLE
-            } else {
-                holder.binding.btnGroup.visibility = View.VISIBLE
-                holder.binding.message.visibility = View.GONE
+            when (data.status) {
+                Constant.requestNew -> {
+                    holder.binding.btnGroup.visibility = View.VISIBLE
+                    holder.binding.declinedMsg.visibility = View.GONE
+                    holder.binding.chatBtn.visibility = View.GONE
+
+                }
+                Constant.requestAccepted -> {
+                    holder.binding.btnGroup.visibility = View.GONE
+                    holder.binding.declinedMsg.visibility = View.GONE
+                    holder.binding.chatBtn.visibility = View.VISIBLE
+                }
+                else -> {
+                    holder.binding.btnGroup.visibility = View.GONE
+                    holder.binding.declinedMsg.visibility = View.VISIBLE
+                    holder.binding.chatBtn.visibility = View.GONE
+                }
             }
 
             holder.binding.name.text = data.name
@@ -33,6 +45,22 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
     override fun setViewHolder(view: View, viewType: Int): BaseViewHolder {
         return RequestViewHolder(view)
     }
+
+    fun updateView(data: RequestData) {
+        var dataPosition = -1
+        for (i in dataList.indices) {
+            if (dataList[i].id == data.id) {
+                dataList[i].status = data.status
+                dataPosition = i
+            }
+        }
+
+        if (dataPosition != -1) {
+            notifyItemChanged(dataPosition)
+        }
+
+    }
+
 
     inner class RequestViewHolder : BaseViewHolder {
         var binding: RequestItemBinding
@@ -48,23 +76,25 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
             }
             binding.btnAccept.setOnClickListener {
                 var data = dataList[getPosition(view)]
-                var itemPosition = getPosition(view)
-                notifyItemChanged(itemPosition)
                 listener?.onAcceptClick(data)
             }
             binding.btnNo.setOnClickListener {
                 var data = dataList[getPosition(view)]
-                var itemPosition = getPosition(view)
-                var msg = context.getString(R.string.rejected)
-                notifyItemChanged(itemPosition)
                 listener?.onNoClick(data)
+            }
+
+            binding.chatBtn.setOnClickListener {
+                var data = dataList[getPosition(view)]
+                listener?.onChatClick(data)
             }
         }
     }
+
 
     interface IRequestClickListener {
         fun onCloseClick(data: RequestData)
         fun onAcceptClick(data: RequestData)
         fun onNoClick(data: RequestData)
+        fun onChatClick(data: RequestData)
     }
 }

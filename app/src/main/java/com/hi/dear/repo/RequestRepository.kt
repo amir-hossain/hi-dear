@@ -17,4 +17,17 @@ class RequestRepository(private val dataSource: IRequestDataSource) : IRepositor
             RawResult.Error(RuntimeException("no data found"))
         }
     }
+
+    suspend fun reactToRequest(
+        accepted: Boolean,
+        requestData: RequestData
+    ): RawResult<RequestData> {
+        val result = dataSource.reactToRequest(accepted, requestData)
+
+        return if (result != null) {
+            RawResult.Success(result)
+        } else {
+            RawResult.Error(RuntimeException("unable to update the status"))
+        }
+    }
 }

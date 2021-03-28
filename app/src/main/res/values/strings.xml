@@ -90,4 +90,10 @@
     <string name="request_send_failed">Request sent failed</string>
     <string name="fetch_success">data successfully fetched</string>
     <string name="fetch_failed">data fetched failed</string>
+    <string name="message_declined">request declined successfully</string>
+    <string name="message_declined_failed">unable to declined request</string>
+    <string name="message_accepted">request accepted successfully</string>
+    <string name="message_accepted_failed">unable to accept request</string>
+    <string name="declined">Declined</string>
+    <string name="chat_now">Chat now</string>
 </resources>

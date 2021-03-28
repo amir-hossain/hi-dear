@@ -14,4 +14,8 @@ class LocalRequestSource(val context: Application) : IRequestDataSource {
         return null
     }
 
+    override suspend fun reactToRequest(accepted: Boolean, requestData: RequestData): RequestData? {
+        return null
+    }
+
 }
