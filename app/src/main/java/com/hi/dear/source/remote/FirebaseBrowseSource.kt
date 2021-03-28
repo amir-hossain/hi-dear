@@ -40,7 +40,8 @@ class FirebaseBrowseSource : IBrowseDataSource {
         val mineId = prefsManager.readString(PrefsManager.UserId)
         var savedSentInfo = false
         var savedReceivedInfo = false
-        firebaseDb.collection(FirebaseConstants.sentRequestTable).document(mineId!!)
+        firebaseDb.collection(mineId!! + "" + FirebaseConstants.sentRequestTable_post_fix)
+            .document(receiverUserData.id!!)
             .set(getHashMapFrom(receiverUserData))
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -51,8 +52,8 @@ class FirebaseBrowseSource : IBrowseDataSource {
                 Timber.e("failed")
             }.await()
 
-        firebaseDb.collection(FirebaseConstants.requestReceivedTable)
-            .document(receiverUserData.id!!)
+        firebaseDb.collection(receiverUserData.id!! + "" + FirebaseConstants.requestReceivedTable_post_fix)
+            .document(mineId)
             .set(getMineHasMap())
             .addOnCompleteListener {
                 if (it.isSuccessful) {
