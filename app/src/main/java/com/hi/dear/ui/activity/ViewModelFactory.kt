@@ -27,7 +27,7 @@ class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.
             is MessageRepository -> {
                 return MessageViewModel(repository) as T
             }
-            is MatchRepository -> {
+            is RequestRepository -> {
                 return RequestViewModel(repository) as T
             }
             is BrowseRepository -> {

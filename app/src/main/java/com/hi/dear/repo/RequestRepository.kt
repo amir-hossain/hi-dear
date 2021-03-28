@@ -1,15 +1,15 @@
 package com.hi.dear.repo
 
 import com.hi.dear.data.RawResult
-import com.hi.dear.source.IMatchDataSource
+import com.hi.dear.source.IRequestDataSource
 import com.hi.dear.ui.fragment.request.RequestData
 
 
-class MatchRepository(private val dataSource: IMatchDataSource) : IRepository {
+class RequestRepository(private val dataSource: IRequestDataSource) : IRepository {
 
-    fun getMatchData(): RawResult<MutableList<RequestData>> {
+    suspend fun getRequestData(): RawResult<MutableList<RequestData>> {
 
-        val result = dataSource.getData()
+        val result = dataSource.getRequestData()
 
         return if (result != null) {
             RawResult.Success(result)

@@ -88,4 +88,6 @@
     <string name="invalid_picture">Profile pictue is required</string>
     <string name="request_send">Request sent successfully</string>
     <string name="request_send_failed">Request sent failed</string>
+    <string name="fetch_success">data successfully fetched</string>
+    <string name="fetch_failed">data fetched failed</string>
 </resources>

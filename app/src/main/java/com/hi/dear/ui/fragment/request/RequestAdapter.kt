@@ -6,8 +6,6 @@ import com.hi.dear.R
 import com.hi.dear.databinding.RequestItemBinding
 import com.hi.dear.ui.base.BaseAdapter
 import com.hi.dear.ui.base.BaseViewHolder
-import java.text.SimpleDateFormat
-import java.util.*
 
 class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter<RequestData>() {
     override fun setViewId(viewType: Int): Int {
@@ -17,13 +15,12 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
     override fun bindView(holder: BaseViewHolder, data: RequestData) {
         if (holder is RequestViewHolder) {
             Glide.with(context)
-                .load(data.image)
+                .load(data.picture)
                 .into(holder.binding.image)
 
-            if (data.message != null) {
+            if (data.isAdded) {
                 holder.binding.btnGroup.visibility = View.GONE
                 holder.binding.message.visibility = View.VISIBLE
-                holder.binding.message.text = data.message
             } else {
                 holder.binding.btnGroup.visibility = View.VISIBLE
                 holder.binding.message.visibility = View.GONE
@@ -52,8 +49,6 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
             binding.btnAccept.setOnClickListener {
                 var data = dataList[getPosition(view)]
                 var itemPosition = getPosition(view)
-                var msg = context.getString(R.string.accept_msg, getTodayDate())
-                data.message = msg
                 notifyItemChanged(itemPosition)
                 listener?.onAcceptClick(data)
             }
@@ -61,16 +56,10 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
                 var data = dataList[getPosition(view)]
                 var itemPosition = getPosition(view)
                 var msg = context.getString(R.string.rejected)
-                data.message = msg
                 notifyItemChanged(itemPosition)
                 listener?.onNoClick(data)
             }
         }
-    }
-
-    private fun getTodayDate(): String {
-        var formate = SimpleDateFormat("d MMM")
-        return formate.format(Date())
     }
 
     interface IRequestClickListener {

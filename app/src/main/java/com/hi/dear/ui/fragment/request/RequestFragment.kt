@@ -5,8 +5,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hi.dear.databinding.FragmentRequestBinding
-import com.hi.dear.repo.MatchRepository
-import com.hi.dear.source.local.LocalMatchSource
+import com.hi.dear.repo.RequestRepository
+import com.hi.dear.source.remote.FirebaseRequestSource
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.base.BaseFragment
 
@@ -39,15 +39,15 @@ class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>()
     override fun initViewModel(): RequestViewModel? {
         return ViewModelProvider(
             this,
-            ViewModelFactory(MatchRepository(LocalMatchSource(requireActivity().application)))
+            ViewModelFactory(RequestRepository(FirebaseRequestSource()))
         )
             .get(RequestViewModel::class.java)
     }
 
     override fun initView() {
         initAdapter()
-        viewModel?.getMatch()
-        viewModel?.liveResult?.observe(viewLifecycleOwner, Observer {
+        viewModel?.getRequest()
+        viewModel?.requestResult?.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
             if (result.success) {
                 adapter.addData(result.data!!)

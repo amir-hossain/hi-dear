@@ -1,7 +1,7 @@
 package com.hi.dear.ui.fragment.request
 
+import com.hi.dear.data.model.common.UserCore
+
 data class RequestData(
-    val image: String? = null,
-    val name: String? = null,
-    var message: String? = null
-)
+    val isAdded: Boolean = false,
+) : UserCore()
