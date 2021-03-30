@@ -6,7 +6,7 @@ import com.hi.dear.source.remote.FirebaseRegistrationSource
 import java.io.File
 
 
-class IRegistrationRepository : IRepository {
+class RegistrationRepository : IRepository {
     private val dataSource: IRegistrationDataSource by lazy { FirebaseRegistrationSource() }
     suspend fun register(
         userName: String,
@@ -23,7 +23,6 @@ class IRegistrationRepository : IRepository {
                 userName = userName, age = age, gender = gender, country = country,
                 city = city, emailOrMobile = emailOrMobile, password = password, picture = picture
             )
-        result
         return if (result) {
             RawResult.Success(result)
         } else {

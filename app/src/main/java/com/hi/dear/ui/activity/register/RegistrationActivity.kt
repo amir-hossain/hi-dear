@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.databinding.ActivityRegistrationBinding
-import com.hi.dear.repo.IRegistrationRepository
+import com.hi.dear.repo.RegistrationRepository
 import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
@@ -127,7 +127,7 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
     }
 
     override fun initViewModel(): RegisterViewModel {
-        return ViewModelProvider(this, ViewModelFactory(IRegistrationRepository()))
+        return ViewModelProvider(this, ViewModelFactory(RegistrationRepository()))
             .get(RegisterViewModel::class.java)
     }
 

@@ -1,10 +1,10 @@
 package com.hi.dear.ui.fragment.request
 
-import android.content.Intent
 import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.FragmentRequestBinding
 import com.hi.dear.repo.RequestRepository
 import com.hi.dear.source.remote.FirebaseRequestSource
@@ -36,7 +36,11 @@ class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>()
     }
 
     override fun onChatClick(data: RequestData) {
-        startActivity(Intent(requireContext(), ChatActivity::class.java))
+        var userData: UserCore? = null
+        if (data is UserCore) {
+            userData = data
+        }
+        ChatActivity.start(requireContext(), userData)
     }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentRequestBinding {

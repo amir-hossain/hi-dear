@@ -1,14 +1,20 @@
 package com.hi.dear.ui.activity.chat
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.lifecycle.ViewModel
-import com.hi.dear.data.model.common.Chat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityChatBinding
+import com.hi.dear.repo.ChatRepository
+import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.base.BaseActivity
 
 
-class ChatActivity : BaseActivity<ActivityChatBinding, ViewModel>() {
+class ChatActivity : BaseActivity<ActivityChatBinding, ChatViewModel>() {
 
     private lateinit var adapter: MsgAdapter
     private var count = 0
@@ -17,12 +23,15 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ViewModel>() {
         return ActivityChatBinding.inflate(layoutInflater)
     }
 
-    override fun initViewModel(): ViewModel? {
-        return null
+    override fun initViewModel(): ChatViewModel? {
+        return ViewModelProvider(
+            this, ViewModelFactory(ChatRepository())
+        ).get(ChatViewModel::class.java)
     }
 
     override fun initView() {
-        binding.toolbarLayout.toolbarTitle.text = "Match"
+        val otherUserData = intent.getParcelableExtra<UserCore>(Args)!!
+        binding.toolbarLayout.toolbarTitle.text = otherUserData.name
         binding.toolbarLayout.back.setOnClickListener {
             onBackPressed()
         }
@@ -46,23 +55,54 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ViewModel>() {
         })
 
         binding.sendButton.setOnClickListener {
-            var chat = Chat();
-            ++count
-            if (count % 2 != 0) {
-                chat.isOwner = true
-            }
-            chat.text = binding.messageEditText.text.toString()
-            adapter.addData(chat)
+            val text = binding.messageEditText.text.toString()
+            viewModel?.sendMessage(text, otherUserData.id!!)
+//            adapter.addData(chat)
             binding.messageEditText.setText("")
-            binding.recyclerView.smoothScrollToPosition(adapter.itemCount)
+//            binding.recyclerView.smoothScrollToPosition(adapter.itemCount)
         }
+        viewModel?.getMessage(otherUserData.id!!)
     }
 
-    override fun attachObserver(viewModel: ViewModel?) {
+    override fun attachObserver(viewModel: ChatViewModel?) {
+        viewModel?.chatSentResult?.observe(this@ChatActivity, Observer {
+            val loginResult = it ?: return@Observer
+            if (!loginResult.success) {
+                showToast(getString(loginResult.msg))
+            }
 
+            setResult(RESULT_OK)
+        })
+
+
+        viewModel?.incomingChatData?.observe(this@ChatActivity, Observer {
+            val loginResult = it ?: return@Observer
+            if (loginResult.success) {
+                adapter.submitList(it.data)
+                adapter.notifyDataSetChanged()
+                binding.recyclerView.smoothScrollToPosition(adapter.itemCount)
+
+            } else {
+                showToast(getString(loginResult.msg))
+            }
+
+            setResult(Activity.RESULT_OK)
+        })
     }
 
     override fun initLoadingView(isLoading: Boolean) {
 
+    }
+
+    companion object {
+        const val Args = "args"
+        fun start(context: Context, userData: UserCore?) {
+            if (userData == null) {
+                return
+            }
+            var intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra(Args, userData)
+            context.startActivity(intent)
+        }
     }
 }

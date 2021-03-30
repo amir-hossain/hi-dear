@@ -96,4 +96,6 @@
     <string name="message_accepted_failed">unable to accept request</string>
     <string name="declined">Declined</string>
     <string name="chat_now">Chat now</string>
+    <string name="chat_sent_failed">Message sent failed</string>
+    <string name="chat_sent_success">chat sent success</string>
 </resources>

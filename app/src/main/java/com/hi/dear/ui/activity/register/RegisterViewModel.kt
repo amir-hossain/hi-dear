@@ -5,13 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.data.state.RegistrationFormState
-import com.hi.dear.repo.IRegistrationRepository
+import com.hi.dear.repo.RegistrationRepository
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 
-class RegisterViewModel(private val repo: IRegistrationRepository) : BaseViewModel() {
+class RegisterViewModel(private val repo: RegistrationRepository) : BaseViewModel() {
 
     val registrationFormState = MutableLiveData<RegistrationFormState>()
     val registrationResult = MutableLiveData<ActionResult<Void>>()

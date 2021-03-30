@@ -13,9 +13,8 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = initViewBinding()
-        viewModel = initViewModel()
         setContentView(binding.root)
-        initViewModel()
+        viewModel = initViewModel()
         initView()
         attachObserver(viewModel)
         addLoadingObserver()

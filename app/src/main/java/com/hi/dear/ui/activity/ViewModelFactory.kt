@@ -3,6 +3,7 @@ package com.hi.dear.ui.activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.hi.dear.repo.*
+import com.hi.dear.ui.activity.chat.ChatViewModel
 import com.hi.dear.ui.activity.forgot.ForgotViewModel
 import com.hi.dear.ui.activity.login.LoginViewModel
 import com.hi.dear.ui.activity.register.RegisterViewModel
@@ -18,7 +19,7 @@ class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.
             is LoginRepository -> {
                 return LoginViewModel(repository) as T
             }
-            is IRegistrationRepository -> {
+            is RegistrationRepository -> {
                 return RegisterViewModel(repository) as T
             }
             is ForgetPasswordRepository -> {
@@ -32,6 +33,9 @@ class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.
             }
             is BrowseRepository -> {
                 return BrowseViewModel(repository) as T
+            }
+            is ChatRepository -> {
+                return ChatViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
