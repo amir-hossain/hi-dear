@@ -57,9 +57,7 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatViewModel>() {
         binding.sendButton.setOnClickListener {
             val text = binding.messageEditText.text.toString()
             viewModel?.sendMessage(text, otherUserData.id!!)
-//            adapter.addData(chat)
             binding.messageEditText.setText("")
-//            binding.recyclerView.smoothScrollToPosition(adapter.itemCount)
         }
         viewModel?.getMessage(otherUserData.id!!)
     }

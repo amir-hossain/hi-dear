@@ -20,22 +20,32 @@ class FirebaseChatSource :
     override suspend fun sendMessage(text: String, otherUserId: String): Boolean {
         var messageId = Utils.getHash(System.currentTimeMillis().toString())
         val isChatSaved = saveMsgToChatTable(otherUserId, text, messageId)
-        val isLastMsgSaved = saveLastMsg(otherUserId, text, messageId)
+        val isLastMsgSaved = saveLastMsg(otherUserId, text)
         return isChatSaved && isLastMsgSaved
     }
 
-    private suspend fun saveLastMsg(otherUserId: String, text: String, msgId: String): Boolean {
+    private suspend fun saveLastMsg(otherUserId: String, text: String): Boolean {
         var result = false
-        firebaseDb.collection(getTableName(otherUserId, mineId!!))
-            .document(msgId)
-            .set(getMessageMap(text, mineId, msgId))
+        val tableId = getSingleHashCodeFrom(otherUserId, mineId!!)
+        val tableName = "${tableId}${FirebaseConstants.last_message_table_post_fix}"
+        firebaseDb.collection(tableName)
+            .document(tableId)
+            .set(getMsgMap(text))
             .addOnCompleteListener {
-                Timber.i("message send successfully")
+                Timber.i("last message saved successfully")
                 result = true
             }
             .addOnFailureListener {
-                Timber.i("message send failed")
+                Timber.i("last message save failed")
             }.await()
+        return result
+    }
+
+    private fun getMsgMap(text: String): HashMap<String, Any> {
+        val result = HashMap<String, Any>()
+        result[FirebaseConstants.pictureField] = prefsManager.readString(PrefsManager.Pic)!!
+        result[FirebaseConstants.userNameField] = prefsManager.readString(PrefsManager.UserName)!!
+        result[FirebaseConstants.msg] = text
         return result
     }
 
@@ -43,9 +53,11 @@ class FirebaseChatSource :
         otherUserId: String, text: String, msgId: String
     ): Boolean {
         var result = false
-        firebaseDb.collection(getTableName(otherUserId, mineId!!))
+        val tableId = getSingleHashCodeFrom(otherUserId, mineId!!)
+        val tableName = "${tableId}${FirebaseConstants.chat_table_post_fix}"
+        firebaseDb.collection(tableName)
             .document(msgId)
-            .set(getMessageMap(text, mineId, msgId))
+            .set(getChatMap(text, mineId, msgId))
             .addOnCompleteListener {
                 Timber.i("message send successfully")
                 result = true
@@ -56,7 +68,7 @@ class FirebaseChatSource :
         return result
     }
 
-    private fun getMessageMap(msg: String, senderId: String, chatId: String): HashMap<String, Any> {
+    private fun getChatMap(msg: String, senderId: String, chatId: String): HashMap<String, Any> {
         val result = HashMap<String, Any>()
         result[FirebaseConstants.chat_id] = chatId
         result[FirebaseConstants.sender_id] = senderId
@@ -68,7 +80,9 @@ class FirebaseChatSource :
 
     override fun getMessage(otherUserId: String, listener: IChatListener) {
         var result = mutableListOf<Chat>()
-        firebaseDb.collection(getTableName(otherUserId, mineId!!))
+        val tableId = getSingleHashCodeFrom(otherUserId, mineId!!)
+        val tableName = "${tableId}${FirebaseConstants.chat_table_post_fix}"
+        firebaseDb.collection(tableName)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.e("listen:error")
@@ -94,12 +108,11 @@ class FirebaseChatSource :
         return result
     }
 
-    private fun getTableName(otherUserId: String, mineId: String): String {
+    private fun getSingleHashCodeFrom(otherUserId: String, mineId: String): String {
         val ids = arrayOf(otherUserId, mineId)
         ids.sort()
         val hash1 = Utils.getHash(ids[0])
         val hash2 = Utils.getHash(ids[1])
-        val result = Utils.getHash("$hash1$hash2")
-        return "$result${FirebaseConstants.chat_table_post_fix}"
+        return Utils.getHash("$hash1$hash2")
     }
 }
