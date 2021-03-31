@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hi.dear.databinding.FragmentMessageBinding
 import com.hi.dear.repo.MessageRepository
-import com.hi.dear.source.local.LocalMessageSource
+import com.hi.dear.source.remote.FirebaseMsgSource
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.base.BaseFragment
 
@@ -31,7 +31,7 @@ class MessageFragment : BaseFragment<FragmentMessageBinding, MessageViewModel>()
     override fun initViewModel(): MessageViewModel? {
         return ViewModelProvider(
             this,
-            ViewModelFactory(MessageRepository(LocalMessageSource(requireActivity().application)))
+            ViewModelFactory(MessageRepository(FirebaseMsgSource()))
         )
             .get(MessageViewModel::class.java)
     }

@@ -1,11 +1,10 @@
 package com.hi.dear.ui
 
 object FirebaseConstants {
-    const val last_message_table_post_fix = "msg"
+    const val last_message_table_name = "msg"
     const val msg = "msg"
-    const val sender_pic = "pic"
-    const val sender_name = "name"
     const val sender_id = "senderId"
+    const val receiver_id = "receiverId"
     const val chat_id = "id"
     const val chat_table_post_fix = "chat"
     const val statusField = "status"

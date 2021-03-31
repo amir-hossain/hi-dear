@@ -15,7 +15,7 @@ import com.hi.dear.ui.base.BaseViewHolder
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MsgAdapter : ListAdapter<Chat, BaseViewHolder>(GridViewDiffCallback) {
+class ChatAdapter : ListAdapter<Chat, BaseViewHolder>(GridViewDiffCallback) {
     private val df = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     companion object GridViewDiffCallback : DiffUtil.ItemCallback<Chat>() {

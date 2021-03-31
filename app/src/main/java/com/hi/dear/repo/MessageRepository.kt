@@ -7,9 +7,9 @@ import com.hi.dear.ui.fragment.message.MessageData
 
 class MessageRepository(private val dataSource: IMessageDataSource) : IRepository {
 
-    fun getMessageData(): RawResult<MutableList<MessageData>> {
+    suspend fun getMessageData(): RawResult<MutableList<MessageData>> {
 
-        val result = dataSource.getData()
+        val result = dataSource.getMessage()
 
         return if (result != null) {
             RawResult.Success(result)

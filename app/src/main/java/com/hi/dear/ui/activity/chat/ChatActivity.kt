@@ -16,7 +16,7 @@ import com.hi.dear.ui.base.BaseActivity
 
 class ChatActivity : BaseActivity<ActivityChatBinding, ChatViewModel>() {
 
-    private lateinit var adapter: MsgAdapter
+    private lateinit var adapter: ChatAdapter
     private var count = 0
 
     override fun initViewBinding(): ActivityChatBinding {
@@ -36,7 +36,7 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatViewModel>() {
             onBackPressed()
         }
 
-        adapter = MsgAdapter()
+        adapter = ChatAdapter()
         binding.recyclerView.layoutAnimation = null
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = adapter
