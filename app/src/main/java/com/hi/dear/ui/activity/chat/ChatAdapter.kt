@@ -73,7 +73,7 @@ class ChatAdapter : ListAdapter<Chat, BaseViewHolder>(GridViewDiffCallback) {
             holder.binding.message.text = data.text
             Glide
                 .with(holder.itemView.context)
-                .load(R.drawable.sample_profile_2)
+                .load(data.photoUrl)
                 .into(holder.binding.image)
             holder.binding.time.text = df.format(Date())
         } else if (holder is RightMsgViewHolder) {

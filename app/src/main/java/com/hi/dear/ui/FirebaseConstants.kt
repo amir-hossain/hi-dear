@@ -1,6 +1,7 @@
 package com.hi.dear.ui
 
 object FirebaseConstants {
+    const val time_field = "time"
     const val last_message_table_name = "msg"
     const val msg = "msg"
     const val sender_id = "senderId"

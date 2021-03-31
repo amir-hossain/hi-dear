@@ -75,6 +75,7 @@ class FirebaseChatSource :
         result[FirebaseConstants.userNameField] = prefsManager.readString(PrefsManager.UserName)!!
         result[FirebaseConstants.pictureField] = prefsManager.readString(PrefsManager.Pic)!!
         result[FirebaseConstants.msg] = msg
+        result[FirebaseConstants.time_field] = System.currentTimeMillis()
         return result
     }
 
@@ -83,6 +84,7 @@ class FirebaseChatSource :
         val tableId = getSingleHashCodeFrom(otherUserId, mineId)
         val tableName = "${tableId}${FirebaseConstants.chat_table_post_fix}"
         firebaseDb.collection(tableName)
+            .orderBy(FirebaseConstants.time_field)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Timber.e("listen:error")
