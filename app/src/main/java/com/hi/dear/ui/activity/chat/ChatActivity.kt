@@ -79,7 +79,6 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatViewModel>() {
                 adapter.submitList(it.data)
                 adapter.notifyDataSetChanged()
                 binding.recyclerView.smoothScrollToPosition(adapter.itemCount)
-
             } else {
                 showToast(getString(loginResult.msg))
             }

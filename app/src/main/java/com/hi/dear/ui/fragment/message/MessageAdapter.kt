@@ -15,7 +15,7 @@ class MessageAdapter(private val listener: IMessageClickListener?) : BaseAdapter
     override fun bindView(holder: BaseViewHolder, data: MessageData) {
         if (holder is MessageViewHolder) {
             Glide.with(context)
-                .load(data.image)
+                .load(data.picture)
                 .into(holder.binding.image)
 
             if (data.online_visibility) {
@@ -39,13 +39,6 @@ class MessageAdapter(private val listener: IMessageClickListener?) : BaseAdapter
                 holder.binding.newMessage.visibility = View.GONE
             }
             holder.binding.date.text = data.time
-
-            if (data.isClicked) {
-                holder.binding.clickLayout.visibility = View.VISIBLE
-            } else {
-                holder.binding.clickLayout.visibility = View.GONE
-            }
-
         }
     }
 
@@ -59,16 +52,12 @@ class MessageAdapter(private val listener: IMessageClickListener?) : BaseAdapter
         constructor(view: View) : super(view) {
             binding = MessageItemBinding.bind(view)
             view.setOnClickListener {
-                dataList[adapterPosition].isClicked = !dataList[adapterPosition].isClicked
-                notifyItemChanged(adapterPosition)
+                listener?.onItemClick(dataList[adapterPosition])
             }
-            binding.btnBlock.setOnClickListener { listener?.onBlockClick(dataList[adapterPosition]) }
-            binding.btnBrowse.setOnClickListener { listener?.onBrowseClick(dataList[adapterPosition]) }
         }
     }
 
     interface IMessageClickListener {
-        fun onBlockClick(data: MessageData)
-        fun onBrowseClick(data: MessageData)
+        fun onItemClick(data: MessageData)
     }
 }

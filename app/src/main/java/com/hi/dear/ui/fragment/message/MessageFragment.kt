@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.FragmentMessageBinding
 import com.hi.dear.repo.MessageRepository
 import com.hi.dear.source.remote.FirebaseMsgSource
 import com.hi.dear.ui.activity.ViewModelFactory
+import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.base.BaseFragment
 
 
@@ -15,14 +17,6 @@ class MessageFragment : BaseFragment<FragmentMessageBinding, MessageViewModel>()
     MessageAdapter.IMessageClickListener {
 
     private lateinit var adapter: MessageAdapter
-
-    override fun onBlockClick(data: MessageData) {
-
-    }
-
-    override fun onBrowseClick(data: MessageData) {
-
-    }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentMessageBinding {
         return FragmentMessageBinding.inflate(inflater)
@@ -60,6 +54,13 @@ class MessageFragment : BaseFragment<FragmentMessageBinding, MessageViewModel>()
     }
 
     override fun initLoadingView(isLoading: Boolean) {
+    }
+
+    override fun onItemClick(data: MessageData) {
+        if (data is UserCore) {
+            ChatActivity.start(requireContext(), data)
+        }
+
     }
 
 }

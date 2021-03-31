@@ -35,8 +35,9 @@ class FirebaseMsgSource :
         var dataList = mutableListOf<MessageData>()
         for (document in result) {
             val data = MessageData()
+            data.id = document[FirebaseConstants.sender_id].toString()
             data.name = document[FirebaseConstants.userNameField].toString()
-            data.image = document[FirebaseConstants.pictureField].toString()
+            data.picture = document[FirebaseConstants.pictureField].toString()
             data.message = document[FirebaseConstants.msg].toString()
             dataList.add(data)
         }
