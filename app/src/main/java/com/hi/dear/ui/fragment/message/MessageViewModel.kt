@@ -2,25 +2,23 @@ package com.hi.dear.ui.fragment.message
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.hi.dear.R
-import com.hi.dear.data.RawResult
 import com.hi.dear.repo.MessageRepository
 import com.hi.dear.ui.activity.ActionResult
-import kotlinx.coroutines.launch
 
-class MessageViewModel(private val repository: MessageRepository) : ViewModel() {
+class MessageViewModel(private val repository: MessageRepository) : ViewModel(), IMsgListener {
 
     val liveResult = MutableLiveData<ActionResult<MutableList<MessageData>>>()
 
     fun getMessage() {
-        viewModelScope.launch {
-            val result = repository.getMessageData()
-            if (result is RawResult.Success) {
-                liveResult.value = ActionResult(true, R.string.registration_success, result.data)
-            } else {
-                liveResult.value = ActionResult(false, R.string.registration_failed, null)
-            }
-        }
+        repository.getMessageData(this)
+    }
+
+    override fun incomingMsg(messageList: MutableList<MessageData>) {
+        liveResult.value = ActionResult(true, R.string.registration_success, messageList)
+    }
+
+    override fun inComingMsgFailed() {
+        liveResult.value = ActionResult(false, R.string.registration_failed, null)
     }
 }

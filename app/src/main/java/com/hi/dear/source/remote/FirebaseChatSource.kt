@@ -27,7 +27,7 @@ class FirebaseChatSource :
     private suspend fun saveLastMsg(otherUserId: String, text: String): Boolean {
         var result = false
         firebaseDb.collection(FirebaseConstants.last_message_table_name)
-            .document(otherUserId)
+            .document(mineId)
             .set(getMsgMap(text, otherUserId))
             .addOnCompleteListener {
                 Timber.i("last message saved successfully")

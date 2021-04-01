@@ -1,13 +1,15 @@
 package com.hi.dear.source.remote
 
 
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.hi.dear.source.IMessageDataSource
 import com.hi.dear.ui.FirebaseConstants
 import com.hi.dear.ui.PrefsManager
+import com.hi.dear.ui.fragment.message.IMsgListener
 import com.hi.dear.ui.fragment.message.MessageData
-import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 
 
 class FirebaseMsgSource :
@@ -16,31 +18,51 @@ class FirebaseMsgSource :
     private var firebaseDb: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val mineId = prefsManager.readString(PrefsManager.UserId)
 
-    override suspend fun getMessage(): MutableList<MessageData> {
+    override fun getMessage(listener: IMsgListener) {
         var result = mutableListOf<MessageData>()
-
         firebaseDb.collection(FirebaseConstants.last_message_table_name)
             .whereEqualTo(FirebaseConstants.receiver_id, mineId)
-            .get()
-            .addOnCompleteListener {
-                if (it.isSuccessful && it.result != null) {
-                    result = getMessageDataFrom(it.result!!.documents)
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Timber.e("listen:error")
+                    return@addSnapshotListener
                 }
+
+                for (dc in snapshots!!.documentChanges) {
+                    when (dc.type) {
+                        DocumentChange.Type.ADDED -> {
+                            result.add(getMessageDataFrom(dc.document))
+                            listener.incomingMsg(result)
+                        }
+                        DocumentChange.Type.MODIFIED -> {
+                            val data = getMessageDataFrom(dc.document)
+                            listener.incomingMsg(updateList(result, data))
+                        }
+                    }
+                }
+
             }
-            .await()
+    }
+
+    private fun updateList(
+        result: MutableList<MessageData>,
+        data: MessageData
+    ): MutableList<MessageData> {
+        for (i in result.indices) {
+            if (result[i].id == data.id) {
+                result.removeAt(i)
+                result.add(0, data)
+            }
+        }
         return result
     }
 
-    private fun getMessageDataFrom(result: MutableList<DocumentSnapshot>): MutableList<MessageData> {
-        var dataList = mutableListOf<MessageData>()
-        for (document in result) {
-            val data = MessageData()
-            data.id = document[FirebaseConstants.sender_id].toString()
-            data.name = document[FirebaseConstants.userNameField].toString()
-            data.picture = document[FirebaseConstants.pictureField].toString()
-            data.message = document[FirebaseConstants.msg].toString()
-            dataList.add(data)
-        }
-        return dataList
+    private fun getMessageDataFrom(snap: QueryDocumentSnapshot): MessageData {
+        val data = MessageData()
+        data.id = snap[FirebaseConstants.sender_id].toString()
+        data.name = snap[FirebaseConstants.userNameField].toString()
+        data.picture = snap[FirebaseConstants.pictureField].toString()
+        data.message = snap[FirebaseConstants.msg].toString()
+        return data
     }
 }

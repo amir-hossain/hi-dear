@@ -1,8 +1,8 @@
 package com.hi.dear.source
 
 
-import com.hi.dear.ui.fragment.message.MessageData
+import com.hi.dear.ui.fragment.message.IMsgListener
 
 interface IMessageDataSource {
-    suspend fun getMessage(): MutableList<MessageData>
+    fun getMessage(listener: IMsgListener)
 }

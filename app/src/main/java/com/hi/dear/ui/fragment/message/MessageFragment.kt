@@ -36,7 +36,8 @@ class MessageFragment : BaseFragment<FragmentMessageBinding, MessageViewModel>()
         viewModel?.liveResult?.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
             if (result.success) {
-                adapter.addData(result.data!!)
+                adapter.submitList(result.data!!)
+                adapter.notifyDataSetChanged()
             } else {
                 showToast(getString(result.msg))
             }
