@@ -6,4 +6,10 @@ object Constant {
     const val requestDeclined = "declined"
     const val male = "male"
     const val female = "female"
+
+    const val browseFragmentTitle = "Browse"
+    const val messageFragmentTitle = "Messages"
+    const val matchFragmentTitle = "Match Request"
+    const val tipsFragmentTitle = "Love Tips"
+    const val settingFragmentTitle = "Setting"
 }

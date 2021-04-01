@@ -98,4 +98,5 @@
     <string name="chat_now">Chat now</string>
     <string name="chat_sent_failed">Message sent failed</string>
     <string name="chat_sent_success">chat sent success</string>
+    <string name="coming_soon">coming soon</string>
 </resources>

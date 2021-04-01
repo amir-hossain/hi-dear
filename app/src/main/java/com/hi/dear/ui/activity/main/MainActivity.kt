@@ -15,6 +15,11 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hi.dear.R
 import com.hi.dear.databinding.ActivityMainBinding
+import com.hi.dear.ui.Constant.browseFragmentTitle
+import com.hi.dear.ui.Constant.matchFragmentTitle
+import com.hi.dear.ui.Constant.messageFragmentTitle
+import com.hi.dear.ui.Constant.settingFragmentTitle
+import com.hi.dear.ui.Constant.tipsFragmentTitle
 import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.base.BaseActivity
 
@@ -24,12 +29,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navAdapter: NavigationRVAdapter
-
-    private val browseFragmentTitle = "Browse"
-    private val messageFragmentTitle = "Messages"
-    private val matchFragmentTitle = "Match Request"
-    private val tipsFragmentTitle = "Love Tips"
-    private val settingFragmentTitle = "Setting"
 
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.ic_browse, browseFragmentTitle),
@@ -82,7 +81,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
     override fun onClick(view: View, position: Int) {
         when (position) {
             0 -> {
-                toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
                 binding.toolbarLayout.toolbarTitle.text = browseFragmentTitle
                 navController.navigate(R.id.browse_fragment)
             }
@@ -92,21 +90,20 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
                 navController.navigate(R.id.message_fragment)
             }
             2 -> {
-                toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
+
                 binding.toolbarLayout.toolbarTitle.text = matchFragmentTitle
                 navController.navigate(R.id.match_fragment)
             }
             3 -> {
-                toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
                 binding.toolbarLayout.toolbarTitle.text = tipsFragmentTitle
                 navController.navigate(R.id.tips_fragment)
             }
             4 -> {
-                toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
                 binding.toolbarLayout.toolbarTitle.text = settingFragmentTitle
                 navController.navigate(R.id.setting_fragment)
             }
         }
+        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
         navAdapter.highlight(position)
         Handler(Looper.myLooper()!!).postDelayed({
             drawerLayout.closeDrawer(GravityCompat.START)

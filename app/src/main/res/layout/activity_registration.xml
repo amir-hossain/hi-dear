@@ -260,6 +260,7 @@
                 android:background="@drawable/button_background"
                 android:padding="@dimen/dp_10"
                 android:text="@string/signup"
+                android:ems="5"
                 android:textAllCaps="true"
                 android:textAlignment="center"
                 android:textColor="@color/white"

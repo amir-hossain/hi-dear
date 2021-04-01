@@ -103,6 +103,7 @@
                 android:background="@drawable/button_background"
                 android:padding="@dimen/dp_10"
                 android:text="@string/login"
+                android:ems="5"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="13sp" />

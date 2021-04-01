@@ -14,13 +14,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/loading"
+            android:text="@string/coming_soon"
             android:textColor="@color/primary"
             android:textSize="33sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
             android:id="@+id/splash_img"
@@ -36,8 +37,8 @@
             android:id="@+id/splash_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="splash_img,splash_txt"
-            android:visibility="visible" />
+            app:constraint_referenced_ids="splash_img"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tips_title"

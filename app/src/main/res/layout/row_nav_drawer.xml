@@ -1,31 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="44dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_marginTop="@dimen/dp_10"
-    android:paddingStart="10dp"
-    android:paddingEnd="0dp">
+    android:paddingStart="10dp">
 
     <ImageView
         android:id="@+id/navigation_icon"
-        android:layout_width="35sp"
-        android:layout_height="35sp"
-        android:layout_gravity="center_vertical"
-        android:scaleType="centerInside"
-        tools:src="@android:drawable/btn_star_big_on"
-        tools:ignore="ContentDescription" />
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@android:drawable/btn_star_big_on" />
 
     <TextView
         android:id="@+id/navigation_title"
-        android:layout_width="match_parent"
-        android:layout_height="35sp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="7sp"
-        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textColor="@color/blue_black"
+        android:textSize="@dimen/dp_16"
+        android:maxEms="9"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="Custom Navigation Drawer Row"
-        android:textSize="18sp" />
+        android:layout_marginStart="@dimen/dp_16"
+        app:layout_constraintStart_toEndOf="@id/navigation_icon"
+        app:layout_constraintTop_toTopOf="@id/navigation_icon"
+        app:layout_constraintBottom_toBottomOf="@id/navigation_icon" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
+        android:paddingStart="@dimen/dp_8"
+        android:paddingEnd="@dimen/dp_8"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:layout_marginStart="@dimen/dp_8"
+        android:text="@string/coming_soon"
+        android:textColor="@color/white"
+        android:textSize="9sp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintStart_toEndOf="@id/navigation_title"
+        app:layout_constraintTop_toTopOf="@id/navigation_title"
+        app:layout_constraintBottom_toBottomOf="@id/navigation_title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

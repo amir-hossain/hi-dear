@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.hi.dear.R
+import com.hi.dear.databinding.RowNavDrawerBinding
+import com.hi.dear.ui.Constant
 
 class NavigationRVAdapter(
     private var items: ArrayList<NavigationItemModel>,
@@ -46,10 +46,15 @@ class NavigationRVAdapter(
                 )
             )
         }
+        val title = items[position].title
+        holder.binding.navigationTitle.text = title
+        if (title == Constant.tipsFragmentTitle) {
+            holder.binding.tag.visibility = View.VISIBLE
+        } else {
+            holder.binding.tag.visibility = View.GONE
+        }
 
-        holder.navigationTitle.text = items[position].title
-
-        holder.navigationIcon.setImageResource(items[position].icon)
+        holder.binding.navigationIcon.setImageResource(items[position].icon)
 
     }
 
@@ -59,12 +64,10 @@ class NavigationRVAdapter(
     }
 
     inner class NavigationItemViewHolder : RecyclerView.ViewHolder {
-        var navigationIcon: ImageView
-        var navigationTitle: TextView
+        var binding: RowNavDrawerBinding
 
         constructor(itemView: View) : super(itemView) {
-            navigationIcon = itemView.findViewById(R.id.navigation_icon)
-            navigationTitle = itemView.findViewById(R.id.navigation_title)
+            binding = RowNavDrawerBinding.bind(itemView)
             itemView.setOnClickListener {
                 clickListener?.onClick(itemView, adapterPosition)
             }
