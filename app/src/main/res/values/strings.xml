@@ -101,4 +101,6 @@
     <string name="coming_soon">coming soon</string>
     <string name="email_client_not_found">No email app installed</string>
     <string name="gallery_app_not_found">No gallery app installed</string>
+    <string name="drawer">Drawer</string>
+    <string name="chat">Chat</string>
 </resources>

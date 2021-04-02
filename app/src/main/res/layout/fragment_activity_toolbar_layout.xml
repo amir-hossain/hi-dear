@@ -43,7 +43,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/brand_secondary_color"
-                        android:text="drawer"
+                        android:text="@string/drawer"
+                        android:textAllCaps="true"
                         android:textSize="12sp"
                         android:layout_marginTop="4dp" />
                 </LinearLayout>
@@ -60,16 +61,33 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <ImageView
+                <LinearLayout
                     android:id="@+id/message_btn"
-                    android:layout_width="30dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/ic_message"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:gravity="center_vertical"
                     android:layout_marginEnd="@dimen/dp_16"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_16"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_message"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/brand_secondary_color"
+                        android:text="@string/chat"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/new_message"
