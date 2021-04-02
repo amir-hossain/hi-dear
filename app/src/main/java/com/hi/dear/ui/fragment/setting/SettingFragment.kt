@@ -1,9 +1,11 @@
 package com.hi.dear.ui.fragment.setting
 
-import android.os.Bundle
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import androidx.lifecycle.ViewModel
+import com.hi.dear.BuildConfig
 import com.hi.dear.R
 import com.hi.dear.databinding.FragmentSettingBinding
 import com.hi.dear.ui.DialogFactory
@@ -13,17 +15,8 @@ import com.hi.dear.ui.base.BaseFragment
 class SettingFragment : BaseFragment<FragmentSettingBinding, ViewModel>(),
     DialogFactory.ITwoBtnListener {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-    }
-
-    override fun onPositiveBtnClicked() {
-
-    }
-
-    override fun onNegativeBtnClicked() {
-
-    }
+    private lateinit var emailDefaultSubject: String
+    private val emailAddress = arrayOf("hidearapp@gmail.com")
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentSettingBinding {
         return FragmentSettingBinding.inflate(inflater)
@@ -34,6 +27,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, ViewModel>(),
     }
 
     override fun initView() {
+        emailDefaultSubject =
+            "Feedback about ${getString(R.string.app_name)} (${BuildConfig.VERSION_NAME})"
+
         binding.btnLogout.setOnClickListener {
             DialogFactory.makeDialog(R.string.logout_msg, this)
                 .showDialog(activity?.supportFragmentManager)
@@ -42,14 +38,37 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, ViewModel>(),
             DialogFactory.makeDialog(R.string.account_delete_message, this)
                 .showDialog(activity?.supportFragmentManager)
         }
+
+        binding.btnContactUs.setOnClickListener {
+            val mailIntent = Intent(Intent.ACTION_SENDTO)
+            mailIntent.data = Uri.parse("mailto:")
+            mailIntent.putExtra(Intent.EXTRA_EMAIL, emailAddress)
+            mailIntent.putExtra(Intent.EXTRA_SUBJECT, emailDefaultSubject)
+            open(mailIntent)
+        }
+    }
+
+    private fun open(intent: Intent) {
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            showToast(R.string.email_client_not_found)
+        }
     }
 
     override fun initLoadingView(isLoading: Boolean) {
-        TODO("Not yet implemented")
     }
 
     override fun attachObserver(viewModel: ViewModel?) {
-        TODO("Not yet implemented")
+
+    }
+
+    override fun onPositiveBtnClicked() {
+
+    }
+
+    override fun onNegativeBtnClicked() {
+
     }
 
 }

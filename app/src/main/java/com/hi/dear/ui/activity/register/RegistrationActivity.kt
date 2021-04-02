@@ -2,6 +2,7 @@ package com.hi.dear.ui.activity.register
 
 import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.database.Cursor
 import android.provider.MediaStore
@@ -198,11 +199,10 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
 
     @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     fun showGallery() {
-        val intent = Intent()
-        intent.type = IMAGE_MIME_TYPE
-        intent.action = Intent.ACTION_PICK
-
-        startActivityForResult(Intent.createChooser(intent, "Chose Image"), GALLERY_REQUEST_CODE)
+        val galleryIntent = Intent()
+        galleryIntent.type = IMAGE_MIME_TYPE
+        galleryIntent.action = Intent.ACTION_PICK
+        open(galleryIntent)
         Timber.i("showGallery called")
     }
 
@@ -270,5 +270,13 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
         }
         cursor.close()
         return null
+    }
+
+    private fun open(intent: Intent) {
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            showToast(R.string.gallery_app_not_found)
+        }
     }
 }

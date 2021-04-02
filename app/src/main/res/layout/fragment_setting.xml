@@ -47,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_32"
-                android:enabled="false"
                 android:backgroundTint="@color/white"
                 android:background="@drawable/button_background"
                 android:padding="@dimen/dp_10"
