@@ -1,6 +1,7 @@
 package com.hi.dear.ui.activity.login
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,16 +24,12 @@ import com.hi.dear.ui.base.BaseActivity
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
-    private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editable: Editable?) {
-                afterTextChanged.invoke(editable.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
+    companion object {
+        fun open(context: Context) {
+            val intent = Intent(context, LoginActivity::class.java)
+            intent.flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            context.startActivity(intent)
+        }
     }
 
     override fun initViewBinding(): ActivityLoginBinding {
@@ -138,6 +135,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             binding.loading.visibility = View.GONE
             Utils.enableView(binding.login)
         }
+    }
+
+    private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+        this.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editable: Editable?) {
+                afterTextChanged.invoke(editable.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
     }
 }
 

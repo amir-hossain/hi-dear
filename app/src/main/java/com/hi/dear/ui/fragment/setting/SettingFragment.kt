@@ -9,14 +9,26 @@ import com.hi.dear.BuildConfig
 import com.hi.dear.R
 import com.hi.dear.databinding.FragmentSettingBinding
 import com.hi.dear.ui.DialogFactory
+import com.hi.dear.ui.PrefsManager
+import com.hi.dear.ui.activity.login.LoginActivity
 import com.hi.dear.ui.base.BaseFragment
 
 
-class SettingFragment : BaseFragment<FragmentSettingBinding, ViewModel>(),
-    DialogFactory.ITwoBtnListener {
+class SettingFragment : BaseFragment<FragmentSettingBinding, ViewModel>() {
 
     private lateinit var emailDefaultSubject: String
     private val emailAddress = arrayOf("hidearapp@gmail.com")
+
+    private val logoutBtnListener = object : DialogFactory.ITwoBtnListener {
+        override fun onPositiveBtnClicked() {
+            PrefsManager.getInstance().clearData()
+            LoginActivity.open(requireContext())
+        }
+
+        override fun onNegativeBtnClicked() {
+
+        }
+    }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentSettingBinding {
         return FragmentSettingBinding.inflate(inflater)
@@ -31,11 +43,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, ViewModel>(),
             "Feedback about ${getString(R.string.app_name)} (${BuildConfig.VERSION_NAME})"
 
         binding.btnLogout.setOnClickListener {
-            DialogFactory.makeDialog(R.string.logout_msg, this)
+            DialogFactory.makeDialog(R.string.logout_msg, logoutBtnListener)
                 .showDialog(activity?.supportFragmentManager)
         }
         binding.btnDelete.setOnClickListener {
-            DialogFactory.makeDialog(R.string.account_delete_message, this)
+            DialogFactory.makeDialog(R.string.account_delete_message, logoutBtnListener)
                 .showDialog(activity?.supportFragmentManager)
         }
 
@@ -62,13 +74,4 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, ViewModel>(),
     override fun attachObserver(viewModel: ViewModel?) {
 
     }
-
-    override fun onPositiveBtnClicked() {
-
-    }
-
-    override fun onNegativeBtnClicked() {
-
-    }
-
 }

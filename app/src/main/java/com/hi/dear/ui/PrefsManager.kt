@@ -25,14 +25,15 @@ class PrefsManager private constructor() {
                     }
                 }
             }
-                return sharePref
-            }
+            return sharePref
         }
+    }
 
-    fun writeFloat(key:String,value: Float) {
+    fun writeFloat(key: String, value: Float) {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putFloat(key, value)
-        editor.apply()
+        editor
+            .putFloat(key, value)
+            .apply()
     }
 
     fun readFloat(key: String): Float {
@@ -41,14 +42,16 @@ class PrefsManager private constructor() {
 
     fun writeInt(key: String, value: Int) {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putInt(key, value)
-        editor.apply()
+        editor
+            .putInt(key, value)
+            .apply()
     }
 
     fun writeLong(key: String, value: Long) {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putLong(key, value)
-        editor.apply()
+        editor
+            .putLong(key, value)
+            .apply()
     }
 
     fun readInt(key: String): Int {
@@ -61,8 +64,9 @@ class PrefsManager private constructor() {
 
     fun writeString(key: String, value: String) {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putString(key, value)
-        editor.apply()
+        editor
+            .putString(key, value)
+            .apply()
     }
 
     fun readString(key: String): String? {
@@ -71,11 +75,20 @@ class PrefsManager private constructor() {
 
     fun writeBoolean(key: String, value: Boolean) {
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
-        editor.putBoolean(key, value)
-        editor.apply()
+        editor
+            .putBoolean(key, value)
+            .apply()
     }
 
-    fun readBoolean(key:String): Boolean {
+    fun readBoolean(key: String): Boolean {
         return sharedPreferences.getBoolean(key, false)
+    }
+
+    fun clearData() {
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor
+            .clear()
+            .commit()
+
     }
 }
