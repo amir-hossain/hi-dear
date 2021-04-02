@@ -11,13 +11,17 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.hi.dear.R
+import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityMainBinding
 import com.hi.dear.ui.Constant.browseFragmentTitle
 import com.hi.dear.ui.Constant.matchFragmentTitle
 import com.hi.dear.ui.Constant.messageFragmentTitle
 import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
+import com.hi.dear.ui.PrefsManager
+import com.hi.dear.ui.activity.match.ProfileActivity
 import com.hi.dear.ui.base.BaseActivity
 
 
@@ -147,8 +151,28 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
         binding.toolbarLayout.toggleBtn.setOnClickListener {
             toggleDrawer()
         }
-
         binding.toolbarLayout.toolbar.navigationIcon = null
+
+        val myData = getMyUserData()
+        Glide
+            .with(this)
+            .load(myData.picture)
+            .into(binding.profileImage)
+
+        binding.name.text = myData.name
+
+        binding.editBtn.setOnClickListener {
+            ProfileActivity.start(this, myData)
+        }
+    }
+
+    private fun getMyUserData(): UserCore {
+        var userData = UserCore()
+        userData.picture = PrefsManager.getInstance().readString(PrefsManager.Pic)!!
+        userData.id = PrefsManager.getInstance().readString(PrefsManager.UserId)!!
+        userData.name = PrefsManager.getInstance().readString(PrefsManager.UserName)!!
+        userData.gender = PrefsManager.getInstance().readString(PrefsManager.Gender)!!
+        return userData
     }
 
     private fun toggleDrawer() {
