@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/almost_white">
+    android:background="@color/background_color">
 
     <TextView
         android:id="@+id/see_details"
@@ -47,7 +47,7 @@
         android:ems="10"
         android:maxLines="1"
         android:text="Benjamin"
-        android:textColor="@color/blue_black"
+        android:textColor="@color/brand_secondary_color"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/cross_btn"

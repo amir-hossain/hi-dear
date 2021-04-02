@@ -35,7 +35,7 @@ class NavigationRVAdapter(
             holder.itemView.setBackgroundColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.transparent_primary
+                    R.color.color_selected
                 )
             )
         } else {

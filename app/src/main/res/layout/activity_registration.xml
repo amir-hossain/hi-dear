@@ -274,7 +274,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/login_prompt"
-                android:textColor="@color/primary"
+                android:textColor="@color/brand_color"
                 android:textSize="14sp"
                 android:padding="@dimen/dp_10"
                 app:layout_constraintBottom_toBottomOf="@id/sign_up_btn"

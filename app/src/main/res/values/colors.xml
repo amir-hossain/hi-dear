@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="red_700">#d32f2f</color>
-    <color name="red_500">#f44336</color>
-    <color name="gray_500">#9e9e9e</color>
-    <color name="primary">#F10404</color>
-    <color name="blue_black">#383838</color>
-    <color name="transparent_black">#45000000</color>
-    <color name="white_65_percent">#A6FFFFFF</color>
-    <color name="transparent_primary">#4DF10404</color>
-    <color name="almost_white">#EFEFEF</color>
+    <color name="brand_color">#F10404</color>
+    <color name="brand_secondary_color">#383838</color>
+    <color name="black_overlay">#45000000</color>
+    <color name="color_selected">#4DF10404</color>
+    <color name="background_color">#EFEFEF</color>
     <color name="green">#54D586</color>
-    <color name="gray">#EAEAEA</color>
+    <color name="gray">#9e9e9e</color>
+    <color name="divider_color">#EAEAEA</color>
     <color name="light_purple">#A1A4FD</color>
     <color name="blue">#0D04FB</color>
-    <color name="almost_white_lite">#FAFAFA</color>
+    <color name="heading_background">#FAFAFA</color>
     <color name="pink">#F24E86</color>
     <color name="blue_light">#68D1FD</color>
 </resources>

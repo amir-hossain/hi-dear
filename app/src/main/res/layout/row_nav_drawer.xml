@@ -22,7 +22,7 @@
         android:id="@+id/navigation_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue_black"
+        android:textColor="@color/brand_secondary_color"
         android:textSize="@dimen/dp_16"
         android:maxEms="9"
         android:maxLines="1"

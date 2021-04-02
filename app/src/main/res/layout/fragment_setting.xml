@@ -15,7 +15,7 @@
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/primary"
+            android:background="@color/brand_color"
             android:paddingTop="50dp"
             android:paddingBottom="50dp">
 
@@ -37,7 +37,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/you_want_to_make_the_most_out_of_hi_dear"
-                android:textColor="@color/gray"
+                android:textColor="@color/divider_color"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal" />
@@ -52,7 +52,7 @@
                 android:padding="@dimen/dp_10"
                 android:text="@string/contact_us"
                 android:textAlignment="center"
-                android:textColor="@color/primary"
+                android:textColor="@color/brand_color"
                 android:textSize="13sp"
                 android:ems="10"
                 android:layout_gravity="center_horizontal" />
@@ -63,11 +63,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/blue_black"
+            android:textColor="@color/brand_secondary_color"
             android:text="@string/general"
             android:textAllCaps="true"
             android:layout_gravity="center_horizontal"
-            android:background="@color/almost_white_lite"
+            android:background="@color/heading_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header"
             android:padding="@dimen/dp_16" />
@@ -76,7 +76,7 @@
             android:id="@+id/border1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/divider_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/heading_1" />
 
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/blue_black"
+            android:textColor="@color/brand_secondary_color"
             android:text="@string/my_current_location"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +115,7 @@
             android:id="@+id/border2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/divider_color"
             app:layout_constraintStart_toStartOf="@id/label1"
             app:layout_constraintEnd_toEndOf="@id/location"
             app:layout_constraintTop_toBottomOf="@id/label1" />
@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/blue_black"
+            android:textColor="@color/brand_secondary_color"
             android:text="@string/search_radius"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
@@ -155,7 +155,7 @@
             android:id="@+id/border3"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/divider_color"
             app:layout_constraintStart_toStartOf="@id/label2"
             app:layout_constraintEnd_toEndOf="@id/radius"
             app:layout_constraintTop_toBottomOf="@id/label2" />
@@ -165,7 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/blue_black"
+            android:textColor="@color/brand_secondary_color"
             android:text="@string/gender_preference"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +197,7 @@
             android:id="@+id/border4"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/divider_color"
             app:layout_constraintStart_toStartOf="@id/label3"
             app:layout_constraintEnd_toEndOf="@id/preference"
             app:layout_constraintTop_toBottomOf="@id/label3" />
@@ -207,11 +207,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/blue_black"
+            android:textColor="@color/brand_secondary_color"
             android:text="@string/privacy"
             android:textAllCaps="true"
             android:layout_gravity="center_horizontal"
-            android:background="@color/almost_white_lite"
+            android:background="@color/heading_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preference"
             android:padding="@dimen/dp_16" />
@@ -220,7 +220,7 @@
             android:id="@+id/border5"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/divider_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/heading_2" />
 
@@ -230,7 +230,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/blue_black"
+            android:textColor="@color/brand_secondary_color"
             android:text="@string/log_out"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
@@ -264,7 +264,7 @@
             android:id="@+id/border7"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/divider_color"
             app:layout_constraintStart_toStartOf="@id/label6"
             app:layout_constraintEnd_toEndOf="@id/btn_logout"
             app:layout_constraintTop_toBottomOf="@id/label6" />
@@ -275,7 +275,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/blue_black"
+            android:textColor="@color/brand_secondary_color"
             android:text="@string/delete_account"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
@@ -308,7 +308,7 @@
             android:id="@+id/border8"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/divider_color"
             app:layout_constraintStart_toStartOf="@id/label8"
             app:layout_constraintEnd_toEndOf="@id/btn_delete"
             app:layout_constraintTop_toBottomOf="@id/label8" />

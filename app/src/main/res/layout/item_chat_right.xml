@@ -11,7 +11,7 @@
     android:paddingTop="6dp"
     android:paddingEnd="8dp"
     android:paddingBottom="6dp"
-    tools:background="@color/almost_white">
+    tools:background="@color/background_color">
 
     <TextView
         android:id="@+id/message"
@@ -31,7 +31,7 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue_black"
+        android:textColor="@color/brand_secondary_color"
         android:textSize="12sp"
         tools:text="9:00"
         app:layout_constraintEnd_toEndOf="@id/message"
