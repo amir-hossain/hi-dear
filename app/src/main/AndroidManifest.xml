@@ -19,7 +19,7 @@
             android:name=".ui.activity.chat.ChatActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activity.match.MatchActivity"
+            android:name=".ui.activity.match.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.login.LoginActivity"

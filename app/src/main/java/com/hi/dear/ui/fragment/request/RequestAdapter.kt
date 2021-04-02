@@ -87,6 +87,11 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
                 var data = dataList[getPosition(view)]
                 listener?.onChatClick(data)
             }
+
+            binding.image.setOnClickListener {
+                var data = dataList[getPosition(view)]
+                listener?.onImageClick(data)
+            }
         }
     }
 
@@ -96,5 +101,6 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
         fun onAcceptClick(data: RequestData)
         fun onNoClick(data: RequestData)
         fun onChatClick(data: RequestData)
+        fun onImageClick(data: RequestData)
     }
 }

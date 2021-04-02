@@ -10,6 +10,7 @@ import com.hi.dear.repo.RequestRepository
 import com.hi.dear.source.remote.FirebaseRequestSource
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.chat.ChatActivity
+import com.hi.dear.ui.activity.match.ProfileActivity
 import com.hi.dear.ui.base.BaseFragment
 
 
@@ -36,11 +37,15 @@ class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>()
     }
 
     override fun onChatClick(data: RequestData) {
-        var userData: UserCore? = null
         if (data is UserCore) {
-            userData = data
+            ChatActivity.start(requireContext(), data)
         }
-        ChatActivity.start(requireContext(), userData)
+    }
+
+    override fun onImageClick(data: RequestData) {
+        if (data is UserCore) {
+            ProfileActivity.start(requireContext(), data)
+        }
     }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentRequestBinding {
