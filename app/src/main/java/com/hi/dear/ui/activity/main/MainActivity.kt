@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModel
@@ -26,7 +25,6 @@ import com.hi.dear.ui.base.BaseActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
     NavigationRVAdapter.ClickListener {
-    private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navAdapter: NavigationRVAdapter
 
@@ -85,7 +83,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
                 navController.navigate(R.id.browse_fragment)
             }
             1 -> {
-                toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
                 binding.toolbarLayout.toolbarTitle.text = messageFragmentTitle
                 navController.navigate(R.id.message_fragment)
             }
@@ -103,7 +100,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
                 navController.navigate(R.id.setting_fragment)
             }
         }
-        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
+        toggleDrawer()
         navAdapter.highlight(position)
         Handler(Looper.myLooper()!!).postDelayed({
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -141,32 +138,27 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
         setSupportActionBar(binding.toolbarLayout.toolbar)
         initAdapter()
         setFirstItem()
-        toggle = object : ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            binding.toolbarLayout.toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        ) {
-            override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
-                closeKeyboard()
-            }
-
-            override fun onDrawerOpened(drawerView: View) {
-                super.onDrawerOpened(drawerView)
-                closeKeyboard()
-            }
-        }
-        toggle.isDrawerIndicatorEnabled = false
-        toggle.setHomeAsUpIndicator(R.drawable.ic_toggle)
-        drawerLayout.addDrawerListener(toggle)
-
-        toggle.setToolbarNavigationClickListener { drawerLayout.openDrawer(GravityCompat.START) }
 
         binding.toolbarLayout.messageBtn.setOnClickListener {
             startActivity(Intent(this, ChatActivity::class.java))
         }
+
+        binding.toolbarLayout.toggleBtn.setOnClickListener {
+            toggleDrawer()
+        }
+
+        binding.toolbarLayout.toolbar.navigationIcon = null
+    }
+
+    private fun toggleDrawer() {
+        if (binding.drawerLayout.isOpen) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        closeKeyboard()
+        binding.toolbarLayout.toolbar.navigationIcon = null
     }
 
     override fun attachObserver(viewModel: ViewModel?) {
