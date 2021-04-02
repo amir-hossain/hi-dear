@@ -1,6 +1,5 @@
 package com.hi.dear.ui.activity.main
 
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -19,7 +18,6 @@ import com.hi.dear.ui.Constant.matchFragmentTitle
 import com.hi.dear.ui.Constant.messageFragmentTitle
 import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
-import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.base.BaseActivity
 
 
@@ -140,7 +138,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
         setFirstItem()
 
         binding.toolbarLayout.messageBtn.setOnClickListener {
-            startActivity(Intent(this, ChatActivity::class.java))
+            navController.navigate(R.id.message_fragment)
+            navAdapter.highlight(1)
+            binding.toolbarLayout.toolbar.navigationIcon = null
+            binding.toolbarLayout.toolbarTitle.text = messageFragmentTitle
         }
 
         binding.toolbarLayout.toggleBtn.setOnClickListener {
