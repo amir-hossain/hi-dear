@@ -14,6 +14,10 @@
         android:name="com.hi.dear.ui.fragment.message.MessageFragment"
         tools:layout="@layout/fragment_message" />
     <fragment
+        android:id="@+id/notification_fragment"
+        android:name="com.hi.dear.ui.fragment.notification.NotificationFragment"
+        tools:layout="@layout/fragment_notification" />
+    <fragment
         android:id="@+id/match_fragment"
         android:name="com.hi.dear.ui.fragment.request.RequestFragment"
         android:label=""

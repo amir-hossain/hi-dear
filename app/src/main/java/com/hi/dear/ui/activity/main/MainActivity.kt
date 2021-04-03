@@ -18,6 +18,7 @@ import com.hi.dear.databinding.ActivityMainBinding
 import com.hi.dear.ui.Constant.browseFragmentTitle
 import com.hi.dear.ui.Constant.matchFragmentTitle
 import com.hi.dear.ui.Constant.messageFragmentTitle
+import com.hi.dear.ui.Constant.notificationFragmentTitle
 import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
 import com.hi.dear.ui.PrefsManager
@@ -32,7 +33,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
 
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.ic_browse, browseFragmentTitle),
-        NavigationItemModel(R.drawable.ic_message, messageFragmentTitle),
+        NavigationItemModel(R.drawable.ic_message, notificationFragmentTitle),
         NavigationItemModel(R.drawable.ic_heart_2, matchFragmentTitle),
         NavigationItemModel(R.drawable.ic_star, tipsFragmentTitle),
         NavigationItemModel(R.drawable.ic_settings, settingFragmentTitle),
@@ -85,8 +86,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
                 navController.navigate(R.id.browse_fragment)
             }
             1 -> {
-                binding.toolbarLayout.toolbarTitle.text = messageFragmentTitle
-                navController.navigate(R.id.message_fragment)
+                binding.toolbarLayout.toolbarTitle.text = notificationFragmentTitle
+                navController.navigate(R.id.notification_fragment)
             }
             2 -> {
 

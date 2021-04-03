@@ -12,4 +12,7 @@ object Constant {
     const val matchFragmentTitle = "Match Request"
     const val tipsFragmentTitle = "Love Tips"
     const val settingFragmentTitle = "Setting"
+    const val notificationFragmentTitle = "Notifications"
+
+    const val notification_type_request_accepted = "requestAccepted"
 }

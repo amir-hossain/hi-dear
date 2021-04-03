@@ -103,4 +103,5 @@
     <string name="gallery_app_not_found">No gallery app installed</string>
     <string name="drawer">Drawer</string>
     <string name="chat">Chat</string>
+    <string name="notification_text"><![CDATA[<b>%s</b>%s]]></string>
 </resources>
