@@ -170,7 +170,17 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
                 binding.country.error = getString(registrationState.countryError)
             }
             if (registrationState.pictureError != null) {
-                binding.addBtn.error = getString(registrationState.pictureError)
+                binding.picError.text = getString(registrationState.pictureError)
+                binding.picError.visibility = View.VISIBLE
+                binding.picError.setCompoundDrawablesWithIntrinsicBounds(
+                    R.drawable.ic_error,
+                    0,
+                    0,
+                    0
+                )
+            } else {
+                binding.picError.visibility = View.GONE
+                binding.picError.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             }
         })
 
@@ -274,7 +284,10 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
 
     private fun open(intent: Intent) {
         try {
-            startActivity(intent)
+            startActivityForResult(
+                Intent.createChooser(intent, "Chose Image"),
+                GALLERY_REQUEST_CODE
+            )
         } catch (e: ActivityNotFoundException) {
             showToast(R.string.gallery_app_not_found)
         }

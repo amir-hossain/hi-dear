@@ -47,7 +47,10 @@ class RegisterViewModel(private val repo: RegistrationRepository) : BaseViewMode
         userName: String, age: String, password: String,
         gender: String, emailOrMobile: String, city: String, country: String, picture: File?
     ) {
-        if (userName.isBlank()) {
+        if (picture == null) {
+            registrationFormState.value =
+                RegistrationFormState(pictureError = R.string.invalid_picture)
+        } else if (userName.isBlank()) {
             registrationFormState.value =
                 RegistrationFormState(userNameError = R.string.user_name_empty)
         } else if (age.isBlank()) {
@@ -65,9 +68,6 @@ class RegisterViewModel(private val repo: RegistrationRepository) : BaseViewMode
         } else if (!isPasswordValid(password)) {
             registrationFormState.value =
                 RegistrationFormState(passwordError = R.string.invalid_password)
-        } else if (picture == null) {
-            registrationFormState.value =
-                RegistrationFormState(pictureError = R.string.invalid_picture)
         } else {
             registrationFormState.value = RegistrationFormState(isDataValid = true)
         }

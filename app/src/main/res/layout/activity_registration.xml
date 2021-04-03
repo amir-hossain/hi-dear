@@ -71,6 +71,20 @@
                 app:layout_constraintTop_toBottomOf="@id/profile_image" />
 
             <TextView
+                android:id="@+id/pic_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                tools:text="text"
+                android:textColor="@color/white"
+                android:drawablePadding="@dimen/dp_8"
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_btn" />
+
+            <TextView
                 android:id="@+id/label1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +93,7 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_btn" />
+                app:layout_constraintTop_toBottomOf="@id/pic_error" />
 
             <EditText
                 android:id="@+id/user_name"
