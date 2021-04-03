@@ -112,6 +112,12 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
-
+        if (position == mAdapter.itemCount - 1) {
+            binding.contentGroup.visibility = View.GONE
+            binding.emptyText.visibility = View.VISIBLE
+        } else {
+            binding.contentGroup.visibility = View.VISIBLE
+            binding.emptyText.visibility = View.GONE
+        }
     }
 }
