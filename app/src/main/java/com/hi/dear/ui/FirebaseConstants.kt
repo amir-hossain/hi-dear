@@ -1,6 +1,7 @@
 package com.hi.dear.ui
 
 object FirebaseConstants {
+    const val notification_type = "notificationType"
     const val time_field = "time"
     const val last_message_table_name = "msg"
     const val msg = "msg"
@@ -14,6 +15,7 @@ object FirebaseConstants {
     const val pictureField = "pic"
     const val userInfoTable = "userInfo"
     const val authInfoTable = "authInfo"
+    const val notificationTable = "notifications"
 
     const val ageField = "age"
     const val userNameField = "userName"

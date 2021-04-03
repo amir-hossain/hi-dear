@@ -33,15 +33,6 @@ class MessageFragment : BaseFragment<FragmentMessageBinding, MessageViewModel>()
     override fun initView() {
         initAdapter()
         viewModel?.getMessage()
-        viewModel?.liveResult?.observe(viewLifecycleOwner, Observer {
-            val result = it ?: return@Observer
-            if (result.success) {
-                adapter.submitList(result.data!!)
-                adapter.notifyDataSetChanged()
-            } else {
-                showToast(getString(result.msg))
-            }
-        })
     }
 
     private fun initAdapter() {
@@ -51,7 +42,15 @@ class MessageFragment : BaseFragment<FragmentMessageBinding, MessageViewModel>()
     }
 
     override fun attachObserver(viewModel: MessageViewModel?) {
-
+        viewModel?.liveResult?.observe(viewLifecycleOwner, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                adapter.submitList(result.data!!)
+                adapter.notifyDataSetChanged()
+            } else {
+                showToast(getString(result.msg))
+            }
+        })
     }
 
     override fun initLoadingView(isLoading: Boolean) {

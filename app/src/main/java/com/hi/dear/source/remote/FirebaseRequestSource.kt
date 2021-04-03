@@ -42,8 +42,57 @@ class FirebaseRequestSource : IRequestDataSource {
             result?.status = Constant.requestDeclined
         }
 
-
         var mineUserId = prefsManager.readString(PrefsManager.UserId)!!
+        result = updateRequestReceivedTable(mineUserId, requestData, status, result)
+        var isNotificationTableUpdated = true
+        if (accepted) {
+            isNotificationTableUpdated = updateNotificationTable(requestData.id!!)
+        }
+        if (!isNotificationTableUpdated) {
+            return null
+        }
+        return result
+    }
+
+    private suspend fun updateNotificationTable(receiverId: String): Boolean {
+        var result = false
+        firebaseDb.collection(FirebaseConstants.notificationTable)
+            .document()
+            .set(getNotificationDataMap(receiverId))
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Timber.i("isSuccessful")
+                    result = true
+                }
+            }.addOnFailureListener {
+                Timber.e("failed")
+                result = false
+            }.await()
+        return result
+    }
+
+    private fun getNotificationDataMap(receiverId: String): HashMap<String, Any> {
+        val result = HashMap<String, Any>()
+        result[FirebaseConstants.receiver_id] = receiverId
+        result[FirebaseConstants.sender_id] =
+            PrefsManager.getInstance().readString(PrefsManager.UserId).toString()
+        result[FirebaseConstants.userNameField] =
+            PrefsManager.getInstance().readString(PrefsManager.UserName).toString()
+        result[FirebaseConstants.pictureField] =
+            PrefsManager.getInstance().readString(PrefsManager.Pic).toString()
+        result[FirebaseConstants.genderField] =
+            PrefsManager.getInstance().readString(PrefsManager.Gender).toString()
+        result[FirebaseConstants.notification_type] = Constant.notification_type_request_accepted
+        return result
+    }
+
+    private suspend fun updateRequestReceivedTable(
+        mineUserId: String,
+        requestData: RequestData,
+        status: String,
+        result: RequestData?
+    ): RequestData? {
+        var result1 = result
         firebaseDb.collection(mineUserId + "" + FirebaseConstants.requestReceivedTable_post_fix)
             .document(requestData.id!!)
             .update(FirebaseConstants.statusField, status)
@@ -53,9 +102,9 @@ class FirebaseRequestSource : IRequestDataSource {
                 }
             }.addOnFailureListener {
                 Timber.e("failed")
-                result = null
+                result1 = null
             }.await()
-        return result
+        return result1
     }
 
     private fun parseRequestDataFrom(resultList: MutableList<DocumentSnapshot>): MutableList<RequestData> {

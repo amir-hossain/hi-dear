@@ -5,10 +5,13 @@ import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.databinding.RequestItemBinding
 import com.hi.dear.ui.Constant
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.base.BaseAdapter
 import com.hi.dear.ui.base.BaseViewHolder
 
 class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter<RequestData>() {
+    private var holder: RequestViewHolder? = null
+
     override fun setViewId(viewType: Int): Int {
         return R.layout.request_item
     }
@@ -43,7 +46,8 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
     }
 
     override fun setViewHolder(view: View, viewType: Int): BaseViewHolder {
-        return RequestViewHolder(view)
+        holder = RequestViewHolder(view)
+        return holder as RequestViewHolder
     }
 
     fun updateView(data: RequestData) {
@@ -59,6 +63,21 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
             notifyItemChanged(dataPosition)
         }
 
+    }
+
+    fun disableButton() {
+        if (holder != null) {
+            Utils.disableView(holder?.binding?.btnGroup!!)
+            notifyDataSetChanged()
+        }
+
+    }
+
+    fun enableButton() {
+        if (holder != null) {
+            Utils.enableView(holder?.binding?.btnGroup!!)
+            notifyDataSetChanged()
+        }
     }
 
 

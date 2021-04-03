@@ -85,6 +85,10 @@ class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>()
     }
 
     override fun initLoadingView(isLoading: Boolean) {
-
+        if (isLoading) {
+            adapter.disableButton()
+        } else {
+            adapter.enableButton()
+        }
     }
 }
