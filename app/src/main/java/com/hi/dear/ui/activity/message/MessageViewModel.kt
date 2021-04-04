@@ -1,4 +1,4 @@
-package com.hi.dear.ui.fragment.message
+package com.hi.dear.ui.activity.message
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

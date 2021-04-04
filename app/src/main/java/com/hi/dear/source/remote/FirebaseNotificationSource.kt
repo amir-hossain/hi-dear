@@ -7,8 +7,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.hi.dear.source.INotificationDataSource
 import com.hi.dear.ui.FirebaseConstants
 import com.hi.dear.ui.PrefsManager
-import com.hi.dear.ui.fragment.message.IMsgListener
-import com.hi.dear.ui.fragment.message.MessageData
 import com.hi.dear.ui.fragment.notification.INotificationListener
 import com.hi.dear.ui.fragment.notification.NotificationData
 import timber.log.Timber

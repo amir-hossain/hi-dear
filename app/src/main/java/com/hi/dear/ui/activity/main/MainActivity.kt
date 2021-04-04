@@ -1,5 +1,6 @@
 package com.hi.dear.ui.activity.main
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -17,12 +18,12 @@ import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityMainBinding
 import com.hi.dear.ui.Constant.browseFragmentTitle
 import com.hi.dear.ui.Constant.matchFragmentTitle
-import com.hi.dear.ui.Constant.messageFragmentTitle
 import com.hi.dear.ui.Constant.notificationFragmentTitle
 import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.activity.match.ProfileActivity
+import com.hi.dear.ui.activity.message.MessageActivity
 import com.hi.dear.ui.base.BaseActivity
 
 
@@ -126,27 +127,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
 
     override fun initView() {
         drawerLayout = binding.drawerLayout
-
-        val config = AppBarConfiguration(
-            setOf(
-                R.id.browse_fragment,
-                R.id.message_fragment,
-                R.id.match_fragment,
-                R.id.tips_fragment,
-                R.id.setting_fragment
-            ), drawerLayout
-        )
-
-        NavigationUI.setupWithNavController(binding.toolbarLayout.toolbar, navController, config)
+        NavigationUI.setupWithNavController(binding.toolbarLayout.toolbar, navController)
         setSupportActionBar(binding.toolbarLayout.toolbar)
         initAdapter()
         setFirstItem()
 
         binding.toolbarLayout.messageBtn.setOnClickListener {
-            navController.navigate(R.id.message_fragment)
-            navAdapter.highlight(1)
-            binding.toolbarLayout.toolbar.navigationIcon = null
-            binding.toolbarLayout.toolbarTitle.text = messageFragmentTitle
+            startActivity(Intent(this, MessageActivity::class.java))
         }
 
         binding.toolbarLayout.toggleBtn.setOnClickListener {

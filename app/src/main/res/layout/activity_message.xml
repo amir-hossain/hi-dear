@@ -6,6 +6,12 @@
     android:background="@color/background_color"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/activity_toolbar_layout" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -7,8 +7,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.hi.dear.source.IMessageDataSource
 import com.hi.dear.ui.FirebaseConstants
 import com.hi.dear.ui.PrefsManager
-import com.hi.dear.ui.fragment.message.IMsgListener
-import com.hi.dear.ui.fragment.message.MessageData
+import com.hi.dear.ui.activity.message.IMsgListener
+import com.hi.dear.ui.activity.message.MessageData
 import timber.log.Timber
 
 

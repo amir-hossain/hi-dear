@@ -10,10 +10,6 @@
         android:label=""
         tools:layout="@layout/fragment_browse" />
     <fragment
-        android:id="@+id/message_fragment"
-        android:name="com.hi.dear.ui.fragment.message.MessageFragment"
-        tools:layout="@layout/fragment_message" />
-    <fragment
         android:id="@+id/notification_fragment"
         android:name="com.hi.dear.ui.fragment.notification.NotificationFragment"
         tools:layout="@layout/fragment_notification" />

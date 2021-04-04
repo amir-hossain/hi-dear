@@ -1,4 +1,4 @@
-package com.hi.dear.ui.fragment.message
+package com.hi.dear.ui.activity.message
 
 import com.hi.dear.data.model.common.UserCore
 

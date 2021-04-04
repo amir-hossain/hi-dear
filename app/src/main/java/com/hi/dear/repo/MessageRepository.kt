@@ -1,7 +1,7 @@
 package com.hi.dear.repo
 
 import com.hi.dear.source.IMessageDataSource
-import com.hi.dear.ui.fragment.message.IMsgListener
+import com.hi.dear.ui.activity.message.IMsgListener
 
 
 class MessageRepository(private val dataSource: IMessageDataSource) : IRepository {

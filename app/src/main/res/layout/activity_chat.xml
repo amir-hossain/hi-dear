@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_layout"
         android:layout_above="@+id/divider"
-        android:clipToPadding="false"
         android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:stackFromEnd="true"

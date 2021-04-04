@@ -1,7 +1,7 @@
 package com.hi.dear.source
 
 
-import com.hi.dear.ui.fragment.message.IMsgListener
+import com.hi.dear.ui.activity.message.IMsgListener
 
 interface IMessageDataSource {
     fun getMessage(listener: IMsgListener)
