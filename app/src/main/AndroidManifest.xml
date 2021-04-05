@@ -23,7 +23,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.activity.match.ProfileActivity"
+            android:name=".ui.activity.profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.login.LoginActivity"

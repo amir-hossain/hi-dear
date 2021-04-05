@@ -22,8 +22,8 @@ import com.hi.dear.ui.Constant.notificationFragmentTitle
 import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
 import com.hi.dear.ui.PrefsManager
-import com.hi.dear.ui.activity.match.ProfileActivity
 import com.hi.dear.ui.activity.message.MessageActivity
+import com.hi.dear.ui.activity.profile.ProfileActivity
 import com.hi.dear.ui.base.BaseActivity
 
 

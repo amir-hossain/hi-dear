@@ -25,4 +25,5 @@ object FirebaseConstants {
     const val emailOrMobileField = "emailOrMobile"
     const val passwordField = "password"
     const val userIdField = "userId"
+    const val aboutField = "about"
 }

@@ -10,7 +10,7 @@ import com.hi.dear.repo.RequestRepository
 import com.hi.dear.source.remote.FirebaseRequestSource
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.chat.ChatActivity
-import com.hi.dear.ui.activity.match.ProfileActivity
+import com.hi.dear.ui.activity.profile.ProfileActivity
 import com.hi.dear.ui.base.BaseFragment
 
 

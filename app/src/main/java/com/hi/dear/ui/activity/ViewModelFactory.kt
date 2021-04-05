@@ -7,6 +7,7 @@ import com.hi.dear.ui.activity.chat.ChatViewModel
 import com.hi.dear.ui.activity.forgot.ForgotViewModel
 import com.hi.dear.ui.activity.login.LoginViewModel
 import com.hi.dear.ui.activity.message.MessageViewModel
+import com.hi.dear.ui.activity.profile.ProfileViewModel
 import com.hi.dear.ui.activity.register.RegisterViewModel
 import com.hi.dear.ui.fragment.browse.BrowseViewModel
 import com.hi.dear.ui.fragment.notification.NotificationViewModel
@@ -40,6 +41,9 @@ class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.
             }
             is NotificationRepository -> {
                 return NotificationViewModel(repository) as T
+            }
+            is ProfileRepository -> {
+                return ProfileViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
