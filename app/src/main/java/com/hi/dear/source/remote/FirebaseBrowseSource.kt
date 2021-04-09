@@ -21,11 +21,44 @@ class FirebaseBrowseSource : IBrowseDataSource {
         preferredGender: String,
         limit: Long
     ): MutableList<UserCore> {
-        var userList: MutableList<UserCore> = mutableListOf()
-        firebaseDb.collection(FirebaseConstants.userInfoTable)
-            .whereEqualTo(FirebaseConstants.genderField, preferredGender)
-            .orderBy(FirebaseConstants.userNameField).limit(limit)
+        val friendIdList = getFriedList()
+        return getData(preferredGender, limit, friendIdList)
+    }
+
+    private suspend fun getFriedList(): MutableList<String> {
+        var userList: MutableList<String> = mutableListOf()
+        val mineId = prefsManager.readString(PrefsManager.UserId)!!
+        firebaseDb.collection(mineId + "" + FirebaseConstants.sentRequestTable_post_fix)
             .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful && it.result != null && it.result!!.documents != null) {
+                    userList = parseUserIdListFrom(it.result!!.documents)
+                    Timber.i("isSuccessful")
+                }
+            }.addOnFailureListener {
+                Timber.e("failed")
+            }.await()
+        return userList
+    }
+
+    private suspend fun getData(
+        preferredGender: String,
+        limit: Long,
+        friendIdList: MutableList<String>
+    ): MutableList<UserCore> {
+        var userList: MutableList<UserCore> = mutableListOf()
+        val query = if (friendIdList.isNotEmpty()) {
+            firebaseDb.collection(FirebaseConstants.userInfoTable)
+                .whereEqualTo(FirebaseConstants.genderField, preferredGender)
+                .orderBy(FirebaseConstants.userIdField).limit(limit)
+                .whereNotIn(FirebaseConstants.userIdField, friendIdList)
+        } else {
+            firebaseDb.collection(FirebaseConstants.userInfoTable)
+                .whereEqualTo(FirebaseConstants.genderField, preferredGender)
+                .orderBy(FirebaseConstants.userIdField).limit(limit)
+        }
+
+        query.get()
             .addOnCompleteListener {
                 if (it.isSuccessful && it.result != null && it.result!!.documents != null) {
                     userList = parseUserFrom(it.result!!.documents)
@@ -96,7 +129,16 @@ class FirebaseBrowseSource : IBrowseDataSource {
             usr.picture = result[FirebaseConstants.pictureField].toString()
             userList.add(usr)
         }
+        return userList
+    }
 
+    private fun parseUserIdListFrom(resultList: MutableList<DocumentSnapshot>): MutableList<String> {
+        var userList = mutableListOf<String>()
+        for (result in resultList) {
+            var usr = UserCore()
+            usr.id = result[FirebaseConstants.userIdField].toString()
+            userList.add(usr.id!!)
+        }
         return userList
     }
 }

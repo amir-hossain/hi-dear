@@ -65,6 +65,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
             if (browseResult.success) {
                 mAdapter.addItem(it.data!!)
                 mAdapter.notifyDataSetChanged()
+                adjustView()
             } else {
                 showToast(browseResult.msg)
             }
@@ -79,6 +80,13 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
             showToast(result.msg)
             requireActivity().setResult(Activity.RESULT_OK)
         })
+    }
+
+    private fun adjustView() {
+        if (mAdapter.itemCount == 0) {
+            binding.contentGroup.visibility = View.GONE
+            binding.emptyText.visibility = View.VISIBLE
+        }
     }
 
     override fun initLoadingView(isLoading: Boolean) {
