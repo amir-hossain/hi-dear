@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.hi.dear.R
 import com.hi.dear.data.model.common.ProfileData
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityProfileBinding
@@ -17,6 +18,8 @@ import com.hi.dear.ui.base.BaseActivity
 
 class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>() {
 
+    private var previousEditCloseBtn: View? = null
+
     override fun initViewBinding(): ActivityProfileBinding {
         return ActivityProfileBinding.inflate(layoutInflater)
     }
@@ -25,10 +28,115 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
     override fun initView() {
         val userData = intent.getParcelableExtra<UserCore>(ChatActivity.Args)!!
         binding.toolbarLayout.toolbarTitle.text = userData.name
+        viewModel?.getProfileData(userData.id!!)
+
+        binding.aboutMeField.setSelection(binding.aboutMeField.text.toString().length)
+        initClickListener()
+    }
+
+    private fun initClickListener() {
         binding.toolbarLayout.back.setOnClickListener {
             super.onBackPressed()
         }
-        viewModel?.getProfileData(userData.id!!)
+        binding.btnNameEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.nameField.valueTickBtn
+            binding.nameField.editLabel.text = getString(R.string.name)
+            hideView(binding.btnNameEdit, binding.name, binding.label1)
+            binding.nameField.rootEditComponent.visibility = View.VISIBLE
+            binding.nameField.editLabel.text = getString(R.string.name)
+        }
+
+        binding.nameField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnNameEdit, binding.name, binding.label1)
+            binding.nameField.rootEditComponent.visibility = View.GONE
+        }
+
+        binding.btnAgeEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.ageField.valueTickBtn
+            binding.ageField.editLabel.text = getString(R.string.age)
+            hideView(binding.btnAgeEdit, binding.age, binding.label2)
+            binding.ageField.rootEditComponent.visibility = View.VISIBLE
+        }
+
+        binding.ageField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnAgeEdit, binding.age, binding.label2)
+            binding.ageField.rootEditComponent.visibility = View.GONE
+        }
+
+        binding.btnCountryEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.countryField.valueTickBtn
+            binding.countryField.editLabel.text = getString(R.string.country)
+            hideView(binding.btnCountryEdit, binding.country, binding.label3)
+            binding.countryField.rootEditComponent.visibility = View.VISIBLE
+        }
+
+        binding.countryField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnCountryEdit, binding.country, binding.label3)
+            binding.countryField.rootEditComponent.visibility = View.GONE
+        }
+
+        binding.btnCityEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.cityField.valueTickBtn
+            binding.cityField.editLabel.text = getString(R.string.city)
+            hideView(binding.btnCityEdit, binding.city, binding.label4)
+            binding.cityField.rootEditComponent.visibility = View.VISIBLE
+        }
+
+        binding.cityField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnCityEdit, binding.city, binding.label4)
+            binding.cityField.rootEditComponent.visibility = View.GONE
+        }
+
+        binding.btnGenderEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.genderField.valueTickBtn
+            binding.genderField.editLabel.text = getString(R.string.gender)
+            hideView(binding.btnGenderEdit, binding.gender, binding.label5)
+            binding.genderField.rootEditComponent.visibility = View.VISIBLE
+        }
+
+        binding.genderField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnGenderEdit, binding.gender, binding.label5)
+            binding.genderField.rootEditComponent.visibility = View.GONE
+        }
+
+        binding.btnAboutMeEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.aboutTickBtn
+            binding.btnAgeEdit.visibility = View.GONE
+            binding.aboutMe.visibility = View.GONE
+            binding.aboutTickBtn.visibility = View.VISIBLE
+            binding.aboutMeField.visibility = View.VISIBLE
+        }
+
+        binding.aboutTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            binding.btnAgeEdit.visibility = View.VISIBLE
+            binding.aboutMe.visibility = View.VISIBLE
+            binding.aboutTickBtn.visibility = View.GONE
+            binding.aboutMeField.visibility = View.GONE
+        }
+    }
+
+    private fun hideView(view1: View, view2: View, view3: View) {
+        view1.visibility = View.GONE
+        view2.visibility = View.GONE
+        view3.visibility = View.GONE
+    }
+
+    private fun showView(view1: View, view2: View, view3: View) {
+        view1.visibility = View.VISIBLE
+        view2.visibility = View.VISIBLE
+        view3.visibility = View.VISIBLE
     }
 
     override fun attachObserver(viewModel: ProfileViewModel?) {

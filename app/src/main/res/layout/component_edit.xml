@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_edit_component"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <TextView
+        android:id="@+id/edit_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email_mobile"
+        android:textColor="@color/brand_secondary_color"
+        android:textSize="14sp"
+        android:textAllCaps="true"
+        android:layout_marginStart="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:textColor="@color/pink"
+        android:textSize="14sp"
+        android:paddingBottom="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="@id/edit_label"
+        app:layout_constraintTop_toBottomOf="@id/edit_label"
+        app:layout_constraintEnd_toStartOf="@id/value_tick_btn" />
+
+    <ImageView
+        android:id="@+id/value_tick_btn"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:adjustViewBounds="true"
+        android:visibility="visible"
+        android:layout_marginEnd="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/edit_text"
+        app:layout_constraintBottom_toBottomOf="@id/edit_text"
+        app:srcCompat="@drawable/layer_list_tick" />
+</androidx.constraintlayout.widget.ConstraintLayout>

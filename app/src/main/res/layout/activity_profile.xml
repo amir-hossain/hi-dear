@@ -208,6 +208,22 @@
                 app:layout_constraintEnd_toEndOf="@id/name"
                 app:layout_constraintTop_toBottomOf="@id/label1" />
 
+            <include
+                android:id="@+id/name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/component_edit"
+                tools:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/img4" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="name_field,border1"
+                app:barrierDirection="bottom" />
+
             <TextView
                 android:id="@+id/label2"
                 android:layout_width="wrap_content"
@@ -218,7 +234,7 @@
                 android:textAllCaps="true"
                 android:ems="10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label1"
+                app:layout_constraintTop_toBottomOf="@id/barrier1"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16" />
@@ -261,6 +277,21 @@
                 app:layout_constraintEnd_toEndOf="@id/age"
                 app:layout_constraintTop_toBottomOf="@id/label2" />
 
+            <include
+                android:id="@+id/age_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/component_edit"
+                tools:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier1" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="age_field,border2"
+                app:barrierDirection="bottom" />
 
             <TextView
                 android:id="@+id/label3"
@@ -272,7 +303,7 @@
                 android:textAllCaps="true"
                 android:ems="10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label2"
+                app:layout_constraintTop_toBottomOf="@id/barrier2"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16" />
@@ -315,6 +346,21 @@
                 app:layout_constraintEnd_toEndOf="@id/country"
                 app:layout_constraintTop_toBottomOf="@id/label3" />
 
+            <include
+                android:id="@+id/country_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/component_edit"
+                tools:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier2" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="country_field,border3"
+                app:barrierDirection="bottom" />
 
             <TextView
                 android:id="@+id/label4"
@@ -326,7 +372,7 @@
                 android:textAllCaps="true"
                 android:ems="10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label3"
+                app:layout_constraintTop_toBottomOf="@id/barrier3"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16" />
@@ -369,6 +415,21 @@
                 app:layout_constraintEnd_toEndOf="@id/city"
                 app:layout_constraintTop_toBottomOf="@id/label4" />
 
+            <include
+                android:id="@+id/city_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/component_edit"
+                tools:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier3" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="city_field,border4"
+                app:barrierDirection="bottom" />
 
             <TextView
                 android:id="@+id/label5"
@@ -380,7 +441,7 @@
                 android:textAllCaps="true"
                 android:ems="10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label4"
+                app:layout_constraintTop_toBottomOf="@id/barrier4"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16" />
@@ -423,6 +484,22 @@
                 app:layout_constraintEnd_toEndOf="@id/age"
                 app:layout_constraintTop_toBottomOf="@id/label5" />
 
+            <include
+                android:id="@+id/gender_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/component_edit"
+                tools:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier4" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="gender_field,border5"
+                app:barrierDirection="bottom" />
+
             <TextView
                 android:id="@+id/label6"
                 android:layout_width="wrap_content"
@@ -433,7 +510,7 @@
                 android:textAllCaps="true"
                 android:ems="10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label5"
+                app:layout_constraintTop_toBottomOf="@id/barrier5"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16" />
@@ -450,6 +527,18 @@
                 app:layout_constraintTop_toTopOf="@+id/label6"
                 app:srcCompat="@drawable/ic_edit" />
 
+            <ImageView
+                android:id="@+id/about_tick_btn"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:adjustViewBounds="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/label6"
+                app:layout_constraintStart_toEndOf="@+id/label6"
+                app:layout_constraintTop_toTopOf="@+id/label6"
+                app:srcCompat="@drawable/layer_list_tick" />
+
             <TextView
                 android:id="@+id/about_me"
                 android:layout_width="match_parent"
@@ -458,6 +547,22 @@
                 android:textColor="@color/brand_secondary_color"
                 android:inputType="textMultiLine"
                 android:text="Add some things"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label6"
+                android:paddingBottom="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16" />
+
+            <EditText
+                android:id="@+id/about_me_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/brand_secondary_color"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+                android:gravity="start"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label6"
                 android:paddingBottom="@dimen/dp_16"
