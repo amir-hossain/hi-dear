@@ -33,12 +33,10 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
     private var pic: File? = null
     private lateinit var currentRequest: PermissionRequest
     private val GALLERY_REQUEST_CODE = 420
-    private val IMAGE_MIME_TYPE = "image/*";
-    private lateinit var genderDialog: GenderDialog
+    private val IMAGE_MIME_TYPE = "image/*"
 
     override fun initView() {
         Utils.disableView(binding.signUpBtn)
-        genderDialog = GenderDialog(this)
         binding.loginBtn.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
@@ -58,6 +56,7 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
 
         binding.emailOrMobile.afterTextChanged { checkValidity(binding) }
 
+        val genderDialog = GenderDialog(this)
         binding.gender.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 genderDialog.showDialog(supportFragmentManager)
