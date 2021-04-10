@@ -12,7 +12,22 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
 
+    private var nameChanged = false
+    private var ageChanged = false
+    private var countryChanged = false
+    private var cityChanged = false
+    private var genderChanged = false
+    private var aboutChanged = false
+
+    var previousAbout = ""
+    var previousGender = ""
+    var previousCity = ""
+    var previousCountry = ""
+    var previousAge = ""
+    var previousName = ""
+
     val profileResult = MutableLiveData<ActionResult<ProfileData>>()
+    val editState = MutableLiveData<Boolean>()
 
     fun getProfileData(userId: String) {
         viewModelScope.launch {
@@ -27,4 +42,42 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
             isLoading.value = false
         }
     }
+
+    fun fieldDataChanged(
+        newName: String? = null, newAge: String? = null, newCountry: String? = null,
+        newCity: String? = null, newGender: String? = null, newAbout: String? = null
+    ) {
+        when {
+            newName != null -> {
+                nameChanged = hasValueChanged(previousName, newName)
+            }
+            newAge != null -> {
+                ageChanged = hasValueChanged(previousAge, newAge)
+            }
+            newCountry != null -> {
+                countryChanged = hasValueChanged(previousCountry, newCountry)
+            }
+            newCity != null -> {
+                cityChanged = hasValueChanged(previousCity, newCity)
+            }
+            newGender != null -> {
+                genderChanged = hasValueChanged(previousGender, newGender)
+            }
+            newAbout != null -> {
+                aboutChanged = hasValueChanged(previousAbout, newAbout)
+            }
+        }
+
+        editState.value = valueChanged()
+    }
+
+    private fun hasValueChanged(previousValue: String, newValue: String?): Boolean {
+        if (newValue == null || newValue.isBlank()) {
+            return false
+        }
+        return previousValue != newValue
+    }
+
+    private fun valueChanged() = nameChanged || ageChanged || countryChanged || cityChanged ||
+            genderChanged || aboutChanged
 }

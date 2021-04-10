@@ -105,4 +105,5 @@
     <string name="chat">Chat</string>
     <string name="notification_text"><![CDATA[<b>%s</b>%s]]></string>
     <string name="save_change">Do you want to delete changes ?</string>
+    <string name="save">save</string>
 </resources>

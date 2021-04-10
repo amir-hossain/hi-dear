@@ -13,6 +13,7 @@ import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityProfileBinding
 import com.hi.dear.repo.ProfileRepository
 import com.hi.dear.ui.DialogFactory
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.activity.register.GenderDialog
@@ -22,18 +23,6 @@ import com.hi.dear.ui.base.BaseActivity
 class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>(),
     GenderDialog.IGenderDialogListener {
 
-    private var previousAboutValue = ""
-    private var aboutMeChanged = false
-    private var previousGenderValue = ""
-    private var genderChanged = false
-    private var previousCityValue = ""
-    private var cityChanged = false
-    private var previousCountryValue = ""
-    private var countryChanged = false
-    private var previousAgeValue = ""
-    private var ageChanged = false
-    private var nameChanged = false
-    private var previousNameValue = ""
     private var previousEditCloseBtn: View? = null
     private var genderDialog: GenderDialog? = null
 
@@ -57,6 +46,10 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         binding.toolbarLayout.toolbarTitle.text = userData.name
         viewModel?.getProfileData(userData.id!!)
 
+        binding.toolbarLayout.toolbarBtn.text = getText(R.string.save)
+        binding.toolbarLayout.toolbarBtn.visibility = View.VISIBLE
+        Utils.disableView(binding.toolbarLayout.toolbarBtn)
+
         binding.aboutMeField.setSelection(binding.aboutMeField.text.toString().length)
         initClickListener()
 
@@ -70,7 +63,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
 
     private fun initClickListener() {
         binding.toolbarLayout.back.setOnClickListener {
-            if (aboutMeChanged || genderChanged || cityChanged || countryChanged || ageChanged || nameChanged) {
+            if (viewModel?.editState?.value == true) {
                 DialogFactory.makeDialog(R.string.save_change, saveChangeListener)
                     .showDialog(supportFragmentManager)
             } else {
@@ -92,10 +85,8 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             showView(binding.btnNameEdit, binding.name, binding.label1)
             binding.nameField.rootEditComponent.visibility = View.GONE
             val newValue = binding.nameField.editText.text.toString()
-            nameChanged = hasValueChanged(previousNameValue, newValue)
-            if (nameChanged) {
-                binding.name.text = newValue
-            }
+            viewModel?.fieldDataChanged(newName = newValue)
+            binding.name.text = newValue
         }
 
         binding.btnAgeEdit.setOnClickListener {
@@ -113,10 +104,8 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             showView(binding.btnAgeEdit, binding.age, binding.label2)
             binding.ageField.rootEditComponent.visibility = View.GONE
             val newValue = binding.ageField.editText.text.toString()
-            ageChanged = hasValueChanged(previousAgeValue, newValue)
-            if (ageChanged) {
-                binding.age.text = newValue
-            }
+            viewModel?.fieldDataChanged(newAge = newValue)
+            binding.age.text = newValue
         }
 
         binding.btnCountryEdit.setOnClickListener {
@@ -134,10 +123,8 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             showView(binding.btnCountryEdit, binding.country, binding.label3)
             binding.countryField.rootEditComponent.visibility = View.GONE
             val newValue = binding.countryField.editText.text.toString()
-            countryChanged = hasValueChanged(previousCountryValue, newValue)
-            if (countryChanged) {
-                binding.country.text = newValue
-            }
+            viewModel?.fieldDataChanged(newCountry = newValue)
+            binding.country.text = newValue
         }
 
         binding.btnCityEdit.setOnClickListener {
@@ -155,10 +142,8 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             showView(binding.btnCityEdit, binding.city, binding.label4)
             binding.cityField.rootEditComponent.visibility = View.GONE
             val newValue = binding.cityField.editText.text.toString()
-            cityChanged = hasValueChanged(previousCityValue, newValue)
-            if (cityChanged) {
-                binding.city.text = newValue
-            }
+            viewModel?.fieldDataChanged(newCity = newValue)
+            binding.city.text = newValue
         }
 
         binding.btnGenderEdit.setOnClickListener {
@@ -176,10 +161,8 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             showView(binding.btnGenderEdit, binding.gender, binding.label5)
             binding.genderField.rootEditComponent.visibility = View.GONE
             val newValue = binding.genderField.editText.text.toString()
-            genderChanged = hasValueChanged(previousGenderValue, newValue)
-            if (genderChanged) {
-                binding.gender.text = newValue
-            }
+            viewModel?.fieldDataChanged(newGender = newValue)
+            binding.gender.text = newValue
         }
 
         binding.btnAboutMeEdit.setOnClickListener {
@@ -187,7 +170,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             previousEditCloseBtn = binding.aboutTickBtn
             binding.aboutMeField.setText(binding.aboutMe.text)
             setCursorTotheLast(binding.aboutMeField)
-            binding.btnAgeEdit.visibility = View.GONE
             binding.aboutMe.visibility = View.GONE
             binding.aboutTickBtn.visibility = View.VISIBLE
             binding.aboutMeField.visibility = View.VISIBLE
@@ -195,23 +177,13 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
 
         binding.aboutTickBtn.setOnClickListener {
             previousEditCloseBtn = null
-            binding.btnAgeEdit.visibility = View.VISIBLE
             binding.aboutMe.visibility = View.VISIBLE
             binding.aboutTickBtn.visibility = View.GONE
             binding.aboutMeField.visibility = View.GONE
             val newValue = binding.aboutMeField.text.toString()
-            aboutMeChanged = hasValueChanged(previousAboutValue, newValue)
-            if (aboutMeChanged) {
-                binding.aboutMe.text = newValue
-            }
+            viewModel?.fieldDataChanged(newAbout = newValue)
+            binding.aboutMe.text = newValue
         }
-    }
-
-    private fun hasValueChanged(previousValue: String, newValue: String): Boolean {
-        if (newValue.isBlank()) {
-            return false
-        }
-        return previousValue != newValue
     }
 
     private fun setCursorTotheLast(editText: EditText) {
@@ -244,15 +216,25 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
                 showToast(result.msg)
             }
         })
+
+        viewModel?.editState?.observe(this@ProfileActivity, Observer {
+            val result = it ?: return@Observer
+
+            if (result) {
+                Utils.enableView(binding.toolbarLayout.toolbarBtn)
+            } else {
+                Utils.disableView(binding.toolbarLayout.toolbarBtn)
+            }
+        })
     }
 
     private fun storePreviousValue(data: ProfileData) {
-        previousNameValue = data.name!!
-        previousAgeValue = data.age!!
-        previousGenderValue = data.gender!!
-        previousCountryValue = data.country!!
-        previousCityValue = data.city!!
-        previousAboutValue = data.about!!
+        viewModel?.previousName = data.name!!
+        viewModel?.previousAge = data.age!!
+        viewModel?.previousGender = data.gender!!
+        viewModel?.previousCountry = data.country!!
+        viewModel?.previousCity = data.city!!
+        viewModel?.previousAbout = data.about!!
     }
 
     private fun showEditIcon() {
