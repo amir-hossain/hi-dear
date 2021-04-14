@@ -26,7 +26,15 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
     var previousAge = ""
     var previousName = ""
 
+    var newAbout: String? = null
+    var newGender: String? = null
+    var newCity: String? = null
+    var newCountry: String? = null
+    var newAge: String? = null
+    var newName: String? = null
+
     val profileResult = MutableLiveData<ActionResult<ProfileData>>()
+    val saveResult = MutableLiveData<ActionResult<Boolean>>()
     val editState = MutableLiveData<Boolean>()
 
     fun getProfileData(userId: String) {
@@ -47,6 +55,13 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
         newName: String? = null, newAge: String? = null, newCountry: String? = null,
         newCity: String? = null, newGender: String? = null, newAbout: String? = null
     ) {
+        this.newName = newName
+        this.newAge = newAge
+        this.newCountry = newCountry
+        this.newCity = newCity
+        this.newGender = newGender
+        this.newAbout = newAbout
+
         when {
             newName != null -> {
                 nameChanged = hasValueChanged(previousName, newName)
@@ -80,4 +95,31 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
 
     private fun valueChanged() = nameChanged || ageChanged || countryChanged || cityChanged ||
             genderChanged || aboutChanged
+
+    fun saveEditedData() {
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = repo.saveEditedData(
+                newName, newAge, newCountry, newCity, newGender,
+                newAbout
+            )
+            if (result is RawResult.Success) {
+                saveResult.value =
+                    ActionResult(true, R.string.edit_saved, result.data)
+            } else if (result is RawResult.Error) {
+                profileResult.value = ActionResult(false, R.string.edit_failed, null)
+            }
+            resetSate()
+            isLoading.value = false
+        }
+    }
+
+    private fun resetSate() {
+        nameChanged = false
+        ageChanged = false
+        countryChanged = false
+        cityChanged = false
+        genderChanged = false
+        aboutChanged = false
+    }
 }

@@ -184,6 +184,10 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             viewModel?.fieldDataChanged(newAbout = newValue)
             binding.aboutMe.text = newValue
         }
+
+        binding.toolbarLayout.toolbarBtn.setOnClickListener {
+            viewModel?.saveEditedData()
+        }
     }
 
     private fun setCursorTotheLast(editText: EditText) {
@@ -225,6 +229,11 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             } else {
                 Utils.disableView(binding.toolbarLayout.toolbarBtn)
             }
+        })
+
+        viewModel?.saveResult?.observe(this@ProfileActivity, Observer {
+            val result = it ?: return@Observer
+            showToast(result.msg)
         })
     }
 

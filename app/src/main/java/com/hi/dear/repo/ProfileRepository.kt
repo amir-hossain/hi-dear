@@ -16,4 +16,19 @@ class ProfileRepository : IRepository {
             RawResult.Error(RuntimeException("user data fetch failed"))
         }
     }
+
+    suspend fun saveEditedData(
+        newName: String?, newAge: String?, newCountry: String?, newCity: String?,
+        newGender: String?, newAbout: String?
+    ): RawResult<Boolean> {
+        val result = dataSource.saveEditedData(
+            newName, newAge, newCountry, newCity, newGender,
+            newAbout
+        )
+        return if (result != null) {
+            RawResult.Success(result)
+        } else {
+            RawResult.Error(RuntimeException("user data fetch failed"))
+        }
+    }
 }
