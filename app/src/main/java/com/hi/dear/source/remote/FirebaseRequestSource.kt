@@ -77,7 +77,7 @@ class FirebaseRequestSource : IRequestDataSource {
         result[FirebaseConstants.sender_id] =
             PrefsManager.getInstance().readString(PrefsManager.UserId).toString()
         result[FirebaseConstants.userNameField] =
-            PrefsManager.getInstance().readString(PrefsManager.UserName).toString()
+            PrefsManager.getInstance().readString(PrefsManager.userName).toString()
         result[FirebaseConstants.pictureField] =
             PrefsManager.getInstance().readString(PrefsManager.Pic).toString()
         result[FirebaseConstants.genderField] =

@@ -123,7 +123,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
 
         PrefsManager.getInstance().writeString(PrefsManager.Gender, userData.gender!!)
         PrefsManager.getInstance().writeString(PrefsManager.UserId, userData.id!!)
-        PrefsManager.getInstance().writeString(PrefsManager.UserName, userData.name!!)
+        PrefsManager.getInstance().writeString(PrefsManager.userName, userData.name!!)
+        PrefsManager.getInstance().writeString(PrefsManager.emailOrMobile, userData.emailOrMobile!!)
         PrefsManager.getInstance().writeString(PrefsManager.Pic, userData.picture!!)
     }
 

@@ -158,7 +158,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
         var userData = UserCore()
         userData.picture = PrefsManager.getInstance().readString(PrefsManager.Pic)!!
         userData.id = PrefsManager.getInstance().readString(PrefsManager.UserId)!!
-        userData.name = PrefsManager.getInstance().readString(PrefsManager.UserName)!!
+        userData.name = PrefsManager.getInstance().readString(PrefsManager.userName)!!
         userData.gender = PrefsManager.getInstance().readString(PrefsManager.Gender)!!
         return userData
     }

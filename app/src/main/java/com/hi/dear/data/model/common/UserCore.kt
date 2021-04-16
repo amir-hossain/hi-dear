@@ -7,9 +7,11 @@ open class UserCore(
     var id: String? = null,
     var name: String? = null,
     var picture: String? = null,
-    var gender: String? = null
+    var gender: String? = null,
+    var emailOrMobile: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -21,6 +23,7 @@ open class UserCore(
         parcel.writeString(name)
         parcel.writeString(picture)
         parcel.writeString(gender)
+        parcel.writeString(emailOrMobile)
     }
 
     override fun describeContents(): Int {

@@ -108,4 +108,6 @@
     <string name="save">save</string>
     <string name="edit_saved">Edited data saved successfully</string>
     <string name="edit_failed">unable to save edited data</string>
+    <string name="delete_successful">account deleted successfully</string>
+    <string name="delete_failed">account delete failed</string>
 </resources>

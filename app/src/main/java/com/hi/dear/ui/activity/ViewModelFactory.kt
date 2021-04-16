@@ -12,6 +12,7 @@ import com.hi.dear.ui.activity.register.RegisterViewModel
 import com.hi.dear.ui.fragment.browse.BrowseViewModel
 import com.hi.dear.ui.fragment.notification.NotificationViewModel
 import com.hi.dear.ui.fragment.request.RequestViewModel
+import com.hi.dear.ui.fragment.setting.SettingViewModel
 
 class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.Factory {
 
@@ -44,6 +45,9 @@ class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.
             }
             is ProfileRepository -> {
                 return ProfileViewModel(repository) as T
+            }
+            is SettingRepository -> {
+                return SettingViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

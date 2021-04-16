@@ -42,7 +42,8 @@ class FirebaseChatSource :
     private fun getMsgMap(text: String, otherUserId: String): HashMap<String, Any> {
         val result = HashMap<String, Any>()
         result[FirebaseConstants.pictureField] = prefsManager.readString(PrefsManager.Pic)!!
-        result[FirebaseConstants.userNameField] = prefsManager.readString(PrefsManager.UserName)!!
+        result[FirebaseConstants.userNameField] =
+            prefsManager.readString(PrefsManager.userName)!!
         result[FirebaseConstants.sender_id] = mineId
         result[FirebaseConstants.receiver_id] = otherUserId
         result[FirebaseConstants.msg] = text
@@ -72,7 +73,8 @@ class FirebaseChatSource :
         val result = HashMap<String, Any>()
         result[FirebaseConstants.chat_id] = chatId
         result[FirebaseConstants.sender_id] = senderId
-        result[FirebaseConstants.userNameField] = prefsManager.readString(PrefsManager.UserName)!!
+        result[FirebaseConstants.userNameField] =
+            prefsManager.readString(PrefsManager.userName)!!
         result[FirebaseConstants.pictureField] = prefsManager.readString(PrefsManager.Pic)!!
         result[FirebaseConstants.msg] = msg
         result[FirebaseConstants.time_field] = System.currentTimeMillis()

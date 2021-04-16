@@ -10,7 +10,7 @@ class ProfileRepository : IRepository {
     private val dataSource: IProfileDataSource = FirebaseProfileSource()
     suspend fun getProfileData(userId: String): RawResult<ProfileData> {
         val result = dataSource.getProfile(userId)
-        return if (result != null) {
+        return if (result?.id != null) {
             RawResult.Success(result)
         } else {
             RawResult.Error(RuntimeException("user data fetch failed"))

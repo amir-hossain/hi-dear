@@ -7,7 +7,8 @@ class PrefsManager private constructor() {
 
     companion object {
         const val Pic = "pic"
-        const val UserName = "userName"
+        const val emailOrMobile = "emailOrMobile"
+        const val userName = "userName"
         const val Gender = "gender"
         const val UserId = "id"
         const val IS_LOGGED_IN = "logged_in"

@@ -103,7 +103,8 @@ class FirebaseBrowseSource : IBrowseDataSource {
     private fun getMineHasMap(): HashMap<String, Any> {
         val userInfo = HashMap<String, Any>()
         userInfo[FirebaseConstants.userIdField] = prefsManager.readString(PrefsManager.UserId)!!
-        userInfo[FirebaseConstants.userNameField] = prefsManager.readString(PrefsManager.UserName)!!
+        userInfo[FirebaseConstants.userNameField] =
+            prefsManager.readString(PrefsManager.userName)!!
         userInfo[FirebaseConstants.pictureField] = prefsManager.readString(PrefsManager.Pic)!!
         userInfo[FirebaseConstants.genderField] = prefsManager.readString(PrefsManager.Gender)!!
         userInfo[FirebaseConstants.statusField] = Constant.requestNew

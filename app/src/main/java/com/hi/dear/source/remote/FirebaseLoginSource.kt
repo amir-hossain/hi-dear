@@ -14,46 +14,28 @@ class FirebaseLoginSource : ILoginDataSource {
     private var firebaseDb: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override suspend fun login(emailOrMobile: String, password: String): UserCore? {
-        val userId = getUserIdIfPassMatch(emailOrMobile, password)
-        if (userId == null || userId.isBlank()) {
-            return null
-        }
-        return getUserDataUsing(userId)
+        return getUserDataIfPassMatch(emailOrMobile, password)
     }
 
-    private suspend fun getUserIdIfPassMatch(emailOrMobile: String, password: String): String? {
-        var userId: String? = null
+    private suspend fun getUserDataIfPassMatch(emailOrMobile: String, password: String): UserCore? {
+        var userData: UserCore? = null
         firebaseDb.collection(FirebaseConstants.authInfoTable).document("$emailOrMobile").get()
             .addOnCompleteListener {
                 if (it.isSuccessful && it.result != null) {
                     if (isPassMatched(it.result!!, password)) {
                         Timber.i("Successful")
-                        userId = getFieldDataFrom(it.result!!, FirebaseConstants.userIdField)
+                        userData = parseUserFrom(it.result!!)
                     }
                 }
             }.addOnFailureListener {
                 Timber.e("failed")
             }.await()
-        return userId
+        return userData
     }
 
     private fun isPassMatched(result: DocumentSnapshot, password: String): Boolean {
         val remotePass = result[FirebaseConstants.passwordField] ?: return false
         return remotePass == password
-    }
-
-    private suspend fun getUserDataUsing(userId: String): UserCore? {
-        var userData: UserCore? = null
-        firebaseDb.collection(FirebaseConstants.userInfoTable).document("$userId").get()
-            .addOnCompleteListener {
-                if (it.isSuccessful && it.result != null) {
-                    userData = parseUserFrom(it.result!!)
-                    Timber.i("isSuccessful")
-                }
-            }.addOnFailureListener {
-                Timber.e("failed")
-            }.await()
-        return userData
     }
 
     private fun parseUserFrom(result: DocumentSnapshot): UserCore {
@@ -62,6 +44,7 @@ class FirebaseLoginSource : ILoginDataSource {
             getFieldDataFrom(result, FirebaseConstants.userNameField),
             getFieldDataFrom(result, FirebaseConstants.pictureField),
             getFieldDataFrom(result, FirebaseConstants.genderField),
+            getFieldDataFrom(result, FirebaseConstants.emailOrMobileField)
         )
     }
 
@@ -73,7 +56,6 @@ class FirebaseLoginSource : ILoginDataSource {
             value as String
         }
     }
-
 
     override suspend fun logout() {
 

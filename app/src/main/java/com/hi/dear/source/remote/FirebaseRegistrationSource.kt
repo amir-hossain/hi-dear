@@ -22,14 +22,14 @@ class FirebaseRegistrationSource :
     private var authResult = false
 
     override suspend fun register(
-            userName: String,
-            age: String,
-            gender: String,
-            country: String,
-            city: String,
-            emailOrMobile: String,
-            password: String,
-            picture: File
+        userName: String,
+        age: String,
+        gender: String,
+        country: String,
+        city: String,
+        emailOrMobile: String,
+        password: String,
+        picture: File
     ): Boolean {
         val userInfo = HashMap<String, Any>()
         val userId = getUserId()
@@ -44,11 +44,12 @@ class FirebaseRegistrationSource :
         upload(picture)
         saveUserInfo(userInfo, userId)
         saveAuthInfo(
-                emailOrMobile = emailOrMobile,
-                password = password,
-                userId = userId,
-                gender = gender,
-                pictureUrl = pictureUrl
+            emailOrMobile = emailOrMobile,
+            password = password,
+            userId = userId,
+            gender = gender,
+            pictureUrl = pictureUrl,
+            userName = userName
         )
 
         return userInfoResult && authResult
@@ -70,11 +71,12 @@ class FirebaseRegistrationSource :
     }
 
     private suspend fun saveAuthInfo(
-            emailOrMobile: String,
-            password: String,
-            userId: String,
-            gender: String,
-            pictureUrl: String
+        emailOrMobile: String,
+        password: String,
+        userId: String,
+        gender: String,
+        pictureUrl: String,
+        userName: String
     ) {
         val authInfo = HashMap<String, Any>()
         authInfo[FirebaseConstants.emailOrMobileField] = emailOrMobile
@@ -82,18 +84,19 @@ class FirebaseRegistrationSource :
         authInfo[FirebaseConstants.userIdField] = userId
         authInfo[FirebaseConstants.genderField] = gender
         authInfo[FirebaseConstants.pictureField] = pictureUrl
+        authInfo[FirebaseConstants.userNameField] = userName
 
         firebaseDb.collection(FirebaseConstants.authInfoTable).document("$emailOrMobile")
             .set(authInfo)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        authResult = true
-                        Timber.i("isSuccessful")
-                    }
-                }.addOnFailureListener {
-                    authResult = false
-                    Timber.e("failed")
-                }.await()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    authResult = true
+                    Timber.i("isSuccessful")
+                }
+            }.addOnFailureListener {
+                authResult = false
+                Timber.e("failed")
+            }.await()
     }
 
     private suspend fun upload(picture: File): String {
