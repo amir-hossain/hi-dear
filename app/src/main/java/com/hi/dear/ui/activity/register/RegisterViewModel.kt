@@ -6,6 +6,8 @@ import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.data.state.RegistrationFormState
 import com.hi.dear.repo.RegistrationRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -20,7 +22,10 @@ class RegisterViewModel(private val repo: RegistrationRepository) : BaseViewMode
         userName: String, age: String, gender: String, password: String, county: String,
         city: String, emailOrMobile: String, picture: File
     ) {
-
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val result = repo.register(

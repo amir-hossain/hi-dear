@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.repo.RequestRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -15,6 +17,10 @@ class RequestViewModel(private val repository: RequestRepository) : BaseViewMode
     val requestReactResult = MutableLiveData<ActionResult<RequestData>>()
 
     fun getRequest() {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val result = repository.getRequestData()
@@ -28,6 +34,10 @@ class RequestViewModel(private val repository: RequestRepository) : BaseViewMode
     }
 
     fun reactToRequest(isAccepted: Boolean, requestData: RequestData) {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         var successMsgId = R.string.message_declined
         var failedMsgId = R.string.message_declined_failed
         if (isAccepted) {

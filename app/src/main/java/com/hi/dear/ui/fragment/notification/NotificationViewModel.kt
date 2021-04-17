@@ -3,6 +3,8 @@ package com.hi.dear.ui.fragment.notification
 import androidx.lifecycle.MutableLiveData
 import com.hi.dear.R
 import com.hi.dear.repo.NotificationRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 
@@ -12,6 +14,10 @@ class NotificationViewModel(private val repository: NotificationRepository) : Ba
     val liveResult = MutableLiveData<ActionResult<MutableList<NotificationData>>>()
 
     fun getNotifications() {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         isLoading.value = true
         repository.getNotifications(this)
     }

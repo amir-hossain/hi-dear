@@ -6,6 +6,8 @@ import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.data.model.common.Chat
 import com.hi.dear.repo.ChatRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -15,6 +17,10 @@ class ChatViewModel(private val repo: ChatRepository) : BaseViewModel(), IChatLi
     val chatSentResult = MutableLiveData<ActionResult<Boolean>>()
 
     fun sendMessage(text: String, otherUserId: String) {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val result = repo.sendMessage(text, otherUserId)
@@ -30,6 +36,10 @@ class ChatViewModel(private val repo: ChatRepository) : BaseViewModel(), IChatLi
     }
 
     fun getMessage(otherUserId: String) {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         isLoading.value = true
         repo.getMessage(otherUserId, this)
     }

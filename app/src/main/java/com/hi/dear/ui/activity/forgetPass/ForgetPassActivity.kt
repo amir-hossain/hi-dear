@@ -20,9 +20,7 @@ class ForgetPassActivity : BaseActivity<ActivityForgotBinding, ForgotViewModel>(
             override fun afterTextChanged(editable: Editable?) {
                 afterTextChanged.invoke(editable.toString())
             }
-
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
     }
@@ -58,7 +56,6 @@ class ForgetPassActivity : BaseActivity<ActivityForgotBinding, ForgotViewModel>(
     override fun attachObserver(viewModel: ForgotViewModel?) {
         viewModel?.forgetPassFormState?.observe(this@ForgetPassActivity, Observer {
             val loginState = it ?: return@Observer
-
             binding.sendBtn.isEnabled = loginState.isDataValid
 
             if (loginState.emailError != null) {

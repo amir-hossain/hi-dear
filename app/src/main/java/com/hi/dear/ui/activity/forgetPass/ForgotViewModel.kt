@@ -6,6 +6,8 @@ import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.data.state.ForgetPassFormState
 import com.hi.dear.repo.ForgetPasswordRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -17,6 +19,10 @@ class ForgotViewModel(private val repo: ForgetPasswordRepository) : BaseViewMode
     val forgetPassResult = MutableLiveData<ActionResult<String>>()
 
     fun send(emailOrMobile: String) {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val result = repo.forgetPassword(emailOrMobile)

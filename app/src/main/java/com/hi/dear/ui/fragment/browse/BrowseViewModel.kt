@@ -6,6 +6,8 @@ import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.repo.BrowseRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -16,6 +18,10 @@ class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
     val requestDataResult = MutableLiveData<ActionResult<Boolean>>()
 
     fun getBrowseData(gender: String, limit: Long) {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val browseData = repo.getBrowseData(gender, limit)
@@ -30,6 +36,10 @@ class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
     }
 
     fun sendRequest(receiverUserData: UserCore) {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val requestResult = repo.sendRequest(receiverUserData)

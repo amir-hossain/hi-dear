@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.repo.SettingRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -12,6 +14,10 @@ import kotlinx.coroutines.launch
 class SettingViewModel(private val repo: SettingRepository) : BaseViewModel() {
     val deleteResult = MutableLiveData<ActionResult<Boolean>>()
     fun deleteAccount() {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val result = repo.deleteAccount()

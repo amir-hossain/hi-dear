@@ -3,9 +3,9 @@ package com.hi.dear.ui.base
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import com.hi.dear.R
 
 abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivity() {
     protected lateinit var binding: VB
@@ -24,12 +24,14 @@ abstract class BaseActivity<VB : ViewBinding, VM : ViewModel> : AppCompatActivit
         if (viewModel == null) {
             return
         }
-
         if (viewModel is BaseViewModel) {
-            (viewModel as BaseViewModel).isLoading.observe(this, Observer {
+            (viewModel as BaseViewModel).isLoading.observe(this, {
                 initLoadingView(it)
             })
 
+            (viewModel as BaseViewModel).isConnected.observe(this, {
+                showToast(R.string.no_internet_connection)
+            })
         }
     }
 

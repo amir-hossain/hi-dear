@@ -6,4 +6,5 @@ import androidx.lifecycle.ViewModel
 
 abstract class BaseViewModel : ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
+    val isConnected = MutableLiveData<Boolean>()
 }

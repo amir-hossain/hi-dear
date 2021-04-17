@@ -7,6 +7,8 @@ import com.hi.dear.data.RawResult
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.data.state.LoginFormState
 import com.hi.dear.repo.LoginRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -15,10 +17,13 @@ class LoginViewModel(private val loginRepository: LoginRepository) : BaseViewMod
 
     val loginFormState = MutableLiveData<LoginFormState>()
 
-
     val loginResult = MutableLiveData<ActionResult<UserCore>>()
 
     fun login(id: String, password: String) {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val result = loginRepository.login(id, password)

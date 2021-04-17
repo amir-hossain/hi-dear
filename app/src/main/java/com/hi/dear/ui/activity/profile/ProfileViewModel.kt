@@ -6,6 +6,8 @@ import com.hi.dear.R
 import com.hi.dear.data.RawResult
 import com.hi.dear.data.model.common.ProfileData
 import com.hi.dear.repo.ProfileRepository
+import com.hi.dear.ui.App
+import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ActionResult
 import com.hi.dear.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -38,6 +40,10 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
     val editState = MutableLiveData<Boolean>()
 
     fun getProfileData(userId: String) {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val browseData = repo.getProfileData(userId)
@@ -97,6 +103,10 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
             genderChanged || aboutChanged
 
     fun saveEditedData() {
+        if (!Utils.isConnected(App.instance)) {
+            isConnected.value = false
+            return
+        }
         viewModelScope.launch {
             isLoading.value = true
             val result = repo.saveEditedData(
