@@ -121,5 +121,6 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
         cityChanged = false
         genderChanged = false
         aboutChanged = false
+        editState.value = false
     }
 }
