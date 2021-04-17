@@ -6,8 +6,8 @@ import com.hi.dear.source.IForgetPassDataSource
 
 class ForgetPassDataSource(val context: Application) : IForgetPassDataSource {
     private val dao = HiDearDB.getDatabase(context)?.getUserDao()
-    override fun forgetPassword(email: String): Boolean {
-        return true
+    override suspend fun forgetPassword(email: String): String? {
+        return ""
     }
 
 }

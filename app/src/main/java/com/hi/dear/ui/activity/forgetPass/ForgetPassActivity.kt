@@ -1,7 +1,5 @@
-package com.hi.dear.ui.activity.forgot
+package com.hi.dear.ui.activity.forgetPass
 
-import android.app.Activity
-import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -10,13 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hi.dear.databinding.ActivityForgotBinding
 import com.hi.dear.repo.ForgetPasswordRepository
-import com.hi.dear.source.local.ForgetPassDataSource
+import com.hi.dear.source.remote.FirebaseForgetPassSource
 import com.hi.dear.ui.activity.ViewModelFactory
-import com.hi.dear.ui.activity.login.LoginActivity
 import com.hi.dear.ui.base.BaseActivity
 
 
-class ForgotActivity : BaseActivity<ActivityForgotBinding, ForgotViewModel>() {
+class ForgetPassActivity : BaseActivity<ActivityForgotBinding, ForgotViewModel>() {
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         this.addTextChangedListener(object : TextWatcher {
@@ -37,7 +34,7 @@ class ForgotActivity : BaseActivity<ActivityForgotBinding, ForgotViewModel>() {
     override fun initViewModel(): ForgotViewModel {
         return ViewModelProvider(
             this,
-            ViewModelFactory(ForgetPasswordRepository(ForgetPassDataSource(application)))
+            ViewModelFactory(ForgetPasswordRepository(FirebaseForgetPassSource()))
         )
             .get(ForgotViewModel::class.java)
     }
@@ -45,48 +42,46 @@ class ForgotActivity : BaseActivity<ActivityForgotBinding, ForgotViewModel>() {
     override fun initView() {
         binding.back.setOnClickListener { onBackPressed() }
 
-        binding.email.apply {
+        binding.mobileOrEmail.apply {
             afterTextChanged {
                 viewModel?.forgetPassDataChanged(
-                    binding.email.text.toString()
+                    binding.mobileOrEmail.text.toString()
                 )
             }
 
             binding.sendBtn.setOnClickListener {
-                binding.loading.visibility = View.VISIBLE
-                viewModel?.send(binding.email.text.toString())
+                viewModel?.send(binding.mobileOrEmail.text.toString())
             }
         }
     }
 
     override fun attachObserver(viewModel: ForgotViewModel?) {
-        viewModel?.forgetPassFormState?.observe(this@ForgotActivity, Observer {
+        viewModel?.forgetPassFormState?.observe(this@ForgetPassActivity, Observer {
             val loginState = it ?: return@Observer
 
             binding.sendBtn.isEnabled = loginState.isDataValid
 
             if (loginState.emailError != null) {
-                binding.email.error = getString(loginState.emailError)
+                binding.mobileOrEmail.error = getString(loginState.emailError)
             }
         })
 
-        viewModel?.forgetPassResult?.observe(this@ForgotActivity, Observer {
+        viewModel?.forgetPassResult?.observe(this@ForgetPassActivity, Observer {
             val requestResult = it ?: return@Observer
-
-            binding.loading.visibility = View.GONE
             if (requestResult.success) {
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
+                PasswordRevelActivity.start(this, it.data!!)
                 finish()
             } else {
                 showToast(getString(requestResult.msg))
             }
-
-            setResult(Activity.RESULT_OK)
         })
     }
 
     override fun initLoadingView(isLoading: Boolean) {
-
+        if (isLoading) {
+            binding.loading.visibility = View.VISIBLE
+        } else {
+            binding.loading.visibility = View.GONE
+        }
     }
-
 }

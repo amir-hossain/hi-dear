@@ -16,7 +16,7 @@ import com.hi.dear.ui.PasswordTransformation
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
-import com.hi.dear.ui.activity.forgot.ForgotActivity
+import com.hi.dear.ui.activity.forgetPass.ForgetPassActivity
 import com.hi.dear.ui.activity.main.MainActivity
 import com.hi.dear.ui.activity.register.RegistrationActivity
 import com.hi.dear.ui.base.BaseActivity
@@ -52,7 +52,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>() {
             startActivity(
                 Intent(
                     this,
-                    ForgotActivity::class.java
+                    ForgetPassActivity::class.java
                 )
             )
         }

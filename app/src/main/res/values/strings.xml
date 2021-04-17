@@ -110,4 +110,7 @@
     <string name="edit_failed">unable to save edited data</string>
     <string name="delete_successful">account deleted successfully</string>
     <string name="delete_failed">account delete failed</string>
+    <string name="password_fetched">Password fetched successfuly</string>
+    <string name="user_not_found">did not found any matched user</string>
+    <string name="go_to_login">Go to login</string>
 </resources>

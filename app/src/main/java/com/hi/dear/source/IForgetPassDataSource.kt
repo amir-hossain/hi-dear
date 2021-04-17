@@ -1,5 +1,5 @@
 package com.hi.dear.source
 
 interface IForgetPassDataSource {
-    fun forgetPassword(email: String): Boolean
+    suspend fun forgetPassword(email: String): String?
 }
