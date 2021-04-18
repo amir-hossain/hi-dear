@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/see_details"
@@ -44,7 +45,7 @@
         android:ellipsize="end"
         android:ems="10"
         android:maxLines="1"
-        android:text="Benjamin"
+        tools:text="Benjamin"
         android:textAlignment="center"
         android:textColor="@color/brand_secondary_color"
         android:textSize="20sp"

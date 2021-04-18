@@ -50,7 +50,7 @@ class FirebaseBrowseSource : IBrowseDataSource {
         val query = if (friendIdList.isNotEmpty()) {
             firebaseDb.collection(FirebaseConstants.userInfoTable)
                 .whereEqualTo(FirebaseConstants.genderField, preferredGender)
-                .orderBy(FirebaseConstants.userIdField).limit(limit)
+                .orderBy(FirebaseConstants.userIdField)
                 .whereNotIn(FirebaseConstants.userIdField, friendIdList)
         } else {
             firebaseDb.collection(FirebaseConstants.userInfoTable)

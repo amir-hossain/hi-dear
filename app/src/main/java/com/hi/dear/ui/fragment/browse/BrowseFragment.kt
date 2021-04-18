@@ -117,6 +117,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
 
     override fun onCardAppeared(view: View?, position: Int) {
         visibleUserData = mAdapter.getItemBy(position)
+        binding.name.text = visibleUserData?.name
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {

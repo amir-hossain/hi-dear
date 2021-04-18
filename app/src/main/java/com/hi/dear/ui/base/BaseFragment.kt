@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -75,14 +74,9 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
     protected abstract fun initLoadingView(isLoading: Boolean)
 
     private fun initProgressDialog() {
-        progressDialog = ProgressDialog(getActivity(), R.style.AppTheme);
-        progressDialog.setCancelable(false);
-        progressDialog.setIndeterminateDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                android.R.drawable.progress_indeterminate_horizontal
-            )
-        )
-        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small)
+        progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("please wait...")
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        progressDialog.setCancelable(false)
     }
 }
