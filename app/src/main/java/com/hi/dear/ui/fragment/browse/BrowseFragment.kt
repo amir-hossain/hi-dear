@@ -16,6 +16,7 @@ import com.hi.dear.ui.Constant
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
+import com.hi.dear.ui.activity.main.MainActivity
 import com.hi.dear.ui.base.BaseFragment
 import com.yuyakaido.android.cardstackview.*
 import timber.log.Timber
@@ -46,8 +47,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         manager.setSwipeableMethod(SwipeableMethod.Automatic)
         binding.swipeStack.adapter = mAdapter
         binding.swipeStack.layoutManager = manager
-
-
+        binding.remaningCoins.text=getString(R.string.remaining_coin,getRemainingCoins())
         binding.heartBtn.setOnClickListener {
             if (visibleUserData != null) {
                 viewModel?.sendRequest(visibleUserData!!)
@@ -57,6 +57,10 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         binding.crossBtn.setOnClickListener {
             binding.swipeStack.swipe()
         }
+    }
+
+    private fun getRemainingCoins(): Int {
+        return (requireActivity() as MainActivity).remainingCoins
     }
 
     private fun initAd() {

@@ -38,7 +38,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="96dp"
             android:layout_height="96dp"
@@ -64,9 +64,26 @@
             android:textAlignment="center"
             android:textColor="@color/brand_color"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginBottom="@dimen/dp_16" />
-
+            android:layout_marginTop="@dimen/dp_8" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="20dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_coins"
+                android:layout_marginEnd="10dp"/>
+            <TextView
+                android:id="@+id/remaning_coins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remaining_coin"
+                android:textSize="20sp"/>
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/navigation_rv"
             android:layout_width="@dimen/navigation_drawer_width"

@@ -32,6 +32,7 @@ import com.hi.dear.ui.base.BaseActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
     NavigationRVAdapter.ClickListener {
+    val remainingCoins = 100
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navAdapter: NavigationRVAdapter
 
@@ -166,7 +167,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
             .into(binding.profileImage)
 
         binding.name.text = myData.name
-
+        binding.remaningCoins.text = getString(R.string.remaining_coin, remainingCoins)
         binding.editBtn.setOnClickListener {
             ProfileActivity.start(this, myData)
         }

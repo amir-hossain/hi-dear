@@ -119,5 +119,6 @@
     <string name="boost_profile">Boost Profile</string>
     <string name="top_profile">Top Profile</string>
     <string name="gift">Today\'s Gift</string>
+    <string name="remaining_coin">%d Coins Left</string>
 
 </resources>
