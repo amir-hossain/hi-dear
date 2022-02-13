@@ -24,6 +24,21 @@
         android:label=""
         tools:layout="@layout/fragment_tips" />
     <fragment
+        android:id="@+id/boost_profile_fragment"
+        android:name="com.hi.dear.ui.fragment.boost.BoostProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_boost_profile" />
+    <fragment
+        android:id="@+id/top_profile_fragment"
+        android:name="com.hi.dear.ui.fragment.top.TopProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_top_profile" />
+    <fragment
+        android:id="@+id/gift_fragment"
+        android:name="com.hi.dear.ui.fragment.gift.GiftFragment"
+        android:label=""
+        tools:layout="@layout/fragment_gift" />
+    <fragment
         android:id="@+id/setting_fragment"
         android:name="com.hi.dear.ui.fragment.setting.SettingFragment"
         android:label=""

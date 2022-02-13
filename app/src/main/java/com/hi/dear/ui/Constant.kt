@@ -12,6 +12,9 @@ object Constant {
     const val tipsFragmentTitle = "Love Tips"
     const val settingFragmentTitle = "Setting"
     const val notificationFragmentTitle = "Notifications"
+    const val boostProfileFragmentTitle = "Boost Profile"
+    const val topProfileFragmentTitle = "Top Profile"
+    const val giftFragmentTitle = "Today's Gift"
 
     const val notification_type_request_accepted = "requestAccepted"
 }

@@ -16,11 +16,14 @@ import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityMainBinding
+import com.hi.dear.ui.Constant.boostProfileFragmentTitle
 import com.hi.dear.ui.Constant.browseFragmentTitle
+import com.hi.dear.ui.Constant.giftFragmentTitle
 import com.hi.dear.ui.Constant.matchFragmentTitle
 import com.hi.dear.ui.Constant.notificationFragmentTitle
 import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
+import com.hi.dear.ui.Constant.topProfileFragmentTitle
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.activity.message.MessageActivity
 import com.hi.dear.ui.activity.profile.ProfileActivity
@@ -37,6 +40,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
         NavigationItemModel(R.drawable.ic_message, notificationFragmentTitle),
         NavigationItemModel(R.drawable.ic_heart_2, matchFragmentTitle),
         NavigationItemModel(R.drawable.ic_star, tipsFragmentTitle),
+        NavigationItemModel(R.drawable.ic_boost, boostProfileFragmentTitle),
+        NavigationItemModel(R.drawable.ic_top, topProfileFragmentTitle),
+        NavigationItemModel(R.drawable.ic_gift, giftFragmentTitle),
         NavigationItemModel(R.drawable.ic_settings, settingFragmentTitle),
     )
 
@@ -100,6 +106,18 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
                 navController.navigate(R.id.tips_fragment)
             }
             4 -> {
+                binding.toolbarLayout.toolbarTitle.text = boostProfileFragmentTitle
+                navController.navigate(R.id.boost_profile_fragment)
+            }
+            5 -> {
+                binding.toolbarLayout.toolbarTitle.text = topProfileFragmentTitle
+                navController.navigate(R.id.top_profile_fragment)
+            }
+            6 -> {
+                binding.toolbarLayout.toolbarTitle.text = giftFragmentTitle
+                navController.navigate(R.id.gift_fragment)
+            }
+            7 -> {
                 binding.toolbarLayout.toolbarTitle.text = settingFragmentTitle
                 navController.navigate(R.id.setting_fragment)
             }

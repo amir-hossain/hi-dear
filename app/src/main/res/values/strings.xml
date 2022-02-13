@@ -116,5 +116,8 @@
     <string name="no_internet_connection">No internet connection !</string>
     <string name="test_Interstitial_ad_id">ca-app-pub-3940256099942544/1033173712</string>
     <string name="ad_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="boost_profile">Boost Profile</string>
+    <string name="top_profile">Top Profile</string>
+    <string name="gift">Today\'s Gift</string>
 
 </resources>
