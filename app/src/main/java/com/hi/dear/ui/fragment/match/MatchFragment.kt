@@ -1,11 +1,11 @@
-package com.hi.dear.ui.fragment.request
+package com.hi.dear.ui.fragment.match
 
 import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hi.dear.data.model.common.UserCore
-import com.hi.dear.databinding.FragmentRequestBinding
+import com.hi.dear.databinding.FragmentMatchBinding
 import com.hi.dear.repo.RequestRepository
 import com.hi.dear.source.remote.FirebaseRequestSource
 import com.hi.dear.ui.activity.ViewModelFactory
@@ -14,7 +14,7 @@ import com.hi.dear.ui.activity.profile.ProfileActivity
 import com.hi.dear.ui.base.BaseFragment
 
 
-class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>(),
+class MatchFragment : BaseFragment<FragmentMatchBinding, RequestViewModel>(),
     RequestAdapter.IRequestClickListener {
     private lateinit var adapter: RequestAdapter
 
@@ -48,8 +48,8 @@ class RequestFragment : BaseFragment<FragmentRequestBinding, RequestViewModel>()
         }
     }
 
-    override fun initViewBinding(inflater: LayoutInflater): FragmentRequestBinding {
-        return FragmentRequestBinding.inflate(inflater)
+    override fun initViewBinding(inflater: LayoutInflater): FragmentMatchBinding {
+        return FragmentMatchBinding.inflate(inflater)
     }
 
     override fun initViewModel(): RequestViewModel? {

@@ -15,9 +15,9 @@
         tools:layout="@layout/fragment_notification" />
     <fragment
         android:id="@+id/match_fragment"
-        android:name="com.hi.dear.ui.fragment.request.RequestFragment"
+        android:name="com.hi.dear.ui.fragment.match.MatchFragment"
         android:label=""
-        tools:layout="@layout/activity_profile" />
+        tools:layout="@layout/fragment_match" />
     <fragment
         android:id="@+id/tips_fragment"
         android:name="com.hi.dear.ui.fragment.tips.TipsFragment"

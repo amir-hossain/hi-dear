@@ -1,4 +1,4 @@
-package com.hi.dear.ui.fragment.request
+package com.hi.dear.ui.fragment.match
 
 import android.view.View
 import com.bumptech.glide.Glide

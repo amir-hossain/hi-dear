@@ -1,4 +1,4 @@
-package com.hi.dear.ui.fragment.request
+package com.hi.dear.ui.fragment.match
 
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.ui.Constant

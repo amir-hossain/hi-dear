@@ -3,7 +3,7 @@ package com.hi.dear.source.local
 import android.app.Application
 import com.hi.dear.db.HiDearDB
 import com.hi.dear.source.IRequestDataSource
-import com.hi.dear.ui.fragment.request.RequestData
+import com.hi.dear.ui.fragment.match.RequestData
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.

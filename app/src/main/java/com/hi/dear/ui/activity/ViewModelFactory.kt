@@ -11,7 +11,7 @@ import com.hi.dear.ui.activity.profile.ProfileViewModel
 import com.hi.dear.ui.activity.register.RegisterViewModel
 import com.hi.dear.ui.fragment.browse.BrowseViewModel
 import com.hi.dear.ui.fragment.notification.NotificationViewModel
-import com.hi.dear.ui.fragment.request.RequestViewModel
+import com.hi.dear.ui.fragment.match.RequestViewModel
 import com.hi.dear.ui.fragment.setting.SettingViewModel
 
 class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.Factory {

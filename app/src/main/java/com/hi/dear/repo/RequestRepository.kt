@@ -2,7 +2,7 @@ package com.hi.dear.repo
 
 import com.hi.dear.data.RawResult
 import com.hi.dear.source.IRequestDataSource
-import com.hi.dear.ui.fragment.request.RequestData
+import com.hi.dear.ui.fragment.match.RequestData
 
 
 class RequestRepository(private val dataSource: IRequestDataSource) : IRepository {
