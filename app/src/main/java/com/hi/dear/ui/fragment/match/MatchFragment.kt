@@ -15,11 +15,11 @@ import com.hi.dear.ui.base.BaseFragment
 
 
 class MatchFragment : BaseFragment<FragmentMatchBinding, RequestViewModel>(),
-    RequestAdapter.IRequestClickListener {
-    private lateinit var adapter: RequestAdapter
+    MatchAdapter.IRequestClickListener {
+    private lateinit var adapter: MatchAdapter
 
     private fun initAdapter() {
-        adapter = RequestAdapter(this)
+        adapter = MatchAdapter(this)
         binding.messageRv.adapter = adapter
         binding.messageRv.layoutManager = GridLayoutManager(requireContext(), 2)
     }
@@ -37,22 +37,18 @@ class MatchFragment : BaseFragment<FragmentMatchBinding, RequestViewModel>(),
     }
 
     override fun onChatClick(data: RequestData) {
-        if (data is UserCore) {
-            ChatActivity.start(requireContext(), data)
-        }
+        ChatActivity.start(requireContext(), data)
     }
 
     override fun onImageClick(data: RequestData) {
-        if (data is UserCore) {
-            ProfileActivity.start(requireContext(), data)
-        }
+        ProfileActivity.start(requireContext(), data)
     }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentMatchBinding {
         return FragmentMatchBinding.inflate(inflater)
     }
 
-    override fun initViewModel(): RequestViewModel? {
+    override fun initViewModel(): RequestViewModel {
         return ViewModelProvider(
             this,
             ViewModelFactory(RequestRepository(FirebaseRequestSource()))

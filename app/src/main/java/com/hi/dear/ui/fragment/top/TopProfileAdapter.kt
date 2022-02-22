@@ -1,41 +1,38 @@
-package com.hi.dear.ui.fragment.match
+package com.hi.dear.ui.fragment.top
 
 import android.view.View
 import com.bumptech.glide.Glide
 import com.hi.dear.R
-import com.hi.dear.databinding.RequestItemBinding
+import com.hi.dear.databinding.TopProfileItemBinding
 import com.hi.dear.ui.Constant
-import com.hi.dear.ui.Utils
 import com.hi.dear.ui.base.BaseAdapter
 import com.hi.dear.ui.base.BaseViewHolder
 
-class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter<RequestData>() {
-    private var holder: RequestViewHolder? = null
+class TopProfileAdapter(private val listener: ITopProfileClickListener?) :
+    BaseAdapter<TopProfileData>() {
+    private var holder: TopProfileViewHolder? = null
 
     override fun setViewId(viewType: Int): Int {
         return R.layout.request_item
     }
 
-    override fun bindView(holder: BaseViewHolder, data: RequestData) {
-        if (holder is RequestViewHolder) {
+    override fun bindView(holder: BaseViewHolder, data: TopProfileData) {
+        if (holder is TopProfileViewHolder) {
             Glide.with(context)
                 .load(data.picture)
                 .into(holder.binding.image)
 
             when (data.status) {
                 Constant.requestNew -> {
-                    holder.binding.btnGroup.visibility = View.VISIBLE
                     holder.binding.declinedMsg.visibility = View.GONE
                     holder.binding.chatBtn.visibility = View.GONE
 
                 }
                 Constant.requestAccepted -> {
-                    holder.binding.btnGroup.visibility = View.GONE
                     holder.binding.declinedMsg.visibility = View.GONE
                     holder.binding.chatBtn.visibility = View.VISIBLE
                 }
                 else -> {
-                    holder.binding.btnGroup.visibility = View.GONE
                     holder.binding.declinedMsg.visibility = View.VISIBLE
                     holder.binding.chatBtn.visibility = View.GONE
                 }
@@ -46,11 +43,11 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
     }
 
     override fun setViewHolder(view: View, viewType: Int): BaseViewHolder {
-        holder = RequestViewHolder(view)
-        return holder as RequestViewHolder
+        holder = TopProfileViewHolder(view)
+        return holder as TopProfileViewHolder
     }
 
-    fun updateView(data: RequestData) {
+    fun updateView(data: TopProfileData) {
         var dataPosition = -1
         for (i in dataList.indices) {
             if (dataList[i].id == data.id) {
@@ -65,48 +62,20 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
 
     }
 
-    fun disableButton() {
-        if (holder != null) {
-            Utils.disableView(holder?.binding?.btnGroup!!)
-            notifyDataSetChanged()
-        }
+    inner class TopProfileViewHolder(view: View) : BaseViewHolder(view) {
+        var binding: TopProfileItemBinding = TopProfileItemBinding.bind(view)
 
-    }
-
-    fun enableButton() {
-        if (holder != null) {
-            Utils.enableView(holder?.binding?.btnGroup!!)
-            notifyDataSetChanged()
-        }
-    }
-
-
-    inner class RequestViewHolder : BaseViewHolder {
-        var binding: RequestItemBinding
-
-        constructor(view: View) : super(view) {
-            binding = RequestItemBinding.bind(view)
-
+        init {
             binding.btnClose.setOnClickListener {
                 var itemPosition = getPosition(view)
                 var removeData = dataList.removeAt(itemPosition)
                 listener?.onCloseClick(removeData)
                 notifyDataSetChanged()
             }
-            binding.btnAccept.setOnClickListener {
-                var data = dataList[getPosition(view)]
-                listener?.onAcceptClick(data)
-            }
-            binding.btnNo.setOnClickListener {
-                var data = dataList[getPosition(view)]
-                listener?.onNoClick(data)
-            }
-
             binding.chatBtn.setOnClickListener {
                 var data = dataList[getPosition(view)]
                 listener?.onChatClick(data)
             }
-
             binding.image.setOnClickListener {
                 var data = dataList[getPosition(view)]
                 listener?.onImageClick(data)
@@ -115,11 +84,9 @@ class RequestAdapter(private val listener: IRequestClickListener?) : BaseAdapter
     }
 
 
-    interface IRequestClickListener {
-        fun onCloseClick(data: RequestData)
-        fun onAcceptClick(data: RequestData)
-        fun onNoClick(data: RequestData)
-        fun onChatClick(data: RequestData)
-        fun onImageClick(data: RequestData)
+    interface ITopProfileClickListener {
+        fun onCloseClick(data: TopProfileData)
+        fun onChatClick(data: TopProfileData)
+        fun onImageClick(data: TopProfileData)
     }
 }

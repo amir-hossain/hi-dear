@@ -22,7 +22,7 @@ class FirebaseRequestSource : IRequestDataSource {
         firebaseDb.collection(mineUserId + "" + FirebaseConstants.requestReceivedTable_post_fix)
             .get()
             .addOnCompleteListener {
-                if (it.isSuccessful && it.result != null && it.result!!.documents != null) {
+                if (it.isSuccessful && it.result != null) {
                     userList = parseRequestDataFrom(it.result!!.documents)
                     Timber.i("isSuccessful")
                 }

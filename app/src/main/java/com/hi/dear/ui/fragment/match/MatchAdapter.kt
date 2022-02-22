@@ -1,0 +1,123 @@
+package com.hi.dear.ui.fragment.match
+
+import android.view.View
+import com.bumptech.glide.Glide
+import com.hi.dear.R
+import com.hi.dear.databinding.RequestItemBinding
+import com.hi.dear.ui.Constant
+import com.hi.dear.ui.Utils
+import com.hi.dear.ui.base.BaseAdapter
+import com.hi.dear.ui.base.BaseViewHolder
+
+class MatchAdapter(private val listener: IRequestClickListener?) : BaseAdapter<RequestData>() {
+    private var holder: RequestViewHolder? = null
+
+    override fun setViewId(viewType: Int): Int {
+        return R.layout.request_item
+    }
+
+    override fun bindView(holder: BaseViewHolder, data: RequestData) {
+        if (holder is RequestViewHolder) {
+            Glide.with(context)
+                .load(data.picture)
+                .into(holder.binding.image)
+
+            when (data.status) {
+                Constant.requestNew -> {
+                    holder.binding.btnGroup.visibility = View.VISIBLE
+                    holder.binding.declinedMsg.visibility = View.GONE
+                    holder.binding.chatBtn.visibility = View.GONE
+
+                }
+                Constant.requestAccepted -> {
+                    holder.binding.btnGroup.visibility = View.GONE
+                    holder.binding.declinedMsg.visibility = View.GONE
+                    holder.binding.chatBtn.visibility = View.VISIBLE
+                }
+                else -> {
+                    holder.binding.btnGroup.visibility = View.GONE
+                    holder.binding.declinedMsg.visibility = View.VISIBLE
+                    holder.binding.chatBtn.visibility = View.GONE
+                }
+            }
+
+            holder.binding.name.text = data.name
+        }
+    }
+
+    override fun setViewHolder(view: View, viewType: Int): BaseViewHolder {
+        holder = RequestViewHolder(view)
+        return holder as RequestViewHolder
+    }
+
+    fun updateView(data: RequestData) {
+        var dataPosition = -1
+        for (i in dataList.indices) {
+            if (dataList[i].id == data.id) {
+                dataList[i].status = data.status
+                dataPosition = i
+            }
+        }
+
+        if (dataPosition != -1) {
+            notifyItemChanged(dataPosition)
+        }
+
+    }
+
+    fun disableButton() {
+        if (holder != null) {
+            Utils.disableView(holder?.binding?.btnGroup!!)
+            notifyDataSetChanged()
+        }
+
+    }
+
+    fun enableButton() {
+        if (holder != null) {
+            Utils.enableView(holder?.binding?.btnGroup!!)
+            notifyDataSetChanged()
+        }
+    }
+
+
+    inner class RequestViewHolder(view: View) : BaseViewHolder(view) {
+        var binding: RequestItemBinding = RequestItemBinding.bind(view)
+
+       init {
+            binding.btnClose.setOnClickListener {
+                val itemPosition = getPosition(view)
+                val removeData = dataList.removeAt(itemPosition)
+                listener?.onCloseClick(removeData)
+                notifyDataSetChanged()
+            }
+            binding.btnAccept.setOnClickListener {
+                val data = dataList[getPosition(view)]
+                listener?.onAcceptClick(data)
+            }
+            binding.btnNo.setOnClickListener {
+                val data = dataList[getPosition(view)]
+                listener?.onNoClick(data)
+            }
+
+            binding.chatBtn.setOnClickListener {
+                val data = dataList[getPosition(view)]
+                listener?.onChatClick(data)
+            }
+
+            binding.image.setOnClickListener {
+                val data = dataList[getPosition(view)]
+                listener?.onImageClick(data)
+            }
+        }
+    }
+
+
+    interface IRequestClickListener {
+        fun onCloseClick(data: RequestData)
+        fun onAcceptClick(data: RequestData)
+        fun onNoClick(data: RequestData)
+        fun onChatClick(data: RequestData)
+        fun onImageClick(data: RequestData)
+    }
+}
