@@ -125,4 +125,5 @@
     <string name="boost_30">Boost profile for 30 min</string>
     <string name="boost_10_confirm_msg">Are you sure to boost for 10 minutes?</string>
     <string name="boost_30_confirm_msg">Are you sure to boost for 30 minutes?</string>
+    <string name="ad">AD</string>
 </resources>
