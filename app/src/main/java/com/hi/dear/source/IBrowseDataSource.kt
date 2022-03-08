@@ -8,4 +8,6 @@ interface IBrowseDataSource {
     suspend fun sendRequest(receiverUserData: UserCore): Boolean
 
     suspend fun getRemainingCoin(userId: String): Int
+
+    suspend fun deductCoin(coinOfRequest: Int,userId: String): Int
 }

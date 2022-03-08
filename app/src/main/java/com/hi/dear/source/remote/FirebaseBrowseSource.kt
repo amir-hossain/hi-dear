@@ -116,6 +116,15 @@ class FirebaseBrowseSource : IBrowseDataSource {
         return remainingCoin
     }
 
+    override suspend fun deductCoin(coinOfRequest: Int, userId: String): Int {
+        var result = Constant.CurrentCoin
+        val newCoin = Constant.CurrentCoin - coinOfRequest
+        val ref = firebaseDb.collection(FirebaseConstants.coinTable).document(userId)
+        ref.update(FirebaseConstants.coinField, newCoin)
+            .addOnSuccessListener { result = newCoin }.await()
+        return result
+    }
+
     private fun setInitCoin(ref: DocumentReference) {
         val data = hashMapOf(FirebaseConstants.coinField to Constant.InitialCoin)
         ref.set(data)

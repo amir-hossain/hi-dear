@@ -17,6 +17,7 @@ class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
     val browseDataResult = MutableLiveData<ActionResult<MutableList<UserCore>>>()
     val requestDataResult = MutableLiveData<ActionResult<Boolean>>()
     val remainingCoinDataResult = MutableLiveData<ActionResult<Int>>()
+    val deductCoinResult = MutableLiveData<ActionResult<Int>>()
 
     // used to pass data in browse fragment
     val remainingCoin = MutableLiveData<Int>()
@@ -74,5 +75,20 @@ class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
 
     fun setRemainingCoin(coin: Int) {
         remainingCoin.value = coin
+    }
+
+    fun deductCoin(coinOfRequest: Int,userId: String) {
+        viewModelScope.launch {
+            isLoading.value = true
+            val requestResult = repo.deductCoin(coinOfRequest,userId)
+            if (requestResult is RawResult.Success) {
+                deductCoinResult.value =
+                    ActionResult(true, R.string.request_send, requestResult.data)
+            } else if (requestResult is RawResult.Error) {
+                deductCoinResult.value =
+                    ActionResult(false, R.string.request_send_failed, null)
+            }
+            isLoading.value = false
+        }
     }
 }

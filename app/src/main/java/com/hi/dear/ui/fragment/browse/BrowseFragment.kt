@@ -121,7 +121,6 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
             val browseResult = it ?: return@Observer
             if (browseResult.success) {
                 mAdapter.addItem(it.data!!)
-                mAdapter.notifyDataSetChanged()
                 adjustView()
             } else {
                 showToast(browseResult.msg)
@@ -132,16 +131,28 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
             val result = it ?: return@Observer
             if (result.success) {
                 binding.swipeStack.swipe()
+                deductCoin()
             }
             showToast(result.msg)
-            requireActivity().setResult(Activity.RESULT_OK)
         })
 
         viewModel?.remainingCoin?.observe(this@BrowseFragment, Observer {
-            binding.remaningCoins.text=getString(R.string.remaining_coin,it)
+            binding.remaningCoins.text = getString(R.string.remaining_coin, it)
         })
 
+        viewModel?.deductCoinResult?.observe(this@BrowseFragment, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                viewModel.setRemainingCoin(it.data!!)
+            }
+        })
+    }
 
+    private fun deductCoin() {
+        viewModel?.deductCoin(
+            Constant.CoinOfRequest,
+            PrefsManager.getInstance().readString(PrefsManager.UserId)!!
+        )
     }
 
     private fun adjustView() {

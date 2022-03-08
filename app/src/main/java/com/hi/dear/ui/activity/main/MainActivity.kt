@@ -18,6 +18,7 @@ import com.hi.dear.R
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityMainBinding
 import com.hi.dear.repo.BrowseRepository
+import com.hi.dear.ui.Constant.CurrentCoin
 import com.hi.dear.ui.Constant.boostProfileFragmentTitle
 import com.hi.dear.ui.Constant.browseFragmentTitle
 import com.hi.dear.ui.Constant.giftFragmentTitle
@@ -202,11 +203,16 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
         viewModel?.remainingCoinDataResult?.observe(this, Observer {
             val result = it ?: return@Observer
             if (result.success) {
-                binding.remaningCoins.text = getString(R.string.remaining_coin, it.data!!)
-                viewModel.setRemainingCoin(it.data!!)
+                CurrentCoin = it.data!!
+                binding.remaningCoins.text = getString(R.string.remaining_coin, CurrentCoin)
+                viewModel.setRemainingCoin(CurrentCoin)
             } else {
                 showToast(result.msg)
             }
+        })
+
+        viewModel?.remainingCoin?.observe(this, Observer {
+            binding.remaningCoins.text = getString(R.string.remaining_coin, it)
         })
 
     }

@@ -25,4 +25,10 @@ class BrowseRepository : IRepository {
 
         return RawResult.Success(result)
     }
+
+    suspend fun deductCoin(coinOfRequest: Int,userId: String): RawResult<Int> {
+        val result = dataSource.deductCoin(coinOfRequest,userId)
+
+        return RawResult.Success(result)
+    }
 }

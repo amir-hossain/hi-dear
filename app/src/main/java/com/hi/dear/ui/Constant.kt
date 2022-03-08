@@ -1,7 +1,8 @@
 package com.hi.dear.ui
 
 object Constant {
-    const val InitialCoin=100
+    const val CoinOfRequest = 3
+    const val InitialCoin = 100
     const val requestNew = "new"
     const val requestAccepted = "accepted"
     const val requestDeclined = "declined"
@@ -16,4 +17,6 @@ object Constant {
     const val topProfileFragmentTitle = "Top Profile"
     const val giftFragmentTitle = "Today's Gift"
     const val notification_type_request_accepted = "requestAccepted"
+
+    var CurrentCoin = InitialCoin
 }
