@@ -16,7 +16,7 @@ object FirebaseConstants {
     const val userInfoTable = "userInfo"
     const val authInfoTable = "authInfo"
     const val notificationTable = "notifications"
-
+    const val coinTable = "coin"
     const val ageField = "age"
     const val userNameField = "userName"
     const val genderField = "gender"
@@ -26,4 +26,5 @@ object FirebaseConstants {
     const val passwordField = "password"
     const val userIdField = "userId"
     const val aboutField = "about"
+    const val coinField = "coin"
 }

@@ -19,7 +19,7 @@ class FirebaseMsgSource :
     private val mineId = prefsManager.readString(PrefsManager.UserId)
 
     override fun getMessage(listener: IMsgListener) {
-        var result = mutableListOf<MessageData>()
+        val result = mutableListOf<MessageData>()
         firebaseDb.collection(FirebaseConstants.last_message_table_name)
             .whereEqualTo(FirebaseConstants.receiver_id, mineId)
             .addSnapshotListener { snapshots, e ->

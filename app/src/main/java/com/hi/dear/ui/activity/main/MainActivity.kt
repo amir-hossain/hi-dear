@@ -7,7 +7,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityMainBinding
+import com.hi.dear.repo.BrowseRepository
 import com.hi.dear.ui.Constant.boostProfileFragmentTitle
 import com.hi.dear.ui.Constant.browseFragmentTitle
 import com.hi.dear.ui.Constant.giftFragmentTitle
@@ -25,14 +27,15 @@ import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
 import com.hi.dear.ui.Constant.topProfileFragmentTitle
 import com.hi.dear.ui.PrefsManager
+import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.message.MessageActivity
 import com.hi.dear.ui.activity.profile.ProfileActivity
 import com.hi.dear.ui.base.BaseActivity
+import com.hi.dear.ui.fragment.browse.BrowseViewModel
 
 
-class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
+class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
     NavigationRVAdapter.ClickListener {
-    val remainingCoins = 100
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navAdapter: NavigationRVAdapter
 
@@ -140,11 +143,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
         return ActivityMainBinding.inflate(layoutInflater)
     }
 
-    override fun initViewModel(): ViewModel? {
-        return null
+    override fun initViewModel(): BrowseViewModel {
+        return ViewModelProvider(
+            this, ViewModelFactory(BrowseRepository())
+        ).get(BrowseViewModel::class.java)
     }
 
     override fun initView() {
+        viewModel?.getRemainingCoin(PrefsManager.getInstance().readString(PrefsManager.UserId)!!)
         drawerLayout = binding.drawerLayout
         NavigationUI.setupWithNavController(binding.toolbarLayout.toolbar, navController)
         setSupportActionBar(binding.toolbarLayout.toolbar)
@@ -167,7 +173,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
             .into(binding.profileImage)
 
         binding.name.text = myData.name
-        binding.remaningCoins.text = getString(R.string.remaining_coin, remainingCoins)
         binding.editBtn.setOnClickListener {
             ProfileActivity.start(this, myData)
         }
@@ -193,7 +198,16 @@ class MainActivity : BaseActivity<ActivityMainBinding, ViewModel>(),
         binding.toolbarLayout.toolbar.navigationIcon = null
     }
 
-    override fun attachObserver(viewModel: ViewModel?) {
+    override fun attachObserver(viewModel: BrowseViewModel?) {
+        viewModel?.remainingCoinDataResult?.observe(this, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                binding.remaningCoins.text = getString(R.string.remaining_coin, it.data!!)
+                viewModel.setRemainingCoin(it.data!!)
+            } else {
+                showToast(result.msg)
+            }
+        })
 
     }
 

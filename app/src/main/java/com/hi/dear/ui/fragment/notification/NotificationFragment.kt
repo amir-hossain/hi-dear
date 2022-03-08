@@ -58,7 +58,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding, Notificat
     }
 
     override fun onItemClick(data: NotificationData) {
-        if (data is UserCore && data.notificationType == Constant.notification_type_request_accepted) {
+        if (data.notificationType == Constant.notification_type_request_accepted) {
             ChatActivity.start(requireContext(), data)
         }
     }

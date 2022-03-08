@@ -6,4 +6,6 @@ interface IBrowseDataSource {
     suspend fun getBrowseData(preferredGender: String, limit: Long): MutableList<UserCore>
 
     suspend fun sendRequest(receiverUserData: UserCore): Boolean
+
+    suspend fun getRemainingCoin(userId: String): Int
 }

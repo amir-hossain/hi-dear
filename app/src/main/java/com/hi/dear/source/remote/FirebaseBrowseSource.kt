@@ -1,6 +1,7 @@
 package com.hi.dear.source.remote
 
 
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hi.dear.data.model.common.UserCore
@@ -98,6 +99,26 @@ class FirebaseBrowseSource : IBrowseDataSource {
                 Timber.e("failed")
             }.await()
         return savedReceivedInfo && savedSentInfo
+    }
+
+    override suspend fun getRemainingCoin(userId: String): Int {
+        var remainingCoin = 0
+        val ref = firebaseDb.collection(FirebaseConstants.coinTable).document(userId)
+        ref.get()
+            .addOnSuccessListener { document ->
+                remainingCoin = if (document.data != null) {
+                    document.data!![FirebaseConstants.coinField].toString().toInt()
+                } else {
+                    setInitCoin(ref)
+                    Constant.InitialCoin
+                }
+            }.await()
+        return remainingCoin
+    }
+
+    private fun setInitCoin(ref: DocumentReference) {
+        val data = hashMapOf(FirebaseConstants.coinField to Constant.InitialCoin)
+        ref.set(data)
     }
 
     private fun getMineHasMap(): HashMap<String, Any> {

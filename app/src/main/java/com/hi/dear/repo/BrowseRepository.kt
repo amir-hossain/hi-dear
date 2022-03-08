@@ -12,20 +12,17 @@ class BrowseRepository : IRepository {
 
         val result = dataSource.getBrowseData(gender, limit)
 
-        return if (result != null) {
-            RawResult.Success(result)
-        } else {
-            RawResult.Error(RuntimeException("sent request failed"))
-        }
+        return RawResult.Success(result)
     }
 
     suspend fun sendRequest(receiverUserData: UserCore): RawResult<Boolean> {
         val result = dataSource.sendRequest(receiverUserData)
+        return RawResult.Success(result)
+    }
 
-        return if (result != null) {
-            RawResult.Success(result)
-        } else {
-            RawResult.Error(RuntimeException("no user found"))
-        }
+    suspend fun getRemainingCoin(userId: String): RawResult<Int> {
+        val result = dataSource.getRemainingCoin(userId)
+
+        return RawResult.Success(result)
     }
 }
