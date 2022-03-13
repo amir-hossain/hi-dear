@@ -118,7 +118,7 @@
     <string name="ad_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="boost_profile">Boost Profile</string>
     <string name="top_profile">Top Profile</string>
-    <string name="gift">Today\'s Gift</string>
+    <string name="gift">Click the box for your today\'s gift</string>
     <string name="remaining_coin">%d Coins Left</string>
     <string name="boost_msg">when you boost your profile,it will have 2X reach and will be featured in Top Profile Page</string>
     <string name="boost_10">Boost profile for 10 min</string>
@@ -126,4 +126,6 @@
     <string name="boost_10_confirm_msg">Are you sure to boost for 10 minutes?</string>
     <string name="boost_30_confirm_msg">Are you sure to boost for 30 minutes?</string>
     <string name="ad">AD</string>
+    <string name="browse_empty_text">No user available right now</string>
+    <string name="gift_empty_msg">No more gift for today,\nTry again tomorrow !</string>
 </resources>
