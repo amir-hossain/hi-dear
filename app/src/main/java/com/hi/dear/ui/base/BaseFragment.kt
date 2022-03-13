@@ -49,9 +49,9 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel> : Fragment() {
             (viewModel as BaseViewModel).isLoading.observe(requireActivity(), Observer {
                 initLoadingView(it)
             })
-            (viewModel as BaseViewModel).isConnected.observe(requireActivity(), {
+            (viewModel as BaseViewModel).isConnected.observe(requireActivity()) {
                 showToast(R.string.no_internet_connection)
-            })
+            }
         }
     }
 

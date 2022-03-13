@@ -128,4 +128,6 @@
     <string name="ad">AD</string>
     <string name="browse_empty_text">No user available right now</string>
     <string name="gift_empty_msg">No more gift for today,\nTry again tomorrow !</string>
+    <string name="gift_msg">Congratulations ! \nYou have got %d coins</string>
+    <string name="ok">Ok</string>
 </resources>
