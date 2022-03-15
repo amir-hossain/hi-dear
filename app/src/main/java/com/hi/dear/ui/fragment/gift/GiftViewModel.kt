@@ -15,6 +15,7 @@ class GiftViewModel(private val repository: GiftRepository) : BaseViewModel() {
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
     val giftAvailableResult = MutableLiveData<ActionResult<Boolean>>()
     val setLastTimeResult = MutableLiveData<ActionResult<Boolean>>()
+    val giftCoinResult = MutableLiveData<ActionResult<Int>>()
 
     fun isGiftAvailable(userId: String) {
         viewModelScope.launch {
@@ -52,6 +53,21 @@ class GiftViewModel(private val repository: GiftRepository) : BaseViewModel() {
                 setLastTimeResult.value = ActionResult(true, R.string.fetch_success, result.data)
             } else {
                 setLastTimeResult.value = ActionResult(false, R.string.fetch_failed, null)
+            }
+            isLoading.value = false
+        }
+    }
+
+    fun giftCoin(giftCoint: Int, userId: String) {
+        viewModelScope.launch {
+            isLoading.value = true
+            val requestResult = repository.giftCoin(giftCoint,userId)
+            if (requestResult is RawResult.Success) {
+                giftCoinResult.value =
+                    ActionResult(true, R.string.request_send, requestResult.data)
+            } else if (requestResult is RawResult.Error) {
+                giftCoinResult.value =
+                    ActionResult(false, R.string.request_send_failed, null)
             }
             isLoading.value = false
         }

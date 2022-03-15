@@ -205,7 +205,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
             if (result.success) {
                 CurrentCoin = it.data!!
                 binding.remaningCoins.text = getString(R.string.remaining_coin, CurrentCoin)
-                viewModel.setRemainingCoin(CurrentCoin)
+                setRemainingCoin(CurrentCoin)
             } else {
                 showToast(result.msg)
             }
@@ -215,6 +215,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
             binding.remaningCoins.text = getString(R.string.remaining_coin, it)
         })
 
+    }
+
+    fun setRemainingCoin(coin:Int) {
+        viewModel?.setRemainingCoin(coin)
     }
 
     override fun initLoadingView(isLoading: Boolean) {

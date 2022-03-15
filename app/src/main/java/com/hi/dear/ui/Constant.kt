@@ -1,6 +1,7 @@
 package com.hi.dear.ui
 
 object Constant {
+    val GiftCoint = 5
     const val CoinOfRequest = 3
     const val InitialCoin = 100
     const val requestNew = "new"

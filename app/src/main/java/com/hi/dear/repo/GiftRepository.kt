@@ -23,4 +23,10 @@ class GiftRepository(private val dataSource: IGiftDataSource) : IRepository {
 
         return RawResult.Success(result)
     }
+
+    suspend fun giftCoin(giftCoint: Int, userId: String): RawResult<Int> {
+        val result = dataSource.giftCoin(userId,giftCoint)
+
+        return RawResult.Success(result)
+    }
 }
