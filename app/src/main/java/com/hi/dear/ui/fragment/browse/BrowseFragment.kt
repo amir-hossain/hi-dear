@@ -1,6 +1,5 @@
 package com.hi.dear.ui.fragment.browse
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.Observer
@@ -13,6 +12,7 @@ import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.FragmentBrowseBinding
 import com.hi.dear.repo.BrowseRepository
 import com.hi.dear.ui.Constant
+import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
@@ -28,6 +28,15 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
     private val mAdapter by lazy { SwipeStackAdapter() }
     private val manager by lazy { CardStackLayoutManager(requireContext(), this) }
     private var mInterstitialAd: InterstitialAd? = null
+    private val notEnoughCoinListener = object : DialogFactory.ITwoBtnListener {
+        override fun onPositiveBtnClicked() {
+
+        }
+
+        override fun onNegativeBtnClicked() {
+
+        }
+    }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentBrowseBinding {
         return FragmentBrowseBinding.inflate(inflater)
@@ -47,7 +56,10 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         binding.swipeStack.adapter = mAdapter
         binding.swipeStack.layoutManager = manager
         binding.heartBtn.setOnClickListener {
-            if (visibleUserData != null) {
+            if (Constant.CurrentCoin < Constant.CoinOfRequest) {
+                DialogFactory.makeDialog(R.string.not_enough_coin_msg, notEnoughCoinListener)
+                    .showDialog(activity?.supportFragmentManager)
+            } else if (visibleUserData != null) {
                 viewModel?.sendRequest(visibleUserData!!)
             }
 

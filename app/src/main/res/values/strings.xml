@@ -130,4 +130,5 @@
     <string name="gift_empty_msg">No more gift for today,\nTry again tomorrow !</string>
     <string name="gift_msg">Congratulations ! \nYou have got %d coins</string>
     <string name="ok">Ok</string>
+    <string name="not_enough_coin_msg">Not enough coin. watch an AD</string>
 </resources>
