@@ -9,6 +9,7 @@ import com.hi.dear.ui.activity.login.LoginViewModel
 import com.hi.dear.ui.activity.message.MessageViewModel
 import com.hi.dear.ui.activity.profile.ProfileViewModel
 import com.hi.dear.ui.activity.register.RegisterViewModel
+import com.hi.dear.ui.fragment.boost.BoostProfileViewModel
 import com.hi.dear.ui.fragment.browse.BrowseViewModel
 import com.hi.dear.ui.fragment.gift.GiftViewModel
 import com.hi.dear.ui.fragment.notification.NotificationViewModel
@@ -52,11 +53,14 @@ class ViewModelFactory(private val repository: IRepository) : ViewModelProvider.
                 return SettingViewModel(repository) as T
             }
             is TopProfileRepository -> {
-            return TopProfileViewModel(repository) as T
-        }
+                return TopProfileViewModel(repository) as T
+            }
             is GiftRepository -> {
-            return GiftViewModel(repository) as T
-        }
+                return GiftViewModel(repository) as T
+            }
+            is BoostProfileRepository -> {
+                return BoostProfileViewModel(repository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
     }

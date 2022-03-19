@@ -12,13 +12,14 @@
         android:layout_marginEnd="24dp"
         android:text="@string/boost_msg"
         android:textColor="@color/brand_color"
+        android:gravity="center"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/boost_10"/>
+        app:layout_constraintBottom_toTopOf="@id/small_boost"/>
     <TextView
-        android:id="@+id/boost_10"
+        android:id="@+id/small_boost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/brand_color"
@@ -34,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
-        android:id="@+id/boost_30"
+        android:id="@+id/large_boost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/brand_secondary_color"
@@ -48,5 +49,14 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/boost_10"/>
+        app:layout_constraintTop_toBottomOf="@id/small_boost"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/dp_24"
+        app:layout_constraintTop_toBottomOf="@id/large_boost"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

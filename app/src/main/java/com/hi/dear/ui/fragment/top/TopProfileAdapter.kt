@@ -22,7 +22,7 @@ class TopProfileAdapter(private val listener: ITopProfileClickListener?) :
                 .load(data.picture)
                 .into(holder.binding.image)
 
-            when (data.status) {
+         /*   when (data.status) {
                 Constant.requestNew -> {
                     holder.binding.declinedMsg.visibility = View.GONE
                     holder.binding.chatBtn.visibility = View.GONE
@@ -36,7 +36,7 @@ class TopProfileAdapter(private val listener: ITopProfileClickListener?) :
                     holder.binding.declinedMsg.visibility = View.VISIBLE
                     holder.binding.chatBtn.visibility = View.GONE
                 }
-            }
+            }*/
 
             holder.binding.name.text = data.name
         }
@@ -47,7 +47,7 @@ class TopProfileAdapter(private val listener: ITopProfileClickListener?) :
         return holder as TopProfileViewHolder
     }
 
-    fun updateView(data: TopProfileData) {
+  /*  fun updateView(data: TopProfileData) {
         var dataPosition = -1
         for (i in dataList.indices) {
             if (dataList[i].id == data.id) {
@@ -60,7 +60,7 @@ class TopProfileAdapter(private val listener: ITopProfileClickListener?) :
             notifyItemChanged(dataPosition)
         }
 
-    }
+    }*/
 
     inner class TopProfileViewHolder(view: View) : BaseViewHolder(view) {
         var binding: TopProfileItemBinding = TopProfileItemBinding.bind(view)
