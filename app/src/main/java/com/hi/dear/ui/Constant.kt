@@ -1,6 +1,8 @@
 package com.hi.dear.ui
 
 object Constant {
+    const val CoinForSmallBoost = 20
+    const val CoinForLargeBoost = 50
     const val LargeBoostTime = 30
     const val SmallBoostTime = 10
     const val GiftCoint = 5

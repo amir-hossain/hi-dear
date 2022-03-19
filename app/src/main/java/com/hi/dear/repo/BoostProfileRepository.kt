@@ -11,4 +11,10 @@ class BoostProfileRepository(private val dataSource: IBoostProfileDataSource) : 
 
         return RawResult.Success(result)
     }
+
+    suspend fun deductCoin(coin: Int,userId: String): RawResult<Int> {
+        val result = dataSource.deductCoin(coin,userId)
+
+        return RawResult.Success(result)
+    }
 }

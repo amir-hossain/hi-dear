@@ -123,8 +123,8 @@
     <string name="boost_msg">when you boost your profile,it will have 2X reach and will be featured in Top Profile Page</string>
     <string name="boost_10">Boost profile for 10 min</string>
     <string name="boost_30">Boost profile for 30 min</string>
-    <string name="small_boost_confirm_msg">Are you sure to boost for 10 minutes?</string>
-    <string name="large_boost_confirm_msg">Are you sure to boost for 30 minutes?</string>
+    <string name="small_boost_confirm_msg">Are you sure to boost for 10 minutes?\nWhich will cost 20 Coins</string>
+    <string name="large_boost_confirm_msg">Are you sure to boost for 30 minutes?\nWhich will cost 50 Coins</string>
     <string name="ad">AD</string>
     <string name="browse_empty_text">No user available right now</string>
     <string name="gift_empty_msg">No more gift for today,\nTry again tomorrow !</string>

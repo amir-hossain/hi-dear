@@ -3,6 +3,7 @@ package com.hi.dear.source.remote
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hi.dear.source.IBoostProfileDataSource
+import com.hi.dear.ui.Constant
 import com.hi.dear.ui.FirebaseConstants
 import com.hi.dear.ui.FirebaseConstants.emailOrMobileField
 import com.hi.dear.ui.FirebaseConstants.genderField
@@ -42,5 +43,14 @@ class FirebaseBoostProfileSource : IBoostProfileDataSource {
             genderField to {data.gender},
             endTimeField to {data.endTime}
         )
+    }
+
+    override suspend fun deductCoin(coin: Int, userId: String): Int {
+        var result = Constant.CurrentCoin
+        val newCoin = Constant.CurrentCoin - coin
+        val ref = firebaseDb.collection(FirebaseConstants.coinTable).document(userId)
+        ref.update(FirebaseConstants.coinField, newCoin)
+            .addOnSuccessListener { result = newCoin }.await()
+        return result
     }
 }

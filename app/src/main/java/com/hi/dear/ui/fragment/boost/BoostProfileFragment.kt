@@ -9,11 +9,14 @@ import com.hi.dear.databinding.FragmentBoostProfileBinding
 import com.hi.dear.repo.BoostProfileRepository
 import com.hi.dear.source.remote.FirebaseBoostProfileSource
 import com.hi.dear.ui.Constant
+import com.hi.dear.ui.Constant.CoinForLargeBoost
+import com.hi.dear.ui.Constant.CoinForSmallBoost
 import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.Utils.disableView
 import com.hi.dear.ui.Utils.enableView
 import com.hi.dear.ui.activity.ViewModelFactory
+import com.hi.dear.ui.activity.main.MainActivity
 import com.hi.dear.ui.base.BaseFragment
 import com.hi.dear.ui.fragment.top.TopProfileData
 import java.text.SimpleDateFormat
@@ -21,8 +24,21 @@ import java.util.*
 
 
 class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProfileViewModel>() {
+    private var coinToDeduct = 0
+    private val notEnoughCoinListener = object : DialogFactory.ITwoBtnListener {
+        override fun onPositiveBtnClicked() {
+
+        }
+
+        override fun onNegativeBtnClicked() {
+
+        }
+    }
     private val smallBoostBtnListener = object : DialogFactory.ITwoBtnListener {
         override fun onPositiveBtnClicked() {
+            coinToDeduct = CoinForSmallBoost
+            disableView(binding.largeBoost)
+            disableView(binding.smallBoost)
             viewModel?.boostProfile(generateTopProfileData(Constant.SmallBoostTime))
         }
 
@@ -33,6 +49,9 @@ class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProf
 
     private val largeBoostBtnListener = object : DialogFactory.ITwoBtnListener {
         override fun onPositiveBtnClicked() {
+            coinToDeduct = CoinForLargeBoost
+            disableView(binding.largeBoost)
+            disableView(binding.smallBoost)
             viewModel?.boostProfile(generateTopProfileData(Constant.LargeBoostTime))
 
         }
@@ -72,17 +91,23 @@ class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProf
 
     override fun initView() {
         binding.smallBoost.setOnClickListener {
-            DialogFactory.makeDialog(R.string.small_boost_confirm_msg, smallBoostBtnListener)
-                .showDialog(activity?.supportFragmentManager)
-            disableView(binding.largeBoost)
-            disableView(binding.smallBoost)
+            if (Constant.CurrentCoin < CoinForSmallBoost) {
+                DialogFactory.makeDialog(R.string.not_enough_coin_msg, notEnoughCoinListener)
+                    .showDialog(activity?.supportFragmentManager)
+            } else {
+                DialogFactory.makeDialog(R.string.small_boost_confirm_msg, smallBoostBtnListener)
+                    .showDialog(activity?.supportFragmentManager)
+            }
         }
 
         binding.largeBoost.setOnClickListener {
-            DialogFactory.makeDialog(R.string.large_boost_confirm_msg, largeBoostBtnListener)
-                .showDialog(activity?.supportFragmentManager)
-            disableView(binding.largeBoost)
-            disableView(binding.smallBoost)
+            if (Constant.CurrentCoin < CoinForLargeBoost) {
+                DialogFactory.makeDialog(R.string.not_enough_coin_msg, notEnoughCoinListener)
+                    .showDialog(activity?.supportFragmentManager)
+            } else {
+                DialogFactory.makeDialog(R.string.large_boost_confirm_msg, largeBoostBtnListener)
+                    .showDialog(activity?.supportFragmentManager)
+            }
         }
     }
 
@@ -92,12 +117,27 @@ class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProf
             if (result.success) {
                 disableView(binding.largeBoost)
                 disableView(binding.smallBoost)
-                binding.msg.text = getString(R.string.boost_time_msg,getRemainingTime(result.data))
+                deductCoin()
+                binding.msg.text = getString(R.string.boost_time_msg, getRemainingTime(result.data))
             } else {
                 enableView(binding.largeBoost)
                 enableView(binding.smallBoost)
             }
         })
+
+        viewModel?.deductCoinResult?.observe(this, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                (requireActivity() as MainActivity).setRemainingCoin(it.data!!)
+            }
+        })
+    }
+
+    private fun deductCoin() {
+        viewModel?.deductCoin(
+            coinToDeduct,
+            PrefsManager.getInstance().readString(PrefsManager.UserId)!!
+        )
     }
 
     private fun getRemainingTime(time: Long?): String {
