@@ -17,4 +17,10 @@ class BoostProfileRepository(private val dataSource: IBoostProfileDataSource) : 
 
         return RawResult.Success(result)
     }
+
+    suspend fun getBoostEndTime(userId: String): RawResult<Long> {
+        val result = dataSource.getBoostEndTime(userId)
+
+        return RawResult.Success(result)
+    }
 }

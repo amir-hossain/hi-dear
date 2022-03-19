@@ -35,14 +35,13 @@ class FirebaseBoostProfileSource : IBoostProfileDataSource {
     }
 
     private fun getHashMapFrom(data: TopProfileData): HashMap<String, Any> {
-        return hashMapOf(
-            userIdField to {data.id},
-            userNameField to {data.name},
-            pictureField to {data.picture},
-            emailOrMobileField to {data.emailOrMobile},
-            genderField to {data.gender},
-            endTimeField to {data.endTime}
-        )
+        val map = HashMap<String, Any>()
+        map[userIdField] = data.id!!
+        map[userNameField] = data.name!!
+        map[genderField] = data.gender!!
+        map[pictureField] = data.picture!!
+        map[endTimeField] = data.endTime!!
+        return map
     }
 
     override suspend fun deductCoin(coin: Int, userId: String): Int {
@@ -51,6 +50,18 @@ class FirebaseBoostProfileSource : IBoostProfileDataSource {
         val ref = firebaseDb.collection(FirebaseConstants.coinTable).document(userId)
         ref.update(FirebaseConstants.coinField, newCoin)
             .addOnSuccessListener { result = newCoin }.await()
+        return result
+    }
+
+    override suspend fun getBoostEndTime(userId: String): Long {
+        var result = 0L
+        firebaseDb.collection(FirebaseConstants.boostedTable).document(userId)
+            .get()
+            .addOnSuccessListener {
+                if (it.data != null) {
+                    result = it.data!![endTimeField].toString().toLong()
+                }
+            }.await()
         return result
     }
 }

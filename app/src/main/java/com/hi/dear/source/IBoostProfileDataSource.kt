@@ -6,4 +6,6 @@ interface IBoostProfileDataSource {
     suspend fun boostProfile(data: TopProfileData): Long
 
     suspend fun deductCoin(coin: Int,userId: String): Int
+
+    suspend fun getBoostEndTime(userId: String): Long
 }

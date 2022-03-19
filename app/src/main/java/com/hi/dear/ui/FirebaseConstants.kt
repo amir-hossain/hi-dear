@@ -22,7 +22,7 @@ object FirebaseConstants {
     const val ageField = "age"
     const val userNameField = "userName"
     const val genderField = "gender"
-    const val endTimeField = "startTime"
+    const val endTimeField = "endTime"
     const val countryField = "country"
     const val cityField = "city"
     const val emailOrMobileField = "emailOrMobile"

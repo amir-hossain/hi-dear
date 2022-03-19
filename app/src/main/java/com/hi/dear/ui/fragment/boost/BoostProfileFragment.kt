@@ -90,6 +90,9 @@ class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProf
     }
 
     override fun initView() {
+        viewModel?.isProfileBoosted(PrefsManager.getInstance().readString(PrefsManager.UserId)!!)
+        disableView(binding.largeBoost)
+        disableView(binding.smallBoost)
         binding.smallBoost.setOnClickListener {
             if (Constant.CurrentCoin < CoinForSmallBoost) {
                 DialogFactory.makeDialog(R.string.not_enough_coin_msg, notEnoughCoinListener)
@@ -114,7 +117,7 @@ class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProf
     override fun attachObserver(viewModel: BoostProfileViewModel?) {
         viewModel?.boostProfileResult?.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
-            if (result.success) {
+            if (result.success && boostNotFinished(result.data!!)) {
                 disableView(binding.largeBoost)
                 disableView(binding.smallBoost)
                 deductCoin()
@@ -131,6 +134,10 @@ class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProf
                 (requireActivity() as MainActivity).setRemainingCoin(it.data!!)
             }
         })
+    }
+
+    private fun boostNotFinished(boostEndTime: Long): Boolean {
+        return System.currentTimeMillis() < boostEndTime
     }
 
     private fun deductCoin() {

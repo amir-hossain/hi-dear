@@ -43,4 +43,15 @@ class BoostProfileViewModel(private val repository: BoostProfileRepository) : Ba
             isLoading.value = false
         }
     }
+
+    fun isProfileBoosted(userId: String) {
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = repository.getBoostEndTime(userId)
+            if (result is RawResult.Success) {
+                boostProfileResult.value = ActionResult(true, R.string.fetch_success, result.data)
+            }
+            isLoading.value = false
+        }
+    }
 }
