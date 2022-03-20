@@ -1,22 +1,20 @@
 package com.hi.dear.ui.fragment.top
 
 import android.view.LayoutInflater
-import androidx.lifecycle.ViewModel
+import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.FragmentTopProfileBinding
-import com.hi.dear.repo.RequestRepository
-import com.hi.dear.source.remote.FirebaseRequestSource
+import com.hi.dear.repo.TopProfileRepository
+import com.hi.dear.source.remote.FirebaseTopProfileSource
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.chat.ChatActivity
 import com.hi.dear.ui.activity.profile.ProfileActivity
 import com.hi.dear.ui.base.BaseFragment
-import com.hi.dear.ui.fragment.match.MatchAdapter
-import com.hi.dear.ui.fragment.match.RequestData
-import com.hi.dear.ui.fragment.match.RequestViewModel
 
-class TopProfileFragment : BaseFragment<FragmentTopProfileBinding, ViewModel>(),TopProfileAdapter.ITopProfileClickListener {
+class TopProfileFragment : BaseFragment<FragmentTopProfileBinding, TopProfileViewModel>(),
+    TopProfileAdapter.ITopProfileClickListener {
     private lateinit var adapter: TopProfileAdapter
 
     private fun initAdapter() {
@@ -41,36 +39,45 @@ class TopProfileFragment : BaseFragment<FragmentTopProfileBinding, ViewModel>(),
         return FragmentTopProfileBinding.inflate(inflater)
     }
 
-    override fun initViewModel(): RequestViewModel {
+    override fun initViewModel(): TopProfileViewModel {
         return ViewModelProvider(
             this,
-            ViewModelFactory(RequestRepository(FirebaseRequestSource()))
+            ViewModelFactory(TopProfileRepository(FirebaseTopProfileSource()))
         )
-            .get(RequestViewModel::class.java)
+            .get(TopProfileViewModel::class.java)
     }
 
     override fun initView() {
         initAdapter()
-//        viewModel?.getRequest()
+        viewModel?.getTopProfile()
     }
 
     override fun initLoadingView(isLoading: Boolean) {
-
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
-    override fun attachObserver(viewModel: ViewModel?) {
-        adapter.addData(getData())
+    override fun attachObserver(viewModel: TopProfileViewModel?) {
+        viewModel?.topProfileResult?.observe(viewLifecycleOwner, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                adjustView(result.data!!)
+            } else {
+                showToast(getString(result.msg))
+            }
+        })
     }
 
-    private fun getData(): MutableList<TopProfileData> {
-        val list = mutableListOf<TopProfileData>()
-        val data=TopProfileData()
-        data.id="1"
-        data.name="1"
-        data.picture="1"
-        data.gender="male"
-        data.emailOrMobile="0111111"
-        list.add(data)
-        return  list
+    private fun adjustView(data: MutableList<TopProfileData>) {
+        if (data.isEmpty()) {
+            binding.emptyText.visibility = View.VISIBLE
+        } else {
+            binding.rv.visibility = View.VISIBLE
+            adapter.addData(data)
+        }
     }
+
 }
