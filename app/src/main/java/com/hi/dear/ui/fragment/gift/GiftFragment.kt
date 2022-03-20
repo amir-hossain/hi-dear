@@ -10,6 +10,7 @@ import com.hi.dear.databinding.DialogGiftBinding
 import com.hi.dear.databinding.FragmentGiftBinding
 import com.hi.dear.repo.GiftRepository
 import com.hi.dear.source.remote.FirebaseGiftSource
+import com.hi.dear.ui.Constant.GiftCoint
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
@@ -53,7 +54,7 @@ class GiftFragment : BaseFragment<FragmentGiftBinding, GiftViewModel>() {
             .setView(giftDialogBinding.root)
             .setCancelable(false)
             .create()
-        giftDialogBinding.msg.text = getString(R.string.gift_msg, 10)
+        giftDialogBinding.msg.text = getString(R.string.coin_reward_msg, GiftCoint)
         giftDialogBinding.okBtn.setOnClickListener {
             Utils.disableView(giftDialogBinding.okBtn)
             viewModel?.setLastOpenDate(

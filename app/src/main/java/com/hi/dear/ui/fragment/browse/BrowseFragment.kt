@@ -16,10 +16,10 @@ import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
+import com.hi.dear.ui.activity.main.MainActivity
 import com.hi.dear.ui.base.BaseFragment
 import com.yuyakaido.android.cardstackview.*
 import timber.log.Timber
-
 
 class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), CardStackListener {
     private val adCounterTarget = 5
@@ -30,7 +30,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
     private var mInterstitialAd: InterstitialAd? = null
     private val notEnoughCoinListener = object : DialogFactory.ITwoBtnListener {
         override fun onPositiveBtnClicked() {
-
+            (requireActivity() as MainActivity).showRewardAd()
         }
 
         override fun onNegativeBtnClicked() {
@@ -67,6 +67,8 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         binding.crossBtn.setOnClickListener {
             binding.swipeStack.swipe()
         }
+
+        binding.adBtn.root.setOnClickListener { (requireActivity() as MainActivity).showRewardAd() }
     }
 
     private fun initAd() {
@@ -142,7 +144,6 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         viewModel?.requestDataResult?.observe(this@BrowseFragment, Observer {
             val result = it ?: return@Observer
             if (result.success) {
-                binding.swipeStack.swipe()
                 deductCoin()
             }
             showToast(result.msg)
@@ -155,7 +156,16 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         viewModel?.deductCoinResult?.observe(this@BrowseFragment, Observer {
             val result = it ?: return@Observer
             if (result.success) {
-                viewModel.setRemainingCoin(it.data!!)
+                binding.swipeStack.swipe()
+                (requireActivity() as MainActivity).setRemainingCoin(it.data!!)
+            }
+        })
+
+        viewModel?.adButtonVisibility?.observe(this@BrowseFragment, Observer {
+            if (it) {
+                binding.adBtn.root.visibility = View.VISIBLE
+            } else {
+                binding.adBtn.root.visibility = View.GONE
             }
         })
     }

@@ -27,7 +27,7 @@ class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProf
     private var coinToDeduct = 0
     private val notEnoughCoinListener = object : DialogFactory.ITwoBtnListener {
         override fun onPositiveBtnClicked() {
-
+            (requireActivity() as MainActivity).showRewardAd()
         }
 
         override fun onNegativeBtnClicked() {

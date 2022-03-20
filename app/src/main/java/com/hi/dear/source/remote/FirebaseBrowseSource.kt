@@ -172,4 +172,13 @@ class FirebaseBrowseSource : IBrowseDataSource {
         }
         return userList
     }
+
+    override suspend fun giftCoin(userId: String, giftCoint: Int): Int {
+        var result = Constant.CurrentCoin
+        val newCoin = Constant.CurrentCoin + giftCoint
+        val ref = firebaseDb.collection(FirebaseConstants.coinTable).document(userId)
+        ref.update(FirebaseConstants.coinField, newCoin)
+            .addOnSuccessListener { result = newCoin }.await()
+        return result
+    }
 }

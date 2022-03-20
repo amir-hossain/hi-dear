@@ -18,9 +18,11 @@ class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
     val requestDataResult = MutableLiveData<ActionResult<Boolean>>()
     val remainingCoinDataResult = MutableLiveData<ActionResult<Int>>()
     val deductCoinResult = MutableLiveData<ActionResult<Int>>()
+    val giftCoinResult = MutableLiveData<ActionResult<Int>>()
 
     // used to pass data in browse fragment
     val remainingCoin = MutableLiveData<Int>()
+    val adButtonVisibility = MutableLiveData<Boolean>()
 
     fun getBrowseData(gender: String, limit: Long) {
         if (!Utils.isConnected(App.instance)) {
@@ -73,10 +75,6 @@ class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
         }
     }
 
-    fun setRemainingCoin(coin: Int) {
-        remainingCoin.value = coin
-    }
-
     fun deductCoin(coinOfRequest: Int,userId: String) {
         viewModelScope.launch {
             isLoading.value = true
@@ -86,6 +84,21 @@ class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
                     ActionResult(true, R.string.request_send, requestResult.data)
             } else if (requestResult is RawResult.Error) {
                 deductCoinResult.value =
+                    ActionResult(false, R.string.request_send_failed, null)
+            }
+            isLoading.value = false
+        }
+    }
+
+    fun giftCoin(giftCoint: Int, userId: String) {
+        viewModelScope.launch {
+            isLoading.value = true
+            val requestResult = repo.giftCoin(giftCoint,userId)
+            if (requestResult is RawResult.Success) {
+                giftCoinResult.value =
+                    ActionResult(true, R.string.request_send, requestResult.data)
+            } else if (requestResult is RawResult.Error) {
+                giftCoinResult.value =
                     ActionResult(false, R.string.request_send_failed, null)
             }
             isLoading.value = false

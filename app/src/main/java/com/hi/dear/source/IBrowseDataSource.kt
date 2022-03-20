@@ -10,4 +10,6 @@ interface IBrowseDataSource {
     suspend fun getRemainingCoin(userId: String): Int
 
     suspend fun deductCoin(coinOfRequest: Int,userId: String): Int
+
+    suspend fun giftCoin(userId: String, giftCoint: Int): Int
 }

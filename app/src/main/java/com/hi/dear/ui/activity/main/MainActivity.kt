@@ -1,6 +1,7 @@
 package com.hi.dear.ui.activity.main
 
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -14,11 +15,21 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.admanager.AdManagerAdRequest
+import com.google.android.gms.ads.query.AdInfo
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.hi.dear.R
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityMainBinding
 import com.hi.dear.repo.BrowseRepository
+import com.hi.dear.ui.Constant
 import com.hi.dear.ui.Constant.CurrentCoin
+import com.hi.dear.ui.Constant.GiftCoint
 import com.hi.dear.ui.Constant.boostProfileFragmentTitle
 import com.hi.dear.ui.Constant.browseFragmentTitle
 import com.hi.dear.ui.Constant.giftFragmentTitle
@@ -33,12 +44,14 @@ import com.hi.dear.ui.activity.message.MessageActivity
 import com.hi.dear.ui.activity.profile.ProfileActivity
 import com.hi.dear.ui.base.BaseActivity
 import com.hi.dear.ui.fragment.browse.BrowseViewModel
+import timber.log.Timber
 
 
 class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
     NavigationRVAdapter.ClickListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navAdapter: NavigationRVAdapter
+    private var mRewardedAd: RewardedAd? = null
 
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.ic_browse, browseFragmentTitle),
@@ -53,6 +66,68 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
 
     private val navController by lazy {
         Navigation.findNavController(this, R.id.nav_host_fragment)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initRewardAd()
+    }
+
+    private fun addRewardAdCallBack() {
+        mRewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdShowedFullScreenContent() {
+                initRewardAd()
+                // Called when ad is shown.
+                Timber.d("Ad was shown.")
+                viewModel?.adButtonVisibility?.value = false
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                // Called when ad fails to show.
+                Timber.d("Ad failed to show.")
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                // Called when ad is dismissed.
+                // Set the ad reference to null so you don't show the ad a second time.
+                Timber.d("Ad was dismissed.")
+                mRewardedAd = null
+            }
+        }
+    }
+
+    fun showRewardAd() {
+        if (mRewardedAd != null) {
+            mRewardedAd?.show(this) {
+                viewModel?.giftCoin(
+                    GiftCoint,
+                    PrefsManager.getInstance().readString(PrefsManager.UserId)!!
+                )
+            }
+        } else {
+            Timber.d("The rewarded ad wasn't ready yet.")
+        }
+    }
+
+    private fun initRewardAd() {
+        val adRequest = AdRequest.Builder().build()
+        RewardedAd.load(
+            this,
+            getString(R.string.reward_add_test_id),
+            adRequest,
+            object : RewardedAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Timber.d(adError.message)
+                    mRewardedAd = null
+                }
+
+                override fun onAdLoaded(rewardedAd: RewardedAd) {
+                    Timber.d("Ad was loaded.")
+                    mRewardedAd = rewardedAd
+                    viewModel?.adButtonVisibility?.value = true
+                }
+            })
+        addRewardAdCallBack()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -203,9 +278,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
         viewModel?.remainingCoinDataResult?.observe(this, Observer {
             val result = it ?: return@Observer
             if (result.success) {
-                CurrentCoin = it.data!!
                 binding.remaningCoins.text = getString(R.string.remaining_coin, CurrentCoin)
-                setRemainingCoin(CurrentCoin)
+                setRemainingCoin(it.data!!)
             } else {
                 showToast(result.msg)
             }
@@ -215,10 +289,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
             binding.remaningCoins.text = getString(R.string.remaining_coin, it)
         })
 
+        viewModel?.giftCoinResult?.observe(this, Observer {
+            val result = it ?: return@Observer
+            if (result.success) {
+                setRemainingCoin(it.data!!)
+                Timber.d("User earned the reward.")
+                showToast(getString(R.string.coin_reward_msg, it.data))
+            } else {
+                showToast(it.msg)
+            }
+        })
     }
 
-    fun setRemainingCoin(coin:Int) {
-        viewModel?.setRemainingCoin(coin)
+    fun setRemainingCoin(coin: Int) {
+        CurrentCoin = coin
+        viewModel?.remainingCoin?.value = coin
     }
 
     override fun initLoadingView(isLoading: Boolean) {
