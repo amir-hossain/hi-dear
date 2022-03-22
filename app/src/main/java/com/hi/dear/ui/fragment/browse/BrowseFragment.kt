@@ -57,7 +57,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         binding.swipeStack.layoutManager = manager
         binding.heartBtn.setOnClickListener {
             if (Constant.CurrentCoin < Constant.CoinOfRequest) {
-                DialogFactory.makeDialog(R.string.not_enough_coin_msg, notEnoughCoinListener)
+                DialogFactory.makeDialog(getString(R.string.not_enough_coin_msg), notEnoughCoinListener)
                     .showDialog(activity?.supportFragmentManager)
             } else if (visibleUserData != null) {
                 viewModel?.sendRequest(visibleUserData!!)
@@ -146,7 +146,6 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
             if (result.success) {
                 deductCoin()
             }
-            showToast(result.msg)
         })
 
         viewModel?.remainingCoin?.observe(this@BrowseFragment, Observer {

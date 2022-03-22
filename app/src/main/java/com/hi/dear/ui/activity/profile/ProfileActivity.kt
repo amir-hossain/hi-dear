@@ -64,7 +64,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
     private fun initClickListener() {
         binding.toolbarLayout.back.setOnClickListener {
             if (viewModel?.editState?.value == true) {
-                DialogFactory.makeDialog(R.string.save_change, saveChangeListener)
+                DialogFactory.makeDialog(getString(R.string.save_change), saveChangeListener)
                     .showDialog(supportFragmentManager)
             } else {
                 super.onBackPressed()

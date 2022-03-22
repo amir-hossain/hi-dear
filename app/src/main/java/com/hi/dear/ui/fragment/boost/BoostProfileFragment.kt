@@ -95,20 +95,20 @@ class BoostProfileFragment : BaseFragment<FragmentBoostProfileBinding, BoostProf
         disableView(binding.smallBoost)
         binding.smallBoost.setOnClickListener {
             if (Constant.CurrentCoin < CoinForSmallBoost) {
-                DialogFactory.makeDialog(R.string.not_enough_coin_msg, notEnoughCoinListener)
+                DialogFactory.makeDialog(getString(R.string.not_enough_coin_msg), notEnoughCoinListener)
                     .showDialog(activity?.supportFragmentManager)
             } else {
-                DialogFactory.makeDialog(R.string.small_boost_confirm_msg, smallBoostBtnListener)
+                DialogFactory.makeDialog(getString(R.string.small_boost_confirm_msg), smallBoostBtnListener)
                     .showDialog(activity?.supportFragmentManager)
             }
         }
 
         binding.largeBoost.setOnClickListener {
             if (Constant.CurrentCoin < CoinForLargeBoost) {
-                DialogFactory.makeDialog(R.string.not_enough_coin_msg, notEnoughCoinListener)
+                DialogFactory.makeDialog(getString(R.string.not_enough_coin_msg), notEnoughCoinListener)
                     .showDialog(activity?.supportFragmentManager)
             } else {
-                DialogFactory.makeDialog(R.string.large_boost_confirm_msg, largeBoostBtnListener)
+                DialogFactory.makeDialog(getString(R.string.large_boost_confirm_msg), largeBoostBtnListener)
                     .showDialog(activity?.supportFragmentManager)
             }
         }

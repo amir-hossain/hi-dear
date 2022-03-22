@@ -58,11 +58,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding, SettingViewModel>()
             "Feedback about ${getString(R.string.app_name)} (${BuildConfig.VERSION_NAME})"
 
         binding.btnLogout.setOnClickListener {
-            DialogFactory.makeDialog(R.string.logout_msg, logoutBtnListener)
+            DialogFactory.makeDialog(getString(R.string.logout_msg), logoutBtnListener)
                 .showDialog(activity?.supportFragmentManager)
         }
         binding.btnDelete.setOnClickListener {
-            DialogFactory.makeDialog(R.string.account_delete_message, deleteBtnListener)
+            DialogFactory.makeDialog(getString(R.string.account_delete_message), deleteBtnListener)
                 .showDialog(activity?.supportFragmentManager)
         }
 

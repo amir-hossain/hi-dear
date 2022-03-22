@@ -231,7 +231,7 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
     fun showRationaleForGallery(request: PermissionRequest) {
         Timber.i("showRationaleForContacts called")
         currentRequest = request
-        DialogFactory.makeDialog(R.string.gallery_permission_explanation, this)
+        DialogFactory.makeDialog(getString(R.string.gallery_permission_explanation), this)
             .showDialog(supportFragmentManager)
     }
 

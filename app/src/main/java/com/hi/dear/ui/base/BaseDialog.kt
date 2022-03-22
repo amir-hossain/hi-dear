@@ -13,8 +13,9 @@ abstract class BaseDialog : DialogFragment() {
     abstract fun showDialog(supportFragmentManager: FragmentManager?)
 
     companion object {
-        const val ARG_MESSAGE = "ARG_MESSAGE"
+        const val ARG_MESSAGE = "message"
         const val DIALOG_WINDOW_WIDTH = 0.85
+        const val ARG_ICON = "icon"
     }
 
     override fun onCreateView(

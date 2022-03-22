@@ -1,6 +1,7 @@
 package com.hi.dear.ui
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.FirebaseApp
 import com.hi.dear.BuildConfig
 import timber.log.Timber
@@ -15,6 +16,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }

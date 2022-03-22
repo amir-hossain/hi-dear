@@ -40,7 +40,7 @@ class GiftFragment : BaseFragment<FragmentGiftBinding, GiftViewModel>() {
         viewModel?.isGiftAvailable(PrefsManager.getInstance().readString(PrefsManager.UserId)!!)
         binding.giftImg.setOnClickListener {
             viewModel?.giftCoin(
-                Constant1.GiftCoint,
+                GiftCoint,
                 PrefsManager.getInstance().readString(PrefsManager.UserId)!!
             )
             binding.contentGroup.visibility = View.GONE
@@ -82,7 +82,7 @@ class GiftFragment : BaseFragment<FragmentGiftBinding, GiftViewModel>() {
         viewModel?.setLastTimeResult?.observe(viewLifecycleOwner, Observer {
             val result = it ?: return@Observer
             if (result.success) {
-                (requireActivity() as MainActivity).setRemainingCoin(Constant1.CurrentCoin+Constant1.GiftCoint)
+                (requireActivity() as MainActivity).setRemainingCoin(Constant1.CurrentCoin+GiftCoint)
                 dialog.dismiss()
                 binding.contentGroup.visibility = View.GONE
                 binding.emptyText.visibility = View.VISIBLE

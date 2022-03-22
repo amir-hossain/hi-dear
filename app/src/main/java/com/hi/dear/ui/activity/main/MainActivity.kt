@@ -19,15 +19,12 @@ import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.admanager.AdManagerAdRequest
-import com.google.android.gms.ads.query.AdInfo
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.hi.dear.R
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.ActivityMainBinding
 import com.hi.dear.repo.BrowseRepository
-import com.hi.dear.ui.Constant
 import com.hi.dear.ui.Constant.CurrentCoin
 import com.hi.dear.ui.Constant.GiftCoint
 import com.hi.dear.ui.Constant.boostProfileFragmentTitle
@@ -38,6 +35,7 @@ import com.hi.dear.ui.Constant.notificationFragmentTitle
 import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
 import com.hi.dear.ui.Constant.topProfileFragmentTitle
+import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.activity.ViewModelFactory
 import com.hi.dear.ui.activity.message.MessageActivity
@@ -66,6 +64,18 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
 
     private val navController by lazy {
         Navigation.findNavController(this, R.id.nav_host_fragment)
+    }
+
+    private val noAdListener = object : DialogFactory.ISingleBtnListener {
+        override fun onPositiveBtnClicked() {
+
+        }
+    }
+
+    private val rewardListener = object : DialogFactory.ISingleBtnListener {
+        override fun onPositiveBtnClicked() {
+
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,13 +109,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
     fun showRewardAd() {
         if (mRewardedAd != null) {
             mRewardedAd?.show(this) {
+                initRewardAd()
+                viewModel?.adButtonVisibility?.value = false
+
                 viewModel?.giftCoin(
                     GiftCoint,
                     PrefsManager.getInstance().readString(PrefsManager.UserId)!!
                 )
             }
         } else {
-            Timber.d("The rewarded ad wasn't ready yet.")
+            DialogFactory.makeDialog(getString(R.string.no_ad_available), noAdListener,R.drawable.ic_empty_box)
+                .showDialog(supportFragmentManager)
         }
     }
 
@@ -293,8 +307,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
             val result = it ?: return@Observer
             if (result.success) {
                 setRemainingCoin(it.data!!)
-                Timber.d("User earned the reward.")
-                showToast(getString(R.string.coin_reward_msg, it.data))
+                DialogFactory.makeDialog(getString(R.string.coin_reward_msg, it.data), rewardListener,R.drawable.img_gift_box)
+                    .showDialog(supportFragmentManager)
             } else {
                 showToast(it.msg)
             }

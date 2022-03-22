@@ -41,10 +41,10 @@ class  TwoButtonDialog private constructor(): BaseDialog(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val messageRes: Int? = arguments?.getInt(ARG_MESSAGE)
+        val messageRes: String? = arguments?.getString(ARG_MESSAGE)
 
-        if (messageRes != 0) {
-            binding.dlgTwoButtonTvMessage.setText(messageRes!!)
+        if (messageRes != null) {
+            binding.dlgTwoButtonTvMessage.text = messageRes
         }
     }
 
@@ -52,13 +52,13 @@ class  TwoButtonDialog private constructor(): BaseDialog(){
     companion object {
         const val TAG = "OneButtonDialogTag"
         fun newInstance(
-            @StringRes messageRes: Int,
+            messageRes: String,
             listener: DialogFactory.ITwoBtnListener
         ): TwoButtonDialog {
             val twoButtonDialog = TwoButtonDialog()
             twoButtonDialog.listener = listener
             val args = Bundle()
-            args.putInt(ARG_MESSAGE, messageRes)
+            args.putString(ARG_MESSAGE, messageRes)
             twoButtonDialog.arguments = args
             return twoButtonDialog
         }
