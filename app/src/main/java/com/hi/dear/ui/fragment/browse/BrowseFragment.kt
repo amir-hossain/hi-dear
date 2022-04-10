@@ -12,6 +12,7 @@ import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.FragmentBrowseBinding
 import com.hi.dear.repo.BrowseRepository
 import com.hi.dear.ui.Constant
+import com.hi.dear.ui.Constant.CoinOfRequest
 import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.PrefsManager
 import com.hi.dear.ui.Utils
@@ -38,6 +39,16 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         }
     }
 
+    private val requestConfirmListener = object : DialogFactory.ITwoBtnListener {
+        override fun onPositiveBtnClicked() {
+            viewModel?.sendRequest(visibleUserData!!)
+        }
+
+        override fun onNegativeBtnClicked() {
+
+        }
+    }
+
     override fun initViewBinding(inflater: LayoutInflater): FragmentBrowseBinding {
         return FragmentBrowseBinding.inflate(inflater)
     }
@@ -57,12 +68,18 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         binding.swipeStack.layoutManager = manager
         binding.heartBtn.setOnClickListener {
             if (Constant.CurrentCoin < Constant.CoinOfRequest) {
-                DialogFactory.makeDialog(getString(R.string.not_enough_coin_msg), notEnoughCoinListener)
+                DialogFactory.makeDialog(
+                    getString(R.string.not_enough_coin_msg),
+                    notEnoughCoinListener
+                )
                     .showDialog(activity?.supportFragmentManager)
             } else if (visibleUserData != null) {
-                viewModel?.sendRequest(visibleUserData!!)
+                DialogFactory.makeDialog(
+                    getString(R.string.are_you_confirm, CoinOfRequest),
+                    requestConfirmListener
+                )
+                    .showDialog(activity?.supportFragmentManager)
             }
-
         }
         binding.crossBtn.setOnClickListener {
             binding.swipeStack.swipe()

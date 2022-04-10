@@ -135,4 +135,5 @@
     <string name="top_profile_empty_msg">No profile to show</string>
     <string name="coin_reward_msg">Congrats! You have received %d Coins</string>
     <string name="no_ad_available">No Ad available,try again later !</string>
+    <string name="are_you_confirm">Are you Confirm?\n%d coins will be deduced</string>
 </resources>
