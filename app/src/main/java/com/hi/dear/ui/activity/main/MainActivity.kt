@@ -53,7 +53,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
 
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.ic_browse, browseFragmentTitle),
-        NavigationItemModel(R.drawable.ic_message, notificationFragmentTitle),
         NavigationItemModel(R.drawable.ic_heart_2, matchFragmentTitle),
         NavigationItemModel(R.drawable.ic_star, tipsFragmentTitle),
         NavigationItemModel(R.drawable.ic_boost, boostProfileFragmentTitle),
@@ -187,31 +186,27 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
                 navController.navigate(R.id.browse_fragment)
             }
             1 -> {
-                binding.toolbarLayout.toolbarTitle.text = notificationFragmentTitle
-                navController.navigate(R.id.notification_fragment)
-            }
-            2 -> {
 
                 binding.toolbarLayout.toolbarTitle.text = matchFragmentTitle
                 navController.navigate(R.id.match_fragment)
             }
-            3 -> {
+            2 -> {
                 binding.toolbarLayout.toolbarTitle.text = tipsFragmentTitle
                 navController.navigate(R.id.tips_fragment)
             }
-            4 -> {
+            3 -> {
                 binding.toolbarLayout.toolbarTitle.text = boostProfileFragmentTitle
                 navController.navigate(R.id.boost_profile_fragment)
             }
-            5 -> {
+            4 -> {
                 binding.toolbarLayout.toolbarTitle.text = topProfileFragmentTitle
                 navController.navigate(R.id.top_profile_fragment)
             }
-            6 -> {
+            5 -> {
                 binding.toolbarLayout.toolbarTitle.text = giftFragmentTitle
                 navController.navigate(R.id.gift_fragment)
             }
-            7 -> {
+            6 -> {
                 binding.toolbarLayout.toolbarTitle.text = settingFragmentTitle
                 navController.navigate(R.id.setting_fragment)
             }
