@@ -29,10 +29,10 @@ class FirebaseBrowseSource : IBrowseDataSource {
     private suspend fun getFriedList(): MutableList<String> {
         var userList: MutableList<String> = mutableListOf()
         val mineId = prefsManager.readString(PrefsManager.UserId)!!
-        firebaseDb.collection(mineId + "" + FirebaseConstants.sentRequestTable_post_fix)
+        firebaseDb.collection("$mineId ${FirebaseConstants.sentRequestTable_post_fix}")
             .get()
             .addOnCompleteListener {
-                if (it.isSuccessful && it.result != null && it.result!!.documents != null) {
+                if (it.isSuccessful && it.result != null) {
                     userList = parseUserIdListFrom(it.result!!.documents)
                     Timber.i("isSuccessful")
                 }
@@ -53,6 +53,7 @@ class FirebaseBrowseSource : IBrowseDataSource {
                 .whereEqualTo(FirebaseConstants.genderField, preferredGender)
                 .orderBy(FirebaseConstants.userIdField)
                 .whereNotIn(FirebaseConstants.userIdField, friendIdList)
+                .limit(10)
         } else {
             firebaseDb.collection(FirebaseConstants.userInfoTable)
                 .whereEqualTo(FirebaseConstants.genderField, preferredGender)

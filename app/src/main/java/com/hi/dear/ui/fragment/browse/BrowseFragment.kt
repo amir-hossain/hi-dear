@@ -63,7 +63,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
         initAd()
         viewModel?.getBrowseData(getPreferredGender(), 5)
         manager.setStackFrom(StackFrom.BottomAndRight)
-        manager.setSwipeableMethod(SwipeableMethod.Automatic)
+        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         binding.swipeStack.adapter = mAdapter
         binding.swipeStack.layoutManager = manager
         binding.heartBtn.setOnClickListener {
