@@ -22,7 +22,7 @@ import com.hi.dear.ui.base.BaseActivity
 
 class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>(),
     GenderDialog.IGenderDialogListener {
-
+    private lateinit var mode: Mode
     private var previousEditCloseBtn: View? = null
     private var genderDialog: GenderDialog? = null
 
@@ -36,13 +36,32 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         }
     }
 
+    enum class Mode {
+        VIEW, EDIT
+    }
+
+    companion object {
+        private const val Args = "args"
+        private const val Args_Mode = "mode"
+        fun start(context: Context, userData: UserCore?, mode: Mode) {
+            if (userData == null) {
+                return
+            }
+            var intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra(Args, userData)
+            intent.putExtra(Args_Mode, mode)
+            context.startActivity(intent)
+        }
+    }
+
     override fun initViewBinding(): ActivityProfileBinding {
         return ActivityProfileBinding.inflate(layoutInflater)
     }
 
 
     override fun initView() {
-        val userData = intent.getParcelableExtra<UserCore>(ChatActivity.Args)!!
+        val userData = intent.getParcelableExtra<UserCore>(Args)!!
+        mode = (intent.getSerializableExtra(Args_Mode) as Mode)
         binding.toolbarLayout.toolbarTitle.text = userData.name
         viewModel?.getProfileData(userData.id!!)
 
@@ -54,7 +73,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         initClickListener()
 
         genderDialog = GenderDialog(this)
-        binding.genderField.editText.setOnFocusChangeListener { v, hasFocus ->
+        binding.genderField.editText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 genderDialog?.showDialog(supportFragmentManager)
             }
@@ -214,7 +233,9 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             if (result.success) {
                 showData(result.data!!)
                 storePreviousValue(result.data)
-                showEditIcon()
+                if (mode == Mode.EDIT) {
+                    showEditIcon()
+                }
                 genderDialog?.setDefaultValue(result.data.gender)
             } else {
                 showToast(result.msg)
@@ -276,18 +297,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
 
     override fun initLoadingView(isLoading: Boolean) {
 
-    }
-
-    companion object {
-        const val Args = "args"
-        fun start(context: Context, userData: UserCore?) {
-            if (userData == null) {
-                return
-            }
-            var intent = Intent(context, ProfileActivity::class.java)
-            intent.putExtra(Args, userData)
-            context.startActivity(intent)
-        }
     }
 
     override fun onPositiveBtnClicked(value: String) {

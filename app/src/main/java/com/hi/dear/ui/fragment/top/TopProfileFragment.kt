@@ -32,7 +32,7 @@ class TopProfileFragment : BaseFragment<FragmentTopProfileBinding, TopProfileVie
     }
 
     override fun onImageClick(data: TopProfileData) {
-        ProfileActivity.start(requireContext(), data)
+        ProfileActivity.start(requireContext(), data,ProfileActivity.Mode.VIEW)
     }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentTopProfileBinding {

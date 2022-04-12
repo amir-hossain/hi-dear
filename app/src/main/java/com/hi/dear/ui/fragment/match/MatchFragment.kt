@@ -41,7 +41,7 @@ class MatchFragment : BaseFragment<FragmentMatchBinding, RequestViewModel>(),
     }
 
     override fun onImageClick(data: RequestData) {
-        ProfileActivity.start(requireContext(), data)
+        ProfileActivity.start(requireContext(), data,ProfileActivity.Mode.VIEW)
     }
 
     override fun initViewBinding(inflater: LayoutInflater): FragmentMatchBinding {

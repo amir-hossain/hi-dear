@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.databinding.CardItemBinding
+import com.hi.dear.ui.activity.profile.ProfileActivity
 
 
 class SwipeStackAdapter : RecyclerView.Adapter<SwipeStackAdapter.ViewHolder>() {
@@ -21,7 +22,7 @@ class SwipeStackAdapter : RecyclerView.Adapter<SwipeStackAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.card_item, parent, false)
+                .inflate(R.layout.card_item, parent, false), mData
         )
     }
 
@@ -43,7 +44,13 @@ class SwipeStackAdapter : RecyclerView.Adapter<SwipeStackAdapter.ViewHolder>() {
         return mData[position]
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, mData: MutableList<UserCore>) : RecyclerView.ViewHolder(view) {
         val binding: CardItemBinding = CardItemBinding.bind(view)
+
+        init {
+            view.setOnClickListener {
+                ProfileActivity.start(view.context, mData[adapterPosition],ProfileActivity.Mode.VIEW)
+            }
+        }
     }
 }

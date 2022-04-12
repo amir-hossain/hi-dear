@@ -280,7 +280,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
 
         binding.name.text = myData.name
         binding.editBtn.setOnClickListener {
-            ProfileActivity.start(this, myData)
+            ProfileActivity.start(this, myData,ProfileActivity.Mode.EDIT)
         }
     }
 
