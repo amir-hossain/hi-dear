@@ -31,7 +31,6 @@ import com.hi.dear.ui.Constant.boostProfileFragmentTitle
 import com.hi.dear.ui.Constant.browseFragmentTitle
 import com.hi.dear.ui.Constant.giftFragmentTitle
 import com.hi.dear.ui.Constant.matchFragmentTitle
-import com.hi.dear.ui.Constant.notificationFragmentTitle
 import com.hi.dear.ui.Constant.settingFragmentTitle
 import com.hi.dear.ui.Constant.tipsFragmentTitle
 import com.hi.dear.ui.Constant.topProfileFragmentTitle
@@ -47,10 +46,20 @@ import timber.log.Timber
 
 class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
     NavigationRVAdapter.ClickListener {
+    private var exitConfirm = false
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navAdapter: NavigationRVAdapter
     private var mRewardedAd: RewardedAd? = null
+    private val exitDialogListener = object : DialogFactory.ITwoBtnListener {
+        override fun onPositiveBtnClicked() {
+            exitConfirm = true
+            onBackPressed()
+        }
 
+        override fun onNegativeBtnClicked() {
+
+        }
+    }
     private var items = arrayListOf(
         NavigationItemModel(R.drawable.ic_browse, browseFragmentTitle),
         NavigationItemModel(R.drawable.ic_heart_2, matchFragmentTitle),
@@ -117,7 +126,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
                 )
             }
         } else {
-            DialogFactory.makeDialog(getString(R.string.no_ad_available), noAdListener,R.drawable.ic_empty_box)
+            DialogFactory.makeDialog(
+                getString(R.string.no_ad_available),
+                noAdListener,
+                R.drawable.ic_empty_box
+            )
                 .showDialog(supportFragmentManager)
         }
     }
@@ -172,10 +185,18 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        when {
+            drawerLayout.isDrawerOpen(GravityCompat.START) -> {
+                drawerLayout.closeDrawer(GravityCompat.START)
+            }
+            exitConfirm -> {
+                exitConfirm = false
+                super.onBackPressed()
+            }
+            else -> {
+                DialogFactory.makeDialog(getString(R.string.exit_confirm_msg), exitDialogListener)
+                    .showDialog(supportFragmentManager)
+            }
         }
     }
 
@@ -302,7 +323,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
             val result = it ?: return@Observer
             if (result.success) {
                 setRemainingCoin(it.data!!)
-                DialogFactory.makeDialog(getString(R.string.coin_reward_msg, it.data), rewardListener,R.drawable.img_gift_box)
+                DialogFactory.makeDialog(
+                    getString(R.string.coin_reward_msg, it.data),
+                    rewardListener,
+                    R.drawable.img_gift_box
+                )
                     .showDialog(supportFragmentManager)
             } else {
                 showToast(it.msg)
