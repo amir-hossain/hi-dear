@@ -241,7 +241,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, BrowseViewModel>(),
 
     private fun setFirstItem() {
         binding.toolbarLayout.toolbarTitle.text = browseFragmentTitle
-        navController.navigate(R.id.browse_fragment)
         navAdapter.highlight(0)
     }
 

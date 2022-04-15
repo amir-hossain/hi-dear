@@ -34,7 +34,7 @@ class BrowseViewModel(private val repo: BrowseRepository) : BaseViewModel() {
             val browseData = repo.getBrowseData(gender, limit)
             if (browseData is RawResult.Success) {
                 browseDataResult.value =
-                    ActionResult(true, R.string.login_successful, browseData.data)
+                    ActionResult(true, R.string.fetch_success, browseData.data)
             } else if (browseData is RawResult.Error) {
                 browseDataResult.value = ActionResult(false, R.string.login_failed, null)
             }

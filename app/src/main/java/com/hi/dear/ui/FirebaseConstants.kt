@@ -1,7 +1,8 @@
 package com.hi.dear.ui
 
 object FirebaseConstants {
-    val giftField="gift"
+    const val createdAtField = "createdAt"
+    const val giftField = "gift"
     const val gifTable = "gift"
     const val notification_type = "notificationType"
     const val time_field = "time"

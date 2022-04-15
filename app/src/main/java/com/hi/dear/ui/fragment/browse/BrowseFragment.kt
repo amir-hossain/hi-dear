@@ -23,6 +23,7 @@ import com.yuyakaido.android.cardstackview.*
 import timber.log.Timber
 
 class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), CardStackListener {
+    private val limit = 10L
     private val adCounterTarget = 5
     private var swipeCounter = 0
     private var visibleUserData: UserCore? = null
@@ -61,7 +62,7 @@ class BrowseFragment : BaseFragment<FragmentBrowseBinding, BrowseViewModel>(), C
 
     override fun initView() {
         initAd()
-        viewModel?.getBrowseData(getPreferredGender(), 5)
+        viewModel?.getBrowseData(getPreferredGender(), limit)
         manager.setStackFrom(StackFrom.BottomAndRight)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         binding.swipeStack.adapter = mAdapter

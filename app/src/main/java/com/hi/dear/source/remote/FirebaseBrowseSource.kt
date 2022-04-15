@@ -4,6 +4,7 @@ package com.hi.dear.source.remote
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.hi.dear.data.model.common.UserCore
 import com.hi.dear.source.IBrowseDataSource
 import com.hi.dear.ui.Constant
@@ -13,7 +14,6 @@ import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
 class FirebaseBrowseSource : IBrowseDataSource {
-
 
     private var firebaseDb: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var prefsManager: PrefsManager = PrefsManager.getInstance()
@@ -48,21 +48,20 @@ class FirebaseBrowseSource : IBrowseDataSource {
         friendIdList: MutableList<String>
     ): MutableList<UserCore> {
         var userList: MutableList<UserCore> = mutableListOf()
-        val query = if (friendIdList.isNotEmpty()) {
-            firebaseDb.collection(FirebaseConstants.userInfoTable)
-                .whereEqualTo(FirebaseConstants.genderField, preferredGender)
-                .orderBy(FirebaseConstants.userIdField)
-                .whereNotIn(FirebaseConstants.userIdField, friendIdList)
-                .limit(10)
-        } else {
-            firebaseDb.collection(FirebaseConstants.userInfoTable)
-                .whereEqualTo(FirebaseConstants.genderField, preferredGender)
-                .orderBy(FirebaseConstants.userIdField).limit(limit)
+
+        val query = firebaseDb.collection(FirebaseConstants.userInfoTable)
+
+        if (friendIdList.isNotEmpty()) {
+            query.whereNotIn(FirebaseConstants.userIdField, friendIdList)
         }
 
-        query.get()
+        query
+            .whereEqualTo(FirebaseConstants.genderField, preferredGender)
+            .limit(limit)
+            .orderBy(FirebaseConstants.createdAtField, Query.Direction.DESCENDING)
+            .get()
             .addOnCompleteListener {
-                if (it.isSuccessful && it.result != null && it.result!!.documents != null) {
+                if (it.isSuccessful && it.result != null) {
                     userList = parseUserFrom(it.result!!.documents)
                     Timber.i("isSuccessful")
                 }

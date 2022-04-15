@@ -41,6 +41,7 @@ class FirebaseRegistrationSource :
         userInfo[FirebaseConstants.countryField] = country
         userInfo[FirebaseConstants.cityField] = city
         userInfo[FirebaseConstants.pictureField] = pictureUrl
+        userInfo[FirebaseConstants.createdAtField] = System.currentTimeMillis()
         upload(picture)
         saveUserInfo(userInfo, userId)
         saveAuthInfo(
@@ -58,7 +59,8 @@ class FirebaseRegistrationSource :
     private fun getUserId() = UUID.randomUUID().toString().replace("-", "").toUpperCase()
 
     private suspend fun saveUserInfo(userInfo: HashMap<String, Any>, userId: String) {
-        firebaseDb.collection(FirebaseConstants.userInfoTable).document(userId)
+        firebaseDb.collection(FirebaseConstants.userInfoTable)
+            .document(userId)
             .set(userInfo).addOnCompleteListener {
                 if (it.isSuccessful) {
                     userInfoResult = true
