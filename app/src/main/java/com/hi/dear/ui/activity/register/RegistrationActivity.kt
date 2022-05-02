@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide
 import com.hi.dear.R
 import com.hi.dear.databinding.ActivityRegistrationBinding
 import com.hi.dear.repo.RegistrationRepository
+import com.hi.dear.ui.Constant.GALLERY_REQUEST_CODE
+import com.hi.dear.ui.Constant.IMAGE_MIME_TYPE
 import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
@@ -32,8 +34,6 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding, RegisterV
 
     private var pic: File? = null
     private lateinit var currentRequest: PermissionRequest
-    private val GALLERY_REQUEST_CODE = 420
-    private val IMAGE_MIME_TYPE = "image/*"
 
     override fun initView() {
         Utils.disableView(binding.signUpBtn)

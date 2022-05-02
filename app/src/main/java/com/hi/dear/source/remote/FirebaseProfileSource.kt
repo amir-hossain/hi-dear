@@ -54,11 +54,11 @@ class FirebaseProfileSource : IProfileDataSource {
             profileData.id = result[FirebaseConstants.userIdField].toString()
             profileData.name = result[FirebaseConstants.userNameField].toString()
             profileData.gender = result[FirebaseConstants.genderField].toString()
-            profileData.picture = result[FirebaseConstants.pictureField].toString()
             profileData.country = result[FirebaseConstants.countryField].toString()
             profileData.city = result[FirebaseConstants.cityField].toString()
             profileData.age = result[FirebaseConstants.ageField].toString()
             profileData.about = result[FirebaseConstants.aboutField]?.toString() ?: ""
+            profileData.setPicList(result[FirebaseConstants.pictureField].toString())
             break
         }
         return profileData

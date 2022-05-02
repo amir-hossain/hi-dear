@@ -8,9 +8,9 @@
 
     <include
         android:id="@+id/toolbar_layout"
+        layout="@layout/activity_toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/activity_toolbar_layout" />
+        android:layout_height="wrap_content" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,172 +20,97 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/img1"
+            <include
+                android:id="@+id/layout_1"
+                layout="@layout/layout_profile_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:adjustViewBounds="true"
-                tools:src="@drawable/sample_profile_2"
-                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@id/layout_2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/img2" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/img2"
+            <include
+                android:id="@+id/layout_2"
+                layout="@layout/layout_profile_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/sample_profile_2"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@id/img3"
-                app:layout_constraintStart_toEndOf="@id/img1"
-                app:layout_constraintTop_toTopOf="@id/img1" />
+                app:layout_constraintEnd_toEndOf="@id/layout_3"
+                app:layout_constraintStart_toEndOf="@id/layout_1"
+                app:layout_constraintTop_toTopOf="@id/layout_1" />
 
-            <ImageView
-                android:id="@+id/btn_close2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:src="@drawable/ic_close"
-                android:translationY="30dp"
-                android:translationX="25dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/img2"
-                app:layout_constraintEnd_toEndOf="@id/img2" />
-
-            <ImageView
-                android:id="@+id/img3"
+            <include
+                android:id="@+id/layout_3"
+                layout="@layout/layout_profile_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:adjustViewBounds="true"
                 android:visibility="gone"
-                android:src="@drawable/sample_profile_2"
-                app:layout_constraintTop_toTopOf="@id/img2"
-                app:layout_constraintStart_toEndOf="@id/img2"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/layout_2"
+                app:layout_constraintTop_toTopOf="@id/layout_2" />
 
-            <ImageView
-                android:id="@+id/btn_close3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:src="@drawable/ic_close"
-                android:translationY="30dp"
-                android:translationX="25dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/img3"
-                app:layout_constraintEnd_toEndOf="@id/img3" />
-
-            <ImageView
-                android:id="@+id/img4"
+            <include
+                android:id="@+id/layout_4"
+                layout="@layout/layout_profile_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:adjustViewBounds="true"
                 android:visibility="gone"
-                android:src="@drawable/sample_profile_2"
-                app:layout_constraintEnd_toEndOf="@id/img1"
-                app:layout_constraintStart_toStartOf="@id/img1"
-                app:layout_constraintTop_toBottomOf="@id/img1" />
+                app:layout_constraintEnd_toEndOf="@id/layout_1"
+                app:layout_constraintStart_toStartOf="@id/layout_1"
+                app:layout_constraintTop_toBottomOf="@id/layout_1" />
 
-            <ImageView
-                android:id="@+id/btn_close4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:src="@drawable/ic_close"
-                android:translationY="30dp"
-                android:translationX="25dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/img4"
-                app:layout_constraintEnd_toEndOf="@id/img4" />
-
-            <ImageView
-                android:id="@+id/img5"
+            <include
+                android:id="@+id/layout_5"
+                layout="@layout/layout_profile_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:adjustViewBounds="true"
                 android:visibility="gone"
-                android:src="@drawable/sample_profile_2"
-                app:layout_constraintEnd_toEndOf="@id/img2"
-                app:layout_constraintStart_toStartOf="@id/img2"
-                app:layout_constraintTop_toBottomOf="@id/img2" />
+                app:layout_constraintEnd_toEndOf="@id/layout_2"
+                app:layout_constraintStart_toStartOf="@id/layout_2"
+                app:layout_constraintTop_toBottomOf="@id/layout_2" />
 
-            <ImageView
-                android:id="@+id/btn_close5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:src="@drawable/ic_close"
-                android:translationY="30dp"
-                android:translationX="25dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/img5"
-                app:layout_constraintEnd_toEndOf="@id/img5" />
-
-            <ImageView
-                android:id="@+id/img6"
+            <include
+                android:id="@+id/layout_6"
+                layout="@layout/layout_profile_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:adjustViewBounds="true"
                 android:visibility="gone"
-                android:src="@drawable/sample_profile_2"
-                app:layout_constraintEnd_toEndOf="@id/img3"
-                app:layout_constraintStart_toStartOf="@id/img3"
-                app:layout_constraintTop_toBottomOf="@id/img3" />
-
-            <ImageView
-                android:id="@+id/btn_close6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:src="@drawable/ic_close"
-                android:translationY="30dp"
-                android:translationX="25dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/img6"
-                app:layout_constraintEnd_toEndOf="@id/img6" />
+                app:layout_constraintEnd_toEndOf="@id/layout_3"
+                app:layout_constraintStart_toStartOf="@id/layout_3"
+                app:layout_constraintTop_toBottomOf="@id/layout_3" />
 
             <TextView
                 android:id="@+id/label1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brand_secondary_color"
-                android:text="@string/name"
-                android:textAllCaps="true"
+                android:layout_marginStart="@dimen/dp_16"
                 android:ems="10"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/img4"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16" />
+                android:text="@string/name"
+                android:textAllCaps="true"
+                android:textColor="@color/brand_secondary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_4" />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/pink"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:ellipsize="end"
                 android:maxEms="10"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginEnd="@dimen/dp_16"
-                tools:text="xx"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:textAllCaps="true"
+                android:textColor="@color/pink"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/label1"
-                app:layout_constraintEnd_toEndOf="parent" />
+                tools:text="xx" />
 
             <ImageView
                 android:id="@+id/btn_name_edit"
@@ -204,57 +129,57 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/divider_color"
-                app:layout_constraintStart_toStartOf="@id/label1"
                 app:layout_constraintEnd_toEndOf="@id/name"
+                app:layout_constraintStart_toStartOf="@id/label1"
                 app:layout_constraintTop_toBottomOf="@id/label1" />
 
             <include
                 android:id="@+id/name_field"
+                layout="@layout/component_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/component_edit"
-                tools:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/img4" />
+                app:layout_constraintTop_toBottomOf="@id/layout_4"
+                tools:visibility="gone" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="name_field,border1"
-                app:barrierDirection="bottom" />
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="name_field,border1" />
 
             <TextView
                 android:id="@+id/label2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brand_secondary_color"
-                android:text="@string/age"
-                android:textAllCaps="true"
+                android:layout_marginStart="@dimen/dp_16"
                 android:ems="10"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier1"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16" />
+                android:text="@string/age"
+                android:textAllCaps="true"
+                android:textColor="@color/brand_secondary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier1" />
 
             <TextView
                 android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/pink"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:ellipsize="end"
                 android:maxEms="10"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginEnd="@dimen/dp_16"
-                tools:text="222"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:textAllCaps="true"
+                android:textColor="@color/pink"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/label2"
-                app:layout_constraintEnd_toEndOf="parent" />
+                tools:text="222" />
 
             <ImageView
                 android:id="@+id/btn_age_edit"
@@ -273,57 +198,57 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/divider_color"
-                app:layout_constraintStart_toStartOf="@id/label1"
                 app:layout_constraintEnd_toEndOf="@id/age"
+                app:layout_constraintStart_toStartOf="@id/label1"
                 app:layout_constraintTop_toBottomOf="@id/label2" />
 
             <include
                 android:id="@+id/age_field"
+                layout="@layout/component_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/component_edit"
-                tools:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier1" />
+                app:layout_constraintTop_toBottomOf="@id/barrier1"
+                tools:visibility="gone" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="age_field,border2"
-                app:barrierDirection="bottom" />
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="age_field,border2" />
 
             <TextView
                 android:id="@+id/label3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brand_secondary_color"
-                android:text="@string/country"
-                android:textAllCaps="true"
+                android:layout_marginStart="@dimen/dp_16"
                 android:ems="10"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier2"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16" />
+                android:text="@string/country"
+                android:textAllCaps="true"
+                android:textColor="@color/brand_secondary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier2" />
 
             <TextView
                 android:id="@+id/country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/pink"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:ellipsize="end"
                 android:maxEms="10"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginEnd="@dimen/dp_16"
-                tools:text="ll"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:textAllCaps="true"
+                android:textColor="@color/pink"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/label3"
-                app:layout_constraintEnd_toEndOf="parent" />
+                tools:text="ll" />
 
             <ImageView
                 android:id="@+id/btn_country_edit"
@@ -342,57 +267,57 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/divider_color"
-                app:layout_constraintStart_toStartOf="@id/label3"
                 app:layout_constraintEnd_toEndOf="@id/country"
+                app:layout_constraintStart_toStartOf="@id/label3"
                 app:layout_constraintTop_toBottomOf="@id/label3" />
 
             <include
                 android:id="@+id/country_field"
+                layout="@layout/component_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/component_edit"
-                tools:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier2" />
+                app:layout_constraintTop_toBottomOf="@id/barrier2"
+                tools:visibility="gone" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="country_field,border3"
-                app:barrierDirection="bottom" />
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="country_field,border3" />
 
             <TextView
                 android:id="@+id/label4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brand_secondary_color"
-                android:text="@string/city"
-                android:textAllCaps="true"
+                android:layout_marginStart="@dimen/dp_16"
                 android:ems="10"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier3"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16" />
+                android:text="@string/city"
+                android:textAllCaps="true"
+                android:textColor="@color/brand_secondary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier3" />
 
             <TextView
                 android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/pink"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:ellipsize="end"
                 android:maxEms="10"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginEnd="@dimen/dp_16"
-                tools:text="ll"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:textAllCaps="true"
+                android:textColor="@color/pink"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/label4"
-                app:layout_constraintEnd_toEndOf="parent" />
+                tools:text="ll" />
 
             <ImageView
                 android:id="@+id/btn_city_edit"
@@ -411,57 +336,57 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/divider_color"
-                app:layout_constraintStart_toStartOf="@id/label4"
                 app:layout_constraintEnd_toEndOf="@id/city"
+                app:layout_constraintStart_toStartOf="@id/label4"
                 app:layout_constraintTop_toBottomOf="@id/label4" />
 
             <include
                 android:id="@+id/city_field"
+                layout="@layout/component_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/component_edit"
-                tools:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier3" />
+                app:layout_constraintTop_toBottomOf="@id/barrier3"
+                tools:visibility="gone" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="city_field,border4"
-                app:barrierDirection="bottom" />
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="city_field,border4" />
 
             <TextView
                 android:id="@+id/label5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brand_secondary_color"
-                android:text="@string/gender"
-                android:textAllCaps="true"
+                android:layout_marginStart="@dimen/dp_16"
                 android:ems="10"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier4"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16" />
+                android:text="@string/gender"
+                android:textAllCaps="true"
+                android:textColor="@color/brand_secondary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier4" />
 
             <TextView
                 android:id="@+id/gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/pink"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:ellipsize="end"
                 android:maxEms="10"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginEnd="@dimen/dp_16"
-                tools:text="male"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
                 android:textAllCaps="true"
+                android:textColor="@color/pink"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/label5"
-                app:layout_constraintEnd_toEndOf="parent" />
+                tools:text="male" />
 
             <ImageView
                 android:id="@+id/btn_gender_edit"
@@ -480,40 +405,40 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/divider_color"
-                app:layout_constraintStart_toStartOf="@id/label5"
                 app:layout_constraintEnd_toEndOf="@id/age"
+                app:layout_constraintStart_toStartOf="@id/label5"
                 app:layout_constraintTop_toBottomOf="@id/label5" />
 
             <include
                 android:id="@+id/gender_field"
+                layout="@layout/component_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/component_edit"
-                tools:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier4" />
+                app:layout_constraintTop_toBottomOf="@id/barrier4"
+                tools:visibility="gone" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="gender_field,border5"
-                app:barrierDirection="bottom" />
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="gender_field,border5" />
 
             <TextView
                 android:id="@+id/label6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brand_secondary_color"
-                android:text="@string/about_me"
-                android:textAllCaps="true"
+                android:layout_marginStart="@dimen/dp_16"
                 android:ems="10"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier5"
                 android:paddingTop="@dimen/dp_16"
                 android:paddingBottom="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16" />
+                android:text="@string/about_me"
+                android:textAllCaps="true"
+                android:textColor="@color/brand_secondary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier5" />
 
             <ImageView
                 android:id="@+id/btn_about_me_edit"
@@ -543,31 +468,31 @@
                 android:id="@+id/about_me"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brand_secondary_color"
-                android:inputType="textMultiLine"
-                android:text="Add some things"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label6"
-                android:paddingBottom="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginEnd="@dimen/dp_16" />
+                android:layout_marginEnd="@dimen/dp_16"
+                android:inputType="textMultiLine"
+                android:paddingBottom="@dimen/dp_16"
+                android:text="Add some things"
+                android:textColor="@color/brand_secondary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label6" />
 
             <EditText
                 android:id="@+id/about_me_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/brand_secondary_color"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:gravity="start"
                 android:inputType="textMultiLine"
                 android:minLines="6"
-                android:gravity="start"
+                android:paddingBottom="@dimen/dp_16"
+                android:textColor="@color/brand_secondary_color"
+                android:textSize="12sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label6"
-                android:paddingBottom="@dimen/dp_16"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginEnd="@dimen/dp_16" />
+                app:layout_constraintTop_toBottomOf="@id/label6" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

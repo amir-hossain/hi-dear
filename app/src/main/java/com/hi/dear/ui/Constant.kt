@@ -22,6 +22,8 @@ object Constant {
     const val topProfileFragmentTitle = "Top Profile"
     const val giftFragmentTitle = "Today's Gift"
     const val notification_type_request_accepted = "requestAccepted"
-
     var CurrentCoin = InitialCoin
+
+    const val IMAGE_MIME_TYPE = "image/*"
+    const val GALLERY_REQUEST_CODE = 420
 }
