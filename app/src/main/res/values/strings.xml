@@ -137,4 +137,5 @@
     <string name="no_ad_available">No Ad available,try again later !</string>
     <string name="are_you_confirm">Are you Confirm?\n%d coins will be deduced</string>
     <string name="exit_confirm_msg">Do you want to exit?</string>
+    <string name="choose_img">Choose Image</string>
 </resources>

@@ -9,6 +9,8 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -22,6 +24,7 @@ import com.hi.dear.ui.Constant.IMAGE_MIME_TYPE
 import com.hi.dear.ui.DialogFactory
 import com.hi.dear.ui.Utils
 import com.hi.dear.ui.activity.ViewModelFactory
+import com.hi.dear.ui.activity.profile.model.Img
 import com.hi.dear.ui.activity.register.GenderDialog
 import com.hi.dear.ui.base.BaseActivity
 import permissions.dispatcher.*
@@ -31,8 +34,7 @@ import java.io.File
 @RuntimePermissions
 class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>(),
     GenderDialog.IGenderDialogListener, DialogFactory.ISingleBtnListener {
-    private lateinit var previewImgList: MutableList<String>
-    private var clickedAddMoreButtonPosition = 0
+    private var clickedImgPosition = 0
     private lateinit var mode: Mode
     private var previousEditCloseBtn: View? = null
     private var genderDialog: GenderDialog? = null
@@ -69,7 +71,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         return ActivityProfileBinding.inflate(layoutInflater)
     }
 
-
     override fun initView() {
         val userData = intent.getParcelableExtra<UserCore>(Args)!!
         mode = (intent.getSerializableExtra(Args_Mode) as Mode)
@@ -91,109 +92,62 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
     }
 
     private fun initClickListener() {
-        binding.toolbarLayout.back.setOnClickListener {
-            if (viewModel?.editState?.value == true) {
-                DialogFactory.makeDialog(getString(R.string.save_change), saveChangeListener)
-                    .showDialog(supportFragmentManager)
-            } else {
-                super.onBackPressed()
-            }
-        }
-        binding.btnNameEdit.setOnClickListener {
-            previousEditCloseBtn?.performClick()
-            previousEditCloseBtn = binding.nameField.valueTickBtn
-            binding.nameField.editLabel.text = getString(R.string.name)
-            binding.nameField.editText.setText(binding.name.text)
-            setCursorToTheLast(binding.nameField.editText)
-            hideView(binding.btnNameEdit, binding.name, binding.label1)
-            binding.nameField.rootEditComponent.visibility = View.VISIBLE
+        initBackButtonClickListener()
+        initNameEditClickListener()
+        initNameTickClickListener()
+        initAgeEditClickListener()
+        initAgeTickClickListener()
+        initCountryEditClickListener()
+        initCountryTickClickListener()
+        initCityEditClickListener()
+        initCityTickClickListener()
+        initGenderEditClickListener()
+        initGenderTickClickListener()
+        initAboutMeEditClickListener()
+        initAboutMeTickClickListener()
+
+        binding.toolbarLayout.toolbarBtn.setOnClickListener {
+            viewModel?.saveEditedData()
         }
 
-        binding.nameField.valueTickBtn.setOnClickListener {
+        if (mode == Mode.EDIT) {
+            initImgClickListenerFor(binding.layout1.root, position = 0)
+            initImgClickListenerFor(binding.layout2.root, position = 1)
+            initImgClickListenerFor(binding.layout3.root, position = 2)
+            initImgClickListenerFor(binding.layout4.root, position = 3)
+            initImgClickListenerFor(binding.layout5.root, position = 4)
+            initImgClickListenerFor(binding.layout6.root, position = 5)
+
+            initImgCloseClickListener(binding.layout1.btnClose, position = 0)
+            initImgCloseClickListener(binding.layout2.btnClose, position = 1)
+            initImgCloseClickListener(binding.layout3.btnClose, position = 2)
+            initImgCloseClickListener(binding.layout4.btnClose, position = 3)
+            initImgCloseClickListener(binding.layout5.btnClose, position = 4)
+            initImgCloseClickListener(binding.layout6.btnClose, position = 5)
+        }
+    }
+
+    private fun initImgCloseClickListener(view: View, position: Int) {
+        view.setOnClickListener {
+            clearPictureInPosition(position)
+            showPictureList()
+            view.visibility = View.GONE
+        }
+    }
+
+    private fun initAboutMeTickClickListener() {
+        binding.aboutTickBtn.setOnClickListener {
             previousEditCloseBtn = null
-            showView(binding.btnNameEdit, binding.name, binding.label1)
-            binding.nameField.rootEditComponent.visibility = View.GONE
-            val newValue = binding.nameField.editText.text.toString()
-            viewModel?.fieldDataChanged(newName = newValue)
-            binding.name.text = newValue
+            binding.aboutMe.visibility = View.VISIBLE
+            binding.aboutTickBtn.visibility = View.GONE
+            binding.aboutMeField.visibility = View.GONE
+            val newValue = binding.aboutMeField.text.toString()
+            viewModel?.fieldDataChanged(newAbout = newValue)
+            binding.aboutMe.text = newValue
         }
+    }
 
-        binding.btnAgeEdit.setOnClickListener {
-            previousEditCloseBtn?.performClick()
-            previousEditCloseBtn = binding.ageField.valueTickBtn
-            binding.ageField.editLabel.text = getString(R.string.age)
-            binding.ageField.editText.setText(binding.age.text)
-            setCursorToTheLast(binding.ageField.editText)
-            hideView(binding.btnAgeEdit, binding.age, binding.label2)
-            binding.ageField.rootEditComponent.visibility = View.VISIBLE
-        }
-
-        binding.ageField.valueTickBtn.setOnClickListener {
-            previousEditCloseBtn = null
-            showView(binding.btnAgeEdit, binding.age, binding.label2)
-            binding.ageField.rootEditComponent.visibility = View.GONE
-            val newValue = binding.ageField.editText.text.toString()
-            viewModel?.fieldDataChanged(newAge = newValue)
-            binding.age.text = newValue
-        }
-
-        binding.btnCountryEdit.setOnClickListener {
-            previousEditCloseBtn?.performClick()
-            previousEditCloseBtn = binding.countryField.valueTickBtn
-            binding.countryField.editLabel.text = getString(R.string.country)
-            binding.countryField.editText.setText(binding.country.text)
-            setCursorToTheLast(binding.countryField.editText)
-            hideView(binding.btnCountryEdit, binding.country, binding.label3)
-            binding.countryField.rootEditComponent.visibility = View.VISIBLE
-        }
-
-        binding.countryField.valueTickBtn.setOnClickListener {
-            previousEditCloseBtn = null
-            showView(binding.btnCountryEdit, binding.country, binding.label3)
-            binding.countryField.rootEditComponent.visibility = View.GONE
-            val newValue = binding.countryField.editText.text.toString()
-            viewModel?.fieldDataChanged(newCountry = newValue)
-            binding.country.text = newValue
-        }
-
-        binding.btnCityEdit.setOnClickListener {
-            previousEditCloseBtn?.performClick()
-            previousEditCloseBtn = binding.cityField.valueTickBtn
-            binding.cityField.editLabel.text = getString(R.string.city)
-            binding.cityField.editText.setText(binding.city.text)
-            setCursorToTheLast(binding.cityField.editText)
-            hideView(binding.btnCityEdit, binding.city, binding.label4)
-            binding.cityField.rootEditComponent.visibility = View.VISIBLE
-        }
-
-        binding.cityField.valueTickBtn.setOnClickListener {
-            previousEditCloseBtn = null
-            showView(binding.btnCityEdit, binding.city, binding.label4)
-            binding.cityField.rootEditComponent.visibility = View.GONE
-            val newValue = binding.cityField.editText.text.toString()
-            viewModel?.fieldDataChanged(newCity = newValue)
-            binding.city.text = newValue
-        }
-
-        binding.btnGenderEdit.setOnClickListener {
-            previousEditCloseBtn?.performClick()
-            previousEditCloseBtn = binding.genderField.valueTickBtn
-            binding.genderField.editLabel.text = getString(R.string.gender)
-            binding.genderField.editText.setText(binding.gender.text)
-            setCursorToTheLast(binding.genderField.editText)
-            hideView(binding.btnGenderEdit, binding.gender, binding.label5)
-            binding.genderField.rootEditComponent.visibility = View.VISIBLE
-        }
-
-        binding.genderField.valueTickBtn.setOnClickListener {
-            previousEditCloseBtn = null
-            showView(binding.btnGenderEdit, binding.gender, binding.label5)
-            binding.genderField.rootEditComponent.visibility = View.GONE
-            val newValue = binding.genderField.editText.text.toString()
-            viewModel?.fieldDataChanged(newGender = newValue)
-            binding.gender.text = newValue
-        }
-
+    private fun initAboutMeEditClickListener() {
         binding.btnAboutMeEdit.setOnClickListener {
             previousEditCloseBtn?.performClick()
             previousEditCloseBtn = binding.aboutTickBtn
@@ -204,19 +158,138 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
             binding.aboutMeField.visibility = View.VISIBLE
             binding.aboutMeField.requestFocus()
         }
+    }
 
-        binding.aboutTickBtn.setOnClickListener {
+    private fun initGenderTickClickListener() {
+        binding.genderField.valueTickBtn.setOnClickListener {
             previousEditCloseBtn = null
-            binding.aboutMe.visibility = View.VISIBLE
-            binding.aboutTickBtn.visibility = View.GONE
-            binding.aboutMeField.visibility = View.GONE
-            val newValue = binding.aboutMeField.text.toString()
-            viewModel?.fieldDataChanged(newAbout = newValue)
-            binding.aboutMe.text = newValue
+            showView(binding.btnGenderEdit, binding.gender, binding.label5)
+            binding.genderField.rootEditComponent.visibility = View.GONE
+            val newValue = binding.genderField.editText.text.toString()
+            viewModel?.fieldDataChanged(newGender = newValue)
+            binding.gender.text = newValue
         }
+    }
 
-        binding.toolbarLayout.toolbarBtn.setOnClickListener {
-            viewModel?.saveEditedData()
+    private fun initGenderEditClickListener() {
+        binding.btnGenderEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.genderField.valueTickBtn
+            binding.genderField.editLabel.text = getString(R.string.gender)
+            binding.genderField.editText.setText(binding.gender.text)
+            setCursorToTheLast(binding.genderField.editText)
+            hideView(binding.btnGenderEdit, binding.gender, binding.label5)
+            binding.genderField.rootEditComponent.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initCityTickClickListener() {
+        binding.cityField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnCityEdit, binding.city, binding.label4)
+            binding.cityField.rootEditComponent.visibility = View.GONE
+            val newValue = binding.cityField.editText.text.toString()
+            viewModel?.fieldDataChanged(newCity = newValue)
+            binding.city.text = newValue
+        }
+    }
+
+    private fun initCityEditClickListener() {
+        binding.btnCityEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.cityField.valueTickBtn
+            binding.cityField.editLabel.text = getString(R.string.city)
+            binding.cityField.editText.setText(binding.city.text)
+            setCursorToTheLast(binding.cityField.editText)
+            hideView(binding.btnCityEdit, binding.city, binding.label4)
+            binding.cityField.rootEditComponent.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initCountryTickClickListener() {
+        binding.countryField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnCountryEdit, binding.country, binding.label3)
+            binding.countryField.rootEditComponent.visibility = View.GONE
+            val newValue = binding.countryField.editText.text.toString()
+            viewModel?.fieldDataChanged(newCountry = newValue)
+            binding.country.text = newValue
+        }
+    }
+
+    private fun initCountryEditClickListener() {
+        binding.btnCountryEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.countryField.valueTickBtn
+            binding.countryField.editLabel.text = getString(R.string.country)
+            binding.countryField.editText.setText(binding.country.text)
+            setCursorToTheLast(binding.countryField.editText)
+            hideView(binding.btnCountryEdit, binding.country, binding.label3)
+            binding.countryField.rootEditComponent.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initAgeTickClickListener() {
+        binding.ageField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnAgeEdit, binding.age, binding.label2)
+            binding.ageField.rootEditComponent.visibility = View.GONE
+            val newValue = binding.ageField.editText.text.toString()
+            viewModel?.fieldDataChanged(newAge = newValue)
+            binding.age.text = newValue
+        }
+    }
+
+    private fun initAgeEditClickListener() {
+        binding.btnAgeEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.ageField.valueTickBtn
+            binding.ageField.editLabel.text = getString(R.string.age)
+            binding.ageField.editText.setText(binding.age.text)
+            setCursorToTheLast(binding.ageField.editText)
+            hideView(binding.btnAgeEdit, binding.age, binding.label2)
+            binding.ageField.rootEditComponent.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initNameTickClickListener() {
+        binding.nameField.valueTickBtn.setOnClickListener {
+            previousEditCloseBtn = null
+            showView(binding.btnNameEdit, binding.name, binding.label1)
+            binding.nameField.rootEditComponent.visibility = View.GONE
+            val newValue = binding.nameField.editText.text.toString()
+            viewModel?.fieldDataChanged(newName = newValue)
+            binding.name.text = newValue
+        }
+    }
+
+    private fun initNameEditClickListener() {
+        binding.btnNameEdit.setOnClickListener {
+            previousEditCloseBtn?.performClick()
+            previousEditCloseBtn = binding.nameField.valueTickBtn
+            binding.nameField.editLabel.text = getString(R.string.name)
+            binding.nameField.editText.setText(binding.name.text)
+            setCursorToTheLast(binding.nameField.editText)
+            hideView(binding.btnNameEdit, binding.name, binding.label1)
+            binding.nameField.rootEditComponent.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initBackButtonClickListener() {
+        binding.toolbarLayout.back.setOnClickListener {
+            if (viewModel?.editState?.value == true) {
+                DialogFactory.makeDialog(getString(R.string.save_change), saveChangeListener)
+                    .showDialog(supportFragmentManager)
+            } else {
+                super.onBackPressed()
+            }
+        }
+    }
+
+    private fun initImgClickListenerFor(view: View, position: Int) {
+        view.setOnClickListener {
+            clickedImgPosition = position
+            showGalleryWithPermissionCheck()
         }
     }
 
@@ -243,12 +316,9 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
 
             if (result.success) {
                 showData(result.data!!)
-                storePreviousValue(result.data)
                 if (mode == Mode.EDIT) {
+                    storePreviousValue(result.data)
                     showEditButtons()
-                    previewImgList = result.data.picList!!
-                    addMoreButtonFunctionality(previewImgList)
-                    showProfileClearIconBasedOn(previewImgList)
                 }
                 genderDialog?.setDefaultValue(result.data.gender)
             } else {
@@ -272,7 +342,16 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         })
     }
 
+    private fun getImgListFrom(picList: MutableList<String>): MutableList<Img> {
+        val list = mutableListOf<Img>()
+        for (index in picList.indices) {
+            list.add(Img(path = picList[index], position = index))
+        }
+        return list
+    }
+
     private fun storePreviousValue(data: ProfileData) {
+        viewModel?.previousImgList = data.picList!!
         viewModel?.previousName = data.name!!
         viewModel?.previousAge = data.age!!
         viewModel?.previousGender = data.gender!!
@@ -291,7 +370,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
     }
 
     private fun showData(data: ProfileData) {
-        showPicture(data.picList!!)
+        showPictureList()
         binding.name.text = data.name
         binding.age.text = data.age
         binding.gender.text = data.gender
@@ -332,7 +411,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
     private fun open(intent: Intent) {
         try {
             startActivityForResult(
-                Intent.createChooser(intent, "Chose Image"),
+                Intent.createChooser(intent, getString(R.string.choose_img)),
                 GALLERY_REQUEST_CODE
             )
         } catch (e: ActivityNotFoundException) {
@@ -340,67 +419,68 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         }
     }
 
-    private fun addMoreButtonFunctionality(picList: MutableList<String>) {
-        when (picList.size) {
-            1 -> {
-                binding.layout2.root.visibility = View.VISIBLE
-                binding.layout2.root.setOnClickListener{
-                    clickedAddMoreButtonPosition = 1
-                    showGalleryWithPermissionCheck()
+    private fun showAddMoreButton() {
+        if (mode != Mode.EDIT) {
+            return
+        } else if (viewModel?.previousName.size == 0) {
+            showStaticPicture(binding.layout1.img, R.drawable.ic_plus)
+        } else {
+            when (previewImgList.size) {
+                1 -> {
+                    showStaticPicture(binding.layout2.img, R.drawable.ic_plus)
+                    makeViewVisible(binding.layout2.root)
                 }
-            }
-            2 -> {
-                binding.layout3.root.visibility = View.VISIBLE
-                binding.layout3.root.setOnClickListener{
-                    clickedAddMoreButtonPosition = 2
-                    showGalleryWithPermissionCheck()
+                2 -> {
+                    showStaticPicture(binding.layout3.img, R.drawable.ic_plus)
+                    makeViewVisible(binding.layout3.root)
                 }
-            }
-            3 -> {
-                binding.layout4.root.visibility = View.VISIBLE
-                binding.layout4.root.setOnClickListener{
-                    clickedAddMoreButtonPosition = 3
-                    showGalleryWithPermissionCheck()
+                3 -> {
+                    showStaticPicture(binding.layout4.img, R.drawable.ic_plus)
+                    makeViewVisible(binding.layout4.root)
                 }
-            }
-            4 -> {
-                binding.layout5.root.visibility = View.VISIBLE
-                binding.layout5.root.setOnClickListener{
-                    clickedAddMoreButtonPosition = 4
-                    showGalleryWithPermissionCheck()
+                4 -> {
+                    showStaticPicture(binding.layout5.img, R.drawable.ic_plus)
+                    makeViewVisible(binding.layout5.root)
                 }
-            }
-            5 -> {
-                binding.layout6.root.visibility = View.VISIBLE
-                binding.layout6.root.setOnClickListener{
-                    clickedAddMoreButtonPosition = 5
-                    showGalleryWithPermissionCheck()
+                5 -> {
+                    showStaticPicture(binding.layout6.img, R.drawable.ic_plus)
+                    makeViewVisible(binding.layout6.root)
                 }
             }
         }
     }
 
-    private fun showProfileClearIconBasedOn(picList: MutableList<String>) {
-        when (picList.size) {
-            1 -> binding.layout1.btnClose.visibility = View.VISIBLE
-            2 -> binding.layout2.btnClose.visibility = View.VISIBLE
-            3 -> binding.layout3.btnClose.visibility = View.VISIBLE
-            4 -> binding.layout4.btnClose.visibility = View.VISIBLE
-            5 -> binding.layout5.btnClose.visibility = View.VISIBLE
-            6 -> binding.layout6.btnClose.visibility = View.VISIBLE
+
+    private fun clearPictureInPosition(position: Int) {
+        var img: Img? = null
+        for (data in previewImgList) {
+            if (data.position == position) {
+                img = data
+            }
         }
+
+        /* to avoid concurrent modification*/
+        if (img != null) {
+            previewImgList.remove(img)
+        }
+        viewModel?.editState?.value = previewImgList.isNotEmpty()
     }
 
-
-    private fun showPicture(picList: MutableList<String>) {
-
-        for (index in picList.indices) {
-            val pic = picList[index]
+    private fun showPictureList() {
+        for (index in previewImgList.indices) {
+            val pic = previewImgList[index].path
             val imageView = getImageViewFor(index)
             Glide.with(this)
                 .load(pic)
                 .into(imageView)
         }
+        showAddMoreButton()
+    }
+
+    private fun showStaticPicture(imageView: ImageView, @DrawableRes pic: Int) {
+        Glide.with(this)
+            .load(pic)
+            .into(imageView)
     }
 
     private fun getImageViewFor(position: Int): ImageView {
@@ -408,34 +488,48 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
         when (position) {
             0 -> {
                 imageView = binding.layout1.img
+                makeViewVisible(imageView)
+                showCloseButtonVisible(binding.layout1.btnClose)
             }
             1 -> {
                 imageView = binding.layout2.img
-                binding.layout2.img.visibility = View.VISIBLE
-                binding.layout2.btnClose.visibility = View.VISIBLE
+                makeViewVisible(imageView)
+                showCloseButtonVisible(binding.layout2.btnClose)
             }
             2 -> {
                 imageView = binding.layout3.img
-                binding.layout3.img.visibility = View.VISIBLE
-                binding.layout3.btnClose.visibility = View.VISIBLE
+                makeViewVisible(imageView)
+                showCloseButtonVisible(binding.layout3.btnClose)
             }
             3 -> {
                 imageView = binding.layout4.img
-                binding.layout4.img.visibility = View.VISIBLE
-                binding.layout4.btnClose.visibility = View.VISIBLE
+                makeViewVisible(imageView)
+                showCloseButtonVisible(binding.layout4.btnClose)
             }
             4 -> {
                 imageView = binding.layout5.img
-                binding.layout5.img.visibility = View.VISIBLE
-                binding.layout5.btnClose.visibility = View.VISIBLE
+                makeViewVisible(imageView)
+                showCloseButtonVisible(binding.layout5.btnClose)
             }
             else -> {
                 imageView = binding.layout6.img
-                binding.layout6.img.visibility = View.VISIBLE
-                binding.layout6.btnClose.visibility = View.VISIBLE
+                makeViewVisible(imageView)
+                showCloseButtonVisible(binding.layout6.btnClose)
             }
         }
         return imageView
+    }
+
+    private fun showCloseButtonVisible(btnClose: ImageView) {
+        if (mode == Mode.EDIT && !btnClose.isVisible) {
+            btnClose.visibility = View.VISIBLE
+        }
+    }
+
+    private fun makeViewVisible(view: View) {
+        if (!view.isVisible) {
+            view.visibility = View.VISIBLE
+        }
     }
 
     override fun initViewModel(): ProfileViewModel {
@@ -471,10 +565,12 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding, ProfileViewModel>()
                 )
                 val pic = getImageFrom(cursor)
                 if (pic != null) {
-                    previewImgList.add(clickedAddMoreButtonPosition,pic.path)
-                    showPicture(previewImgList)
-                    addMoreButtonFunctionality(previewImgList)
-                    showProfileClearIconBasedOn(previewImgList)
+                    if (clickedImgPosition < previewImgList.size) {
+                        previewImgList.removeAt(clickedImgPosition)
+                    }
+                    previewImgList.add(clickedImgPosition, Img(clickedImgPosition, pic.path))
+                    viewModel?.editState?.value = true
+                    showPictureList()
                 }
             }
         }

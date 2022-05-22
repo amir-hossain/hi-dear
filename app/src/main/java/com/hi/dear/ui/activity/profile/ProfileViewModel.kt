@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
 
+    private var imgChanged = false
     private var nameChanged = false
     private var ageChanged = false
     private var countryChanged = false
@@ -21,19 +22,21 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
     private var genderChanged = false
     private var aboutChanged = false
 
+    private lateinit var newImgList: MutableList<String>
     var previousAbout = ""
     var previousGender = ""
     var previousCity = ""
     var previousCountry = ""
     var previousAge = ""
     var previousName = ""
+    var previousImgList = mutableListOf<String>()
 
-    var newAbout: String? = null
-    var newGender: String? = null
-    var newCity: String? = null
-    var newCountry: String? = null
-    var newAge: String? = null
-    var newName: String? = null
+    private var newAbout: String? = null
+    private var newGender: String? = null
+    private var newCity: String? = null
+    private var newCountry: String? = null
+    private var newAge: String? = null
+    private var newName: String? = null
 
     val profileResult = MutableLiveData<ActionResult<ProfileData>>()
     val saveResult = MutableLiveData<ActionResult<Boolean>>()
@@ -58,38 +61,64 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
     }
 
     fun fieldDataChanged(
-        newName: String? = null, newAge: String? = null, newCountry: String? = null,
-        newCity: String? = null, newGender: String? = null, newAbout: String? = null
+        newName: String? = null,
+        newAge: String? = null,
+        newCountry: String? = null,
+        newCity: String? = null,
+        newGender: String? = null,
+        newAbout: String? = null,
+        newImgList: MutableList<String>? = null
     ) {
-        this.newName = newName
-        this.newAge = newAge
-        this.newCountry = newCountry
-        this.newCity = newCity
-        this.newGender = newGender
-        this.newAbout = newAbout
-
         when {
             newName != null -> {
+                this.newName = newName
                 nameChanged = hasValueChanged(previousName, newName)
             }
             newAge != null -> {
+                this.newAge = newAge
                 ageChanged = hasValueChanged(previousAge, newAge)
             }
             newCountry != null -> {
+                this.newCountry = newCountry
                 countryChanged = hasValueChanged(previousCountry, newCountry)
             }
             newCity != null -> {
+                this.newCity = newCity
                 cityChanged = hasValueChanged(previousCity, newCity)
             }
             newGender != null -> {
+                this.newGender = newGender
                 genderChanged = hasValueChanged(previousGender, newGender)
             }
             newAbout != null -> {
+                this.newAbout = newAbout
                 aboutChanged = hasValueChanged(previousAbout, newAbout)
+            }
+            newImgList != null -> {
+                this.newImgList = newImgList
+                imgChanged = hasValueChanged(previousImgList, newImgList)
             }
         }
 
         editState.value = valueChanged()
+    }
+
+    private fun hasValueChanged(
+        previousValue: MutableList<String>,
+        newValue: MutableList<String>?
+    ): Boolean {
+        if (newValue!!.isEmpty()) {
+            return false
+        } else if (previousValue.size != newValue.size) {
+            return true
+        } else {
+            for (index in previousValue.indices) {
+                if (previousValue[index] != newValue[index]) {
+                    return true
+                }
+            }
+            return false
+        }
     }
 
     private fun hasValueChanged(previousValue: String, newValue: String?): Boolean {
@@ -100,7 +129,7 @@ class ProfileViewModel(private val repo: ProfileRepository) : BaseViewModel() {
     }
 
     private fun valueChanged() = nameChanged || ageChanged || countryChanged || cityChanged ||
-            genderChanged || aboutChanged
+            genderChanged || aboutChanged || imgChanged
 
     fun saveEditedData() {
         if (!Utils.isConnected(App.instance)) {
